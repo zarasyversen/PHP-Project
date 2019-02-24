@@ -113,9 +113,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   </head>
   <body>
     <div class="wrapper">
-      <h1>Sign up</h1>
-      <p>Please fill in this form to create an account.</p>
-      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" 
+        method="post" class="form">
+        <h1>Sign up</h1>
+        <p>Please fill in this form to create an account.</p>
         <div class="form__group<?php echo (!empty($username_err)) ? ' has-error' : ''; ?>">
           <label for="username">Username</label>
           <input type="text" name="username" id="username" class="form__input" value="<?php echo $username;?>">
@@ -138,7 +139,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           </span>
         </div>
         <div class="form__group">
-          <input type="submit" class="btn btn--primary" value="Submit">
+          <button type="submit" class="btn btn--primary">Submit</button>
           <input type="reset" class="btn" value="Reset">
         </div>
         <p>Already have an account? <a href="login.php">Login here</a>.</p>
