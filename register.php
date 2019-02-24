@@ -3,7 +3,7 @@
 require_once "config.php";
 
 //Define Variables
-$username = $password  = $confirmpassword = '';
+$username = $password  = $confirm_password = '';
 $username_err = $password_err = $confirm_password_err = '';
 
 //Process Data when form is posted
@@ -20,7 +20,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $sql = "SELECT id FROM users WHERE username = ?";
 
     // If we are connected and can select?
-    if($statment = mysqli_prepare($connection, $sql)){
+    if($statement = mysqli_prepare($connection, $sql)){
 
       // Bind variables to the prepared statement as parameters
       mysqli_stmt_bind_param($statement, "s", $param_username);
@@ -30,20 +30,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
       // Try to execute the prepared statement
       if(mysqli_stmt_execute($statement)){
-
         // Save in DB (Store the data)
-        myslqi_stmt_store_result($statement);
+        mysqli_stmt_store_result($statement);
 
         // What does this check
         if(mysqli_stmt_num_rows($statement) == 1){
-          $username_err = "This username is already taken, try again." 
+          $username_err = "This username is already taken, try again.";
         } else {
-
           //Can I set this variable earlier? Instead of trim 3 times 
           $username = trim($_POST["username"]);
         }
-      else {
-        echo "Oops something went wrong. Please try again."
+      } else {
+        echo "Oops something went wrong. Please try again.";
       }
     }
 
@@ -56,7 +54,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   if(empty(trim($_POST["password"]))){
     $password_err = "Please enter a password";
   } elseif(strlen(trim($_POST["password"])) < 6){
-    $password_err = "Password must be longer than 6 characters"
+    $password_err = "Password must be longer than 6 characters";
   } else {
     $password = trim($_POST["password"]);
   }
@@ -69,7 +67,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // If password is empty / if password_err is empty??
     if(empty($password) && ($password != $confirm_password)){
-      $confirm_password_err = "Passwords did not match."
+      $confirm_password_err = "Passwords did not match.";
     }
   }
 
@@ -90,11 +88,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
       // Attempt to execute statement 
-      if(myslqi_stmt_execute($statment)){
+      if(mysqli_stmt_execute($statement)){
         // Redirect to login
         header("location: login.php");
       } else {
-        echo "Something went wrong!"
+        echo "Something went wrong!";
       }
     }
 
@@ -105,3 +103,46 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   // Close connection
   mysqli_close($connection);
 }
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="assets/main.css">
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1>Sign up</h1>
+      <p>Please fill in this form to create an account.</p>
+      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <div class="form__group<?php echo (!empty($username_err)) ? ' has-error' : ''; ?>">
+          <label for="username">Username</label>
+          <input type="text" name="username" id="username" class="form__input" value="<?php echo $username;?>">
+          <p class="form__error">
+            <?php echo $username_err;?>
+          </span>
+        </div>
+        <div class="form__group<?php echo (!empty($password_err)) ? ' has-error' : ''; ?>">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" class="form__input" value="<?php echo $password;?>">
+          <p class="form__error">
+            <?php echo $password_err;?>
+          </span>
+        </div>
+        <div class="form__group<?php echo (!empty($confirm_password_err)) ? ' has-error' : ''; ?>">
+          <label for="confirm_password">Confirm   Password</label>
+          <input type="text" name="confirm_password" id="confirm_password" class="form__input" value="<?php echo $confirm_password;?>">
+          <p class="form__error">
+            <?php echo $confirm_password_err;?>
+          </span>
+        </div>
+        <div class="form__group">
+          <input type="submit" class="btn btn--primary" value="Submit">
+          <input type="reset" class="btn" value="Reset">
+        </div>
+        <p>Already have an account? <a href="login.php">Login here</a>.</p>
+      </form>
+    </div>
+  </body>
+</html>
