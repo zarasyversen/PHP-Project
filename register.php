@@ -36,6 +36,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // What does this check
         if(mysqli_stmt_num_rows($statement) == 1){
           $username_err = "This username is already taken, try again.";
+        } elseif(empty(trim($_POST["username"]))) {
+          $username_err = "Please enter a username";
         } else {
           //Can I set this variable earlier? Instead of trim 3 times 
           $username = trim($_POST["username"]);
@@ -48,7 +50,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Close Statement
     mysqli_stmt_close($statement);
   }
-
 
   // Validate Password
   if(empty(trim($_POST["password"]))){
@@ -133,7 +134,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         </div>
         <div class="form__group<?php echo (!empty($confirm_password_err)) ? ' has-error' : ''; ?>">
           <label for="confirm_password">Confirm   Password</label>
-          <input type="text" name="confirm_password" id="confirm_password" class="form__input" value="<?php echo $confirm_password;?>">
+          <input type="password" name="confirm_password" id="confirm_password" class="form__input" value="<?php echo $confirm_password;?>">
           <p class="form__error">
             <?php echo $confirm_password_err;?>
           </span>
