@@ -11,8 +11,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
   //Validate username
   if(empty(trim($_POST["username"]))){
-
-    $usernam_err = "Please enter a username";
+    $username_err = "Please enter a username";
 
   } else {
 
@@ -36,10 +35,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // What does this check
         if(mysqli_stmt_num_rows($statement) == 1){
           $username_err = "This username is already taken, try again.";
-        } elseif(empty(trim($_POST["username"]))) {
-          $username_err = "Please enter a username";
         } else {
-          //Can I set this variable earlier? Instead of trim 3 times 
+          //Should I set this variable earlier? Instead of trim 3 times 
           $username = trim($_POST["username"]);
         }
       } else {
@@ -72,7 +69,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
   }
 
-  // Check input errors before inserting data - but are they every emptied though
+  // Check input errors before inserting data - but errors are never emptied?
   if(empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
 
     // Prepare an INSERT statement 
