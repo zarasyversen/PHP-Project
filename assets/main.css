@@ -3,6 +3,7 @@
 :root {
   --font-family: 'Roboto Mono', monospace;
   --font-size__base: 16px;
+  --font-size__small: 12px;
   --padding-base: 20px;
   --off-white: #fdfcfc;
   --dark-grey: #333;
@@ -16,6 +17,7 @@ body {
   font-family: var(--font-family);
   background: var(--off-white);
   font-size: var(--font-size__base);
+  margin: 0;
 }
 
 h1,h2 {
@@ -78,5 +80,19 @@ a:visited {
 
 a:focus {
   outline: var(--focus-outline);
+}
+
+footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  background: var(--dark-grey);
+  color: var(--turq);
+  text-align: center;
+}
+
+footer p {
+  margin: 3px;
+  font-size: var(--font-size__small);
 }
 

@@ -8,17 +8,19 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     exit;
 }
 ?>
-  <?php 
-  $pageTitle = 'Welcome';
-  include('header.php');?>
-    <div class="page-header">
-        <h1>Hi, <span><?php echo htmlspecialchars($_SESSION["username"]); ?></span>. Welcome to our site.</h1>
-    </div>
-    <p>
-      <a href="reset-password.php">Reset Your Password</a>
-    </p>
-    <p>
-      <a href="logout.php">Sign Out of Your Account</a>
-    </p>
-</body>
-</html>
+<?php 
+$pageTitle = 'Welcome';
+include('header.php');?>
+<div class="wrapper">
+  <div class="page-header">
+    <h1>Hi, <span><?php echo htmlspecialchars($_SESSION["username"]); ?></span>. Welcome to our site.</h1>
+  </div>
+  <p>
+    <a href="reset-password.php">Reset Your Password</a>
+  </p>
+  <p>
+    <a href="logout.php">Sign Out of Your Account</a>
+  </p>
+</div>
+
+<?php include('footer.php');?>
