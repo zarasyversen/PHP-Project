@@ -123,7 +123,7 @@ include('header.php');?>
       </span>
     </div>
     <div class="form__group<?php echo (!empty($confirm_password_err)) ? ' has-error' : ''; ?>">
-      <label for="confirm_password">Confirm   Password</label>
+      <label for="confirm_password">Confirm Password</label>
       <input type="password" name="confirm_password" id="confirm_password" class="form__input" value="<?php echo $confirm_password;?>">
       <p class="form__error">
         <?php echo $confirm_password_err;?>
