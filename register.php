@@ -7,7 +7,6 @@ $username = $password  = $confirm_password = '';
 $username_err = $password_err = $confirm_password_err = '';
 $userOk = $passwordOk = false;
 
-
 function countUsername($connection, $username){
 
   // Prepare a select statement
@@ -70,7 +69,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $passwordOk = true;
   }
 
-
+  // If Username & Password are true, create user
   if($userOk === true && $passwordOk === true) {
     // Prepare an INSERT statement 
     $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
@@ -82,8 +81,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
       // Set params 
       $param_username = $username;
-      $param_password = password_hash($password, PASSWORD_DEFAULT); // COOOOL
-
+      $param_password = password_hash($password, PASSWORD_DEFAULT); 
 
       // Attempt to execute statement 
       if(mysqli_stmt_execute($statement)){
