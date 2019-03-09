@@ -134,7 +134,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <?php echo $confirm_password_err;?>
           </span>
         </div>
-        <div class="form__group">
+        <div class="form__group actions">
           <button type="submit" class="btn btn--primary">Submit</button>
           <input type="reset" class="btn" value="Reset">
         </div>

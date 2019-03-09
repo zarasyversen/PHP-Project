@@ -32,6 +32,7 @@ h1,h2 {
 .form label {
   display: block;
   font-weight: bold;
+  margin-top: var(--padding-base);
 }
 
 .form__input {
@@ -45,7 +46,12 @@ h1,h2 {
 }
 
 .form__error {
+  margin: 0;
   color: var(--red);
+}
+
+.form__group.actions {
+  margin-top: 10px;
 }
 
 .btn {
