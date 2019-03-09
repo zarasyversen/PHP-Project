@@ -29,6 +29,7 @@ h1,h2 {
   max-width: 1100px;
   margin: 0 auto;
   padding: var(--padding-base);
+  box-sizing: border-box;
 }
 
 .form label {
@@ -92,7 +93,9 @@ footer {
 }
 
 footer p {
-  margin: 3px;
+  margin: 0;
+  padding: 3px;
+  box-sizing: border-box;
   font-size: var(--font-size__small);
 }
 
