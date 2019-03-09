@@ -1,5 +1,4 @@
 <?php 
-
 // Initialize session
 session_start();
 
@@ -9,14 +8,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     exit;
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Welcome</title>
-    <link rel="stylesheet" href="assets/main.css">
-</head>
-<body>
+  <?php 
+  $pageTitle = 'Welcome';
+  include('header.php');?>
     <div class="page-header">
         <h1>Hi, <span><?php echo htmlspecialchars($_SESSION["username"]); ?></span>. Welcome to our site.</h1>
     </div>

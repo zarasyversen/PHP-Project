@@ -100,13 +100,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   mysqli_close($connection);
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Sign up</title>
-    <link rel="stylesheet" href="assets/main.css">
-  </head>
+ <?php 
+  $pageTitle = 'Sign Up';
+  include('header.php');?>
   <body>
     <div class="wrapper">
       <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" 

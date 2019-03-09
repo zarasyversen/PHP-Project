@@ -86,14 +86,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   mysqli_close($connection);
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-      <meta charset="UTF-8">
-      <title>Login</title>
-      <link rel="stylesheet" href="assets/main.css">
-  </head>
-  <body>
+ <?php 
+  $pageTitle = 'Login';
+  include('header.php');?>
       <div class="wrapper">
           <h2>Login</h2>
           <p>Please fill in your credentials to login.</p>
