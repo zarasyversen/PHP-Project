@@ -19,7 +19,7 @@ $newPasswordOk = false;
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
-    $password = trim($_POST["new_password"]);
+    $new_password = trim($_POST["new_password"]);
     $confirm_password = trim($_POST["confirm_password"]);
 
     // Validate new password
@@ -41,13 +41,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     //     }
     // }
 
-    if(empty($password)){
+    if(empty($new_password)){
         $new_password_err = "Please enter the new password.";
+    } elseif(strlen($new_password) < 6) {
+        $new_password_err = "Password must have atleast 6 characters.";
     } elseif(empty($confirm_password)) {
         $confirm_password_err = "Please confirm the password.";
-    } elseif(strlen($password) < 6) {
-        $new_password_err = "Password must have atleast 6 characters.";
-    } elseif($password != $confirm_password) {
+    } elseif($new_password != $confirm_password) {
         $confirm_password_err = "Password did not match.";
     } else {
         $newPasswordOk = true;
