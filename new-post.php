@@ -3,7 +3,7 @@
 require_once "config.php";
 $title = $content = '';
 $title_err = $message_err = $success = '';
-$postOk = false;
+$titleOk = $messageOk = false;
 
 // Process data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -13,13 +13,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if(empty($title)){
     $title_err = "Please enter a title";
-  } elseif(empty($message)){
-    $message_err = "Please enter a message";
   } else {
-    $postOk = true;
+    $titleOk = true;
   }
 
-  if($postOk){
+  if(empty($message)){
+    $message_err = "Please enter a message";
+  } else {
+    $messageOk = true;
+  }
+
+  if($titleOk && $messageOk){
     // Prepare an INSERT statement 
     $sql = "INSERT INTO posts (username, title, message) VALUES (?, ?, ?)";
 
@@ -36,6 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       // Attempt to execute statement 
       if(mysqli_stmt_execute($statement)){
         $success = 'Message successfully posted.';
+        $title = $message = '';
       } else {
         $success = 'Something went wrong, please try again later.';
       }
@@ -55,14 +60,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       <h2>Post a message</h2>
       <div class="form__group<?php echo (!empty($title_err)) ? ' has-error' : ''; ?>">
             <label for="title">Title</label>
-            <input type="text" name="title" id="title" class="form__input">
+            <input 
+              type="text" 
+              name="title" 
+              id="title" 
+              class="form__input"
+              <?php echo $titleOk ? 'value="' . $title  . '"': ''; ?>
+              />
             <p class="form__error">
               <?php echo $title_err; ?>
             </p>
         </div>    
         <div class="form__group<?php echo (!empty($message_err)) ? ' has-error' : ''; ?>">
             <label for="message">Message</label>
-            <textarea id="message" name="message" class="form__input" placeholder="Please enter your message here..." rows="5" cols="33"></textarea>
+            <textarea 
+              id="message" 
+              name="message" 
+              class="form__input"
+              placeholder="Please enter your message here..."
+              rows="5" 
+              cols="33"><?php echo $message ?></textarea>
             <p class="form__error">
               <?php echo $message_err;?>
             </p>
