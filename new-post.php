@@ -53,16 +53,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       method="post" 
       class="form">
       <h2>Post a message</h2>
-      <div class="form__group <?php echo (!empty($title_err)) ? 'has-error' : ''; ?>">
+      <div class="form__group<?php echo (!empty($title_err)) ? ' has-error' : ''; ?>">
             <label for="title">Title</label>
             <input type="text" name="title" id="title" class="form__input">
             <p class="form__error">
               <?php echo $title_err; ?>
             </p>
         </div>    
-        <div class="form__group <?php echo (!empty($message_err)) ? 'has-error' : ''; ?>">
+        <div class="form__group<?php echo (!empty($message_err)) ? ' has-error' : ''; ?>">
             <label for="message">Message</label>
-            <textarea id="message" name="message" placeholder="Please enter your message here..." rows="5" cols="33"></textarea>
+            <textarea id="message" name="message" class="form__input" placeholder="Please enter your message here..." rows="5" cols="33"></textarea>
             <p class="form__error">
               <?php echo $message_err;?>
             </p>
