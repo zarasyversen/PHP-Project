@@ -7,12 +7,12 @@ $username = $password  = $confirm_password = '';
 $username_err = $password_err = $confirm_password_err = '';
 $userOk = $passwordOk = false;
 
-function countUsername($connection, $username){
+
+function doesUsernameExist($connection, $username){
 
   // Prepare a select statement
   $sql = "SELECT id FROM users WHERE username = ?";
 
-  // If we are connected and can select?
   if($statement = mysqli_prepare($connection, $sql)){
 
     // Bind variables to the prepared statement as parameters
@@ -27,15 +27,15 @@ function countUsername($connection, $username){
       // Save in DB (Store the data)
       mysqli_stmt_store_result($statement);
 
-      // Check how many rows
-      return mysqli_stmt_num_rows($statement);
-
+      // Check if the username exists in the DB 
+      if(mysqli_stmt_num_rows($statement) >= 1){
+        return true;
+      } 
     } else {
-      echo "Oops something went wrong. Please try again.";
+     return false;
     }
   }
 
-  // DOES THIS GET CLOSED IF I RETURN???? 
   mysqli_stmt_close($stmt);
 }
 
@@ -50,7 +50,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   // Validate Username
   if(empty($username)){
     $username_err = "Please enter a username";
-  } elseif(countUsername($connection, $username) >= 1) {
+  } elseif(doesUsernameExist($connection, $username)) {
     $username_err = "This username is already taken, try again.";
   } else {
     $userOk = true; 
@@ -70,7 +70,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   }
 
   // If Username & Password are true, create user
-  if($userOk === true && $passwordOk === true) {
+  if($userOk && $passwordOk) {
     // Prepare an INSERT statement 
     $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
 
@@ -99,8 +99,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   // Close connection
   mysqli_close($connection);
 }
-?>
-<?php 
 $pageTitle = 'Sign Up';
 include('header.php');?>
 <div class="wrapper">
@@ -113,21 +111,21 @@ include('header.php');?>
       <input type="text" name="username" id="username" class="form__input" value="<?php echo $username;?>">
       <p class="form__error">
         <?php echo $username_err;?>
-      </span>
+      </p>
     </div>
     <div class="form__group<?php echo (!empty($password_err)) ? ' has-error' : ''; ?>">
       <label for="password">Password</label>
       <input type="password" name="password" id="password" class="form__input" value="<?php echo $password;?>">
       <p class="form__error">
         <?php echo $password_err;?>
-      </span>
+      </p>
     </div>
     <div class="form__group<?php echo (!empty($confirm_password_err)) ? ' has-error' : ''; ?>">
       <label for="confirm_password">Confirm Password</label>
       <input type="password" name="confirm_password" id="confirm_password" class="form__input" value="<?php echo $confirm_password;?>">
       <p class="form__error">
         <?php echo $confirm_password_err;?>
-      </span>
+      </p>
     </div>
     <div class="form__group actions">
       <button type="submit" class="btn btn--primary">Submit</button>
