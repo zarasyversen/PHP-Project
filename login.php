@@ -1,4 +1,5 @@
 <?php
+
 // Initialize the session
 session_start();
 
@@ -57,8 +58,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
           if(mysqli_stmt_fetch($statement)){
             if(password_verify($password, $hashed_password)){
               // Password verified - start a session
+              $session_lifetime = 86400; //1 day lifetime
+              session_set_cookie_params($session_lifetime);
               session_start();
-
               // Store data in session variables
               $_SESSION["loggedin"] = true;
               $_SESSION["id"] = $id;
