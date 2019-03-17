@@ -3,7 +3,7 @@
 require_once "config.php";
 $title = $content = '';
 $title_err = $message_err = $success = '';
-$titleOk = $messageOk = false;
+$postOk = false;
 
 // Process data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -13,18 +13,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if(empty($title)){
     $title_err = "Please enter a title";
-  } else {
-    $titleOk = true;
-  }
-
-  if(empty($message)){
+  } elseif(empty($message)){
     $message_err = "Please enter a message";
   } else {
-    $messageOk = true;
+    $postOk = true;
   }
 
-  if($titleOk && $messageOk){
-
+  if($postOk){
     // Prepare an INSERT statement 
     $sql = "INSERT INTO posts (username, title, message) VALUES (?, ?, ?)";
 
@@ -34,7 +29,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       mysqli_stmt_bind_param($statement, "sss", $param_username, $param_title, $param_message);
 
       // Set params 
-      $param_username = $_SESSION["username"];
+      $param_username = $_SESSION["username"]; // Can this fail? 
       $param_title = $title;
       $param_message = $message;
 
@@ -60,7 +55,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       <h2>Post a message</h2>
       <div class="form__group <?php echo (!empty($title_err)) ? 'has-error' : ''; ?>">
             <label for="title">Title</label>
-            <input type="text" name="title" id="title" class="form__input" value="<?php echo $title; ?>">
+            <input type="text" name="title" id="title" class="form__input">
             <p class="form__error">
               <?php echo $title_err; ?>
             </p>
