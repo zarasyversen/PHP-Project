@@ -65,7 +65,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
               name="title" 
               id="title" 
               class="form__input"
-              <?php echo $titleOk ? 'value="' . $title  . '"': ''; ?>
+              value="<?php echo $title; ?>"
               />
             <p class="form__error">
               <?php echo $title_err; ?>
