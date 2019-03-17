@@ -30,7 +30,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $usernameOk = true;
   }
 
-  if($passwordOk === true and $usernameOk === true){
+  if($passwordOk && $usernameOk){
 
     // Prepare select statement 
     $sql = "SELECT id, username, password FROM users WHERE username = ?";
@@ -85,8 +85,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   // Close connection
   mysqli_close($connection);
 }
-?>
- <?php 
 $pageTitle = 'Login';
 include('header.php');?>
 <div class="wrapper">
