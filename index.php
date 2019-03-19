@@ -8,7 +8,7 @@ require_once "config.php";
   include('header.php');?>
     <div class="wrapper">
       <h1>Hello there.</h1>
-      <p>Please <a href="/register.php">create an account</a>.</p>
+      <p>Please <a href="/login.php">log in</a> or <a href="/register.php">create an account</a></p>
     </div>
   </body>
 </html>

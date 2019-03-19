@@ -1,7 +1,7 @@
 
 <?php 
 require_once "config.php";
-$title = $content = '';
+$title = $message = '';
 $title_err = $message_err = $success = '';
 $titleOk = $messageOk = false;
 
