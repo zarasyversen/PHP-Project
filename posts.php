@@ -1,7 +1,7 @@
 <?php 
 function getPosts($connection) {
    // Prepare select statement 
-  $query = "SELECT * FROM posts";
+  $query = "SELECT * FROM posts ORDER BY created_at DESC";
   // Nothing happens if I change posts table to non existent table
 
   if($result = mysqli_query($connection, $query)){
