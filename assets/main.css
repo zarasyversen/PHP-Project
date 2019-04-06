@@ -5,6 +5,7 @@
   --font-size__base: 16px;
   --font-size__small: 12px;
   --padding-base: 20px;
+  --padding-small: 10px;
   --off-white: #fdfcfc;
   --dark-grey: #333;
   --light-grey: #dadada;
@@ -23,6 +24,11 @@ body {
 
 h1,h2 {
   color: var(--turq);
+}
+
+ul {
+  padding: 0;
+  list-style: none;
 }
 
 .wrapper {
@@ -101,3 +107,19 @@ a:focus {
   font-size: var(--font-size__small);
 }
 
+.posts {
+  background: var(--light-grey);
+  padding: var(--padding-small);
+  margin-top: var(--padding-base);
+}
+
+.posts h2 {
+  margin-top: 0;
+}
+
+.post {
+  background: var(--off-white);
+  margin: var(--padding-base) 0;
+  box-sizing: border-box;
+  padding: var(--padding-small);
+}

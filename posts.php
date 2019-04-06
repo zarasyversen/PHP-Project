@@ -39,13 +39,13 @@ function getPosts($connection) {
       <ul>
       <?php foreach($posts as $post):?>
         <li>
-          <article>
-            <header>
-              <h2><?php echo $post['title']; ?></h2>
+          <article class="post">
+            <header class="post__header">
+              <h2 class="post__title"><?php echo $post['title']; ?></h2>
             </header>
-            <p><?php echo $post['message']; ?></p>
-            <footer class="footer">
-              <p>Posted on
+            <p class="post__message"><?php echo $post['message']; ?></p>
+            <footer class="post__footer">
+              <p class="post__details">Posted on
                 <?php $date = date($post['created']);?>
                 <time datetime="<?php echo $date; ?>">
                   <?php echo date_format(new DateTime($date), 'g:ia \o\n l jS F Y'); ?>
