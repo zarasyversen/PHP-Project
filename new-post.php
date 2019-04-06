@@ -49,9 +49,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     // Close statement
     mysqli_stmt_close($statement);
   } 
-
-  // Close connection
-  mysqli_close($connection);
 }
 ?>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" 
