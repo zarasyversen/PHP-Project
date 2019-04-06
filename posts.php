@@ -59,5 +59,8 @@ function getPosts($connection) {
     </ul>
   </section>
 <?php else : ?>
-  <p>Sorry, no posts available yet. </p>
+   <section class="posts">
+    <h2>Posts</h2>
+    <p>Sorry, no posts available yet. </p>
+  </section>
 <?php endif; ?>
