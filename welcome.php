@@ -23,6 +23,7 @@ include('header.php');?>
   </p>
 
   <?php include('new-post.php'); ?>
+  <?php include('posts.php'); ?>
 </div>
 
 <?php include('footer.php');?>
