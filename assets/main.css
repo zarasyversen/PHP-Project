@@ -85,7 +85,7 @@ a:focus {
   outline: var(--focus-outline);
 }
 
-footer {
+.footer--main {
   position: fixed;
   width: 100%;
   bottom: 0;
@@ -94,7 +94,7 @@ footer {
   text-align: center;
 }
 
-footer p {
+.footer--main p {
   margin: 0;
   padding: 3px;
   box-sizing: border-box;
