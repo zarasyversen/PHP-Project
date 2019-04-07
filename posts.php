@@ -65,7 +65,7 @@ function canEditPost($username){
                 </time>
                 by <?php echo $post['username']; ?>.
                 <?php if(canEditPost($post['username'])) :?>
-                  <a href="#">Edit</a>
+                  <a href="edit.php?id=<?php echo $post['id']; ?>">Edit</a>
                 <?php endif;?>
             </p>
             </footer>
