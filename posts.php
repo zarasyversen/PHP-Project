@@ -32,6 +32,19 @@ function getPosts($connection) {
     }
   }
 }
+// TO add - edit / delete
+// function to check if logged in user is the same as username on post, if so they can edit the post???
+
+function canEditPost($username){
+
+  // Check session username matches post username
+  if($_SESSION["username"] === $username){
+    return true;
+  }
+  
+}
+
+// Everytime i refresh the page after I added a new post it resubmits the post again 
 ?>
 <?php if($posts = getPosts($connection)): ?>
   <section class="posts">
@@ -51,6 +64,9 @@ function getPosts($connection) {
                   <?php echo date_format(new DateTime($date), 'g:ia \o\n l jS F Y'); ?>
                 </time>
                 by <?php echo $post['username']; ?>.
+                <?php if(canEditPost($post['username'])) :?>
+                  <a href="#">Edit</a>
+                <?php endif;?>
             </p>
             </footer>
           </article>
