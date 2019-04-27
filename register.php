@@ -1,6 +1,8 @@
 <?php 
 // Registration Form
-require_once "config.php";
+
+$public_access = true; 
+require_once('config.php');
 
 //Define Variables
 $username = $password  = $confirm_password = '';

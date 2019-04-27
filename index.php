@@ -1,7 +1,7 @@
 
-<?php 
-// Include config file
-require_once "config.php";
+<?php
+$public_access = true;
+require_once("config.php");
 ?>
  <?php 
   $pageTitle = 'PHP Project';

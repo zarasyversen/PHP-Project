@@ -8,11 +8,6 @@
 // Save the message 
 // or Cancel (return to welcome.php)
 
-// THIS REDIRECTS TO WELCOME?? WHY? 
-// if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-//     header("location: login.php");
-//     exit;
-// }
 
 require_once("config.php");
 

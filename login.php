@@ -1,5 +1,6 @@
 <?php
 
+$public_access = true;
 require_once("config.php");
 
 // Session is set and is true ????

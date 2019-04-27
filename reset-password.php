@@ -1,14 +1,5 @@
-<?php
-// Initialize the session
-session_start();
- 
-// Can only reset password if logged in 
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: login.php");
-    exit;
-}
- 
-require_once "config.php";
+<?php 
+require_once("config.php");
  
 // Define variables and initialize with empty values
 $new_password = $confirm_password = "";

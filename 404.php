@@ -1,4 +1,6 @@
-<?php 
+<?php
+$public_access = true;
+require_once("config.php");
 $pageTitle = '404 - Page not found';
 include('header.php');
 ?>
