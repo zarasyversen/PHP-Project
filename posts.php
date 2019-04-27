@@ -1,8 +1,8 @@
 <?php 
 function getPosts($connection) {
+  
    // Prepare select statement 
   $query = "SELECT * FROM posts ORDER BY created_at DESC";
-  // Nothing happens if I change posts table to non existent table
 
   if($result = mysqli_query($connection, $query)){
     // Check if the table has rows 
@@ -32,11 +32,10 @@ function getPosts($connection) {
     }
   }
 }
-// TO add - edit / delete
-// function to check if logged in user is the same as username on post, if so they can edit the post???
 
 function canEditPost($username){
 
+  // Potentially change to id soon 
   // Check session username matches post username
   if($_SESSION["username"] === $username){
     return true;
@@ -44,7 +43,6 @@ function canEditPost($username){
   
 }
 
-// Everytime i refresh the page after I added a new post it resubmits the post again 
 ?>
 <?php if($posts = getPosts($connection)): ?>
   <section class="posts">

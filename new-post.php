@@ -2,14 +2,13 @@
 <?php 
 require_once "config.php";
 $title = $message = '';
-$title_err = $message_err = $success = '';
+$title_err = $message_err = $error = '';
 $titleOk = $messageOk = false;
 
 // Process data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST") {
   $title = trim($_POST["title"]);
   $message = trim($_POST["message"]);
-  $success = '';
 
   if(empty($title)){
     $title_err = "Please enter a title";
@@ -33,16 +32,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       mysqli_stmt_bind_param($statement, "sss", $param_username, $param_title, $param_message);
 
       // Set params 
-      $param_username = $_SESSION["username"]; // Can this fail? 
+      $param_username = $_SESSION["username"]; 
       $param_title = $title;
       $param_message = $message;
 
       // Attempt to execute statement 
       if(mysqli_stmt_execute($statement)){
-        $success = 'Message successfully posted.';
-        $title = $message = '';
+        // Set a param with success on the url and redirect to welcome
+        header("location: welcome.php?success");
+
       } else {
-        $success = 'Something went wrong, please try again later.';
+        $error = 'Something went wrong, please try again later.';
       }
     }
 
@@ -85,6 +85,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn btn--primary">Submit message</button>
         </div>
 </form>
-<?php if($success) :?>
-  <h3><?php echo $success; ?></h3>
+
+<?php /* MESSAGES */ ?>
+<?php if(isset($_GET["success"])) :?>
+  <h3>Message successfully posted</h3>
+<?php endif;?>
+<?php if($error) :?>
+  <h3><?php echo $error;?> </h3>
 <?php endif;?>
