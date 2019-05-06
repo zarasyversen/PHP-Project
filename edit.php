@@ -6,12 +6,15 @@ $titleOk = $messageOk = false;
 
 if (isset($_GET["id"])) {
   $postId = htmlspecialchars($_GET["id"]);
+
+  // Tried to put all functions in here but no
+
 } else {
+  // header("location: 404.php");
   $postId = 20;
 }
 
 function getPost($connection, $postId){
-
   if($postId){
     // Get Post from DB 
     $sql = "SELECT * FROM posts WHERE id =" . $postId;
@@ -39,7 +42,6 @@ function getPost($connection, $postId){
   }
 }
 
-
 //
 // Save New Edited Post 
 // 
@@ -62,7 +64,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   if($titleOk && $messageOk){
     $sql = "UPDATE posts 
             SET title = '$title', 
-                message = '$message'
+                message = '$message',
+                updated_at = now()
             WHERE id =" . $postId;
 
     if (mysqli_query($connection, $sql)) {

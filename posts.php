@@ -18,7 +18,8 @@ function getPosts($connection) {
           'username' => $row['username'], 
           'title' => $row['title'], 
           'message' => $row['message'],
-          'created' => $row['created_at']
+          'created' => $row['created_at'],
+          'updated' => $row['updated_at']
         ];
 
         // Add each post to posts 
@@ -57,7 +58,7 @@ function canEditPost($username){
             <p class="post__message"><?php echo $post['message']; ?></p>
             <footer class="post__footer">
               <p class="post__details">Posted on
-                <?php $date = date($post['created']);?>
+                <?php $date = date($post['updated']) ? date($post['updated']) : date($post['created']);?>
                 <time datetime="<?php echo $date; ?>">
                   <?php echo date_format(new DateTime($date), 'g:ia \o\n l jS F Y'); ?>
                 </time>
