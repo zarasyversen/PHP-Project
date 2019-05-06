@@ -2,7 +2,7 @@
 require_once("config.php");
 $title = $message = '';
 $title_err = $message_err = $error = '';
-$titleOk = $messageOk = false;
+$titleOk = $messageOk = $confirmDeletePost = false;
 
 if (isset($_GET["id"])) {
   $postId = htmlspecialchars($_GET["id"]);
@@ -79,6 +79,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   mysqli_close($connection);
 }
 
+//
+// Delete Post 
+//
+if($confirmDeletePost) {
+  die('lets delete it');
+}
+
 $pageTitle = 'Edit Post';
 include('header.php');?>
 <div class="wrapper">
@@ -114,11 +121,31 @@ include('header.php');?>
             </p>
         </div>
         <div class="form__group actions">
-            <button type="submit" class="btn btn--primary">Save message</button>
+            <button type="submit" class="btn btn--primary">Save new message</button>
         </div>
       </form>
+
+      <div class="post__actions">
+        <button type="button" class="btn btn--primary delete js-delete-post">Delete Post</button>
+        <a href="/welcome.php">Cancel</a>
+      </div>
   <?php endif;?>
   <?php if($error) :?>
     <h3><?php echo $error;?> </h3>
   <?php endif;?>
 </div>
+<script>
+  var deleteAction = document.querySelector('.js-delete-post');
+
+  function deletePost() {
+    var confirmed = confirm('Are you sure you want to delete your post?');
+
+    if(confirmed){
+      // <?php $confirmDeletePost /* = true*/; ?>
+      // tried php funtion as well
+      console.log('delete me');
+    } 
+  }
+
+  deleteAction.addEventListener('click', deletePost);
+</script>

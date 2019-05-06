@@ -91,6 +91,17 @@ a:focus {
   outline: var(--focus-outline);
 }
 
+/* Edit Page */
+
+.post__actions {
+  margin-top: var(--padding-base);
+}
+
+.btn.delete {
+  background: var(--red);
+}
+
+
 .footer--main {
   position: fixed;
   width: 100%;
