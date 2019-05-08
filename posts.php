@@ -57,7 +57,12 @@ function canEditPost($username){
             </header>
             <p class="post__message"><?php echo $post['message']; ?></p>
             <footer class="post__footer">
-              <p class="post__details">Posted on
+              <p class="post__details">
+                <?php if($post['updated']):?>
+                    Updated on
+                  <?php else: ?>
+                     Posted on
+                <?php endif;?>
                 <?php $date = date($post['updated']) ? date($post['updated']) : date($post['created']);?>
                 <time datetime="<?php echo $date; ?>">
                   <?php echo date_format(new DateTime($date), 'g:ia \o\n l jS F Y'); ?>
