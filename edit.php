@@ -6,18 +6,19 @@ $titleOk = $messageOk = $confirmDeletePost = false;
 
 if (isset($_GET["id"])) {
   $postId = htmlspecialchars($_GET["id"]);
-
-  // Tried to put all functions in here but no
-
 } else {
-  // header("location: 404.php");
-  $postId = 20;
+  header("location: welcome.php?nopost");
 }
+
+//
+// create a single functions file to include when needed
+//
 
 function getPost($connection, $postId){
   if($postId){
     // Get Post from DB 
-    $sql = "SELECT * FROM posts WHERE id =" . $postId;
+    // ESCAPE postID
+    $sql = "SELECT * FROM posts WHERE id =" . mysqli_real_escape_string($connection, $postId);
 
     if($result = mysqli_query($connection, $sql)) {
 
@@ -62,6 +63,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   if($titleOk && $messageOk){
+
+    /// Stop sql injection 
+    $title = mysqli_real_escape_string($connection, $title);
+    $message = mysqli_real_escape_string($connection, $message);
+
     $sql = "UPDATE posts 
             SET title = '$title', 
                 message = '$message',
@@ -79,19 +85,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   mysqli_close($connection);
 }
 
-//
-// Delete Post 
-//
-if($confirmDeletePost) {
-  die('lets delete it');
-}
-
 $pageTitle = 'Edit Post';
 include('header.php');?>
 <div class="wrapper">
   <h1>Edit your post</h1>
   <?php if($post = getPost($connection, $postId)) :?>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" 
+    <form action="edit.php?id=<?php echo $postId; ?>"
       method="post" 
       class="form">
       <div class="form__group<?php echo (!empty($message_err)) ? ' has-error' : ''; ?>">
@@ -141,9 +140,7 @@ include('header.php');?>
     var confirmed = confirm('Are you sure you want to delete your post?');
 
     if(confirmed){
-      // <?php $confirmDeletePost /* = true*/; ?>
-      // tried php funtion as well
-      console.log('delete me');
+      window.location.href = "delete.php?id=<?php echo $postId; ?>";
     } 
   }
 
