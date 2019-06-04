@@ -33,17 +33,7 @@ function getPosts($connection) {
     }
   }
 }
-
-function canEditPost($username){
-
-  // Potentially change to id soon 
-  // Check session username matches post username
-  if($_SESSION["username"] === $username){
-    return true;
-  }
-  
-}
-
+require_once("functions.php");
 ?>
 <?php if($posts = getPosts($connection)): ?>
   <section class="posts">
@@ -61,7 +51,7 @@ function canEditPost($username){
                 <?php if($post['updated']):?>
                     Updated on
                   <?php else: ?>
-                     Posted on
+                    Posted on
                 <?php endif;?>
                 <?php $date = date($post['updated']) ? date($post['updated']) : date($post['created']);?>
                 <time datetime="<?php echo $date; ?>">

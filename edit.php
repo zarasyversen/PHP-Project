@@ -1,23 +1,30 @@
 <?php
 require_once("config.php");
+require_once("functions.php");
 $title = $message = '';
 $title_err = $message_err = $error = '';
 $titleOk = $messageOk = $confirmDeletePost = false;
 
 if (isset($_GET["id"])) {
   $postId = htmlspecialchars($_GET["id"]);
+  $post = getPost($connection, $postId);
+
+  //
+  // Check if user can edit the post
+  //
+  if(!canEditPost($post['username'])){
+    header("location: welcome.php?noedit");
+  }
+
 } else {
   header("location: welcome.php?nopost");
 }
 
-//
-// create a single functions file to include when needed
-//
 
 function getPost($connection, $postId){
-  if($postId){
+  if(is_numeric($postId)){
+
     // Get Post from DB 
-    // ESCAPE postID
     $sql = "SELECT * FROM posts WHERE id =" . mysqli_real_escape_string($connection, $postId);
 
     if($result = mysqli_query($connection, $sql)) {
@@ -30,7 +37,8 @@ function getPost($connection, $postId){
           $post = [
             'title' => $row['title'], 
             'message' => $row['message'],
-            'created' => $row['created_at']
+            'created' => $row['created_at'],
+            'username' => $row['username']
           ];
 
           // Add each post to posts 
@@ -89,7 +97,7 @@ $pageTitle = 'Edit Post';
 include('header.php');?>
 <div class="wrapper">
   <h1>Edit your post</h1>
-  <?php if($post = getPost($connection, $postId)) :?>
+  <?php if($post) :?>
     <form action="edit.php?id=<?php echo $postId; ?>"
       method="post" 
       class="form">

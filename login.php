@@ -9,8 +9,6 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
   exit;
 }
 
-
-
 // Define and init empty variables 
 $username = $password = '';
 $username_err = $password_err = '';

@@ -89,7 +89,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php /* MESSAGES */ ?>
 <?php if(isset($_GET["success"])) :?>
   <h3>Message successfully posted</h3>
+<?php elseif(isset($_GET["deleted"])) :?>
+  <h3>Message successfully deleted</h3>
+<?php elseif(isset($_GET["nopost"])) :?>
+   <h3>Sorry, no post found with that id</h3>
+ <?php elseif(isset($_GET["noedit"])) :?>
+   <h3>Sorry, you are not allowed to edit that post</h3>
 <?php endif;?>
+
 <?php if($error) :?>
   <h3><?php echo $error;?> </h3>
 <?php endif;?>
