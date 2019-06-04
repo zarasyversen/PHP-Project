@@ -4,14 +4,15 @@ require_once("functions.php");
 
 if (isset($_GET["id"])) {
   $postId = htmlspecialchars($_GET["id"]);
+  $post = getPost($connection, $postId);
 
-  if(is_numeric($postId)) {
+  // Check if posts exists && check for valid ID 
+  if($post && is_numeric($postId)) {
 
     //
-    // Check if posts exists before deleting 
+    // Check if user edit the post 
     //
-    $post = getPost($connection, $postId);
-    if($post){
+    if(canEditPost($post['username'])){
 
       $sql = "DELETE FROM posts WHERE id =" . $postId;
 
@@ -22,7 +23,7 @@ if (isset($_GET["id"])) {
         header("location: welcome.php?error");
       }
     } else {
-      header("location: welcome.php?nopost");
+      header("location: welcome.php?noedit");
     }
 
   } else {

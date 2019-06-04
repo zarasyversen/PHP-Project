@@ -5,15 +5,23 @@ $title = $message = '';
 $title_err = $message_err = $error = '';
 $titleOk = $messageOk = $confirmDeletePost = false;
 
+//
+// hOW TO DO THIS BEST??? same in delete.php
+//
 if (isset($_GET["id"])) {
   $postId = htmlspecialchars($_GET["id"]);
   $post = getPost($connection, $postId);
 
-  //
-  // Check if user can edit the post
-  //
-  if(!canEditPost($post['username'])){
-    header("location: welcome.php?noedit");
+  // Check if post does exists / id is valid
+  if($post && is_numeric($postId)) {
+
+    // Check if user can edit
+    if(!canEditPost($post['username'])){
+      header("location: welcome.php?noedit");
+    }
+
+  } else {
+    header("location: welcome.php?nopost");
   }
 
 } else {
