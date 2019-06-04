@@ -95,6 +95,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
    <h3>Sorry, no post found with that id</h3>
  <?php elseif(isset($_GET["noedit"])) :?>
    <h3>Sorry, you are not allowed to edit that post</h3>
+   <?php elseif(isset($_GET["error"])) :?>
+   <h3>Sorry. something went wrong, please try again.</h3>
 <?php endif;?>
 
 <?php if($error) :?>
