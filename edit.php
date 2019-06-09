@@ -5,29 +5,15 @@ $title = $message = '';
 $title_err = $message_err = $error = '';
 $titleOk = $messageOk = $confirmDeletePost = false;
 
-//
-// hOW TO DO THIS BEST??? same in delete.php
-//
-if (isset($_GET["id"])) {
-  $postId = htmlspecialchars($_GET["id"]);
-  $post = getPost($connection, $postId);
-
-  // Check if post does exists / id is valid
-  if($post && is_numeric($postId)) {
-
-    // Check if user can edit
-    if(!canEditPost($post['username'])){
-      header("location: welcome.php?noedit");
-    }
-
-  } else {
-    header("location: welcome.php?nopost");
-  }
-
-} else {
-  header("location: welcome.php?nopost");
+// Check if user can edit
+if(!isset($_GET['id']) || !canEditPost($connection, $_GET['id'])){
+  header("location: welcome.php?noedit");
 }
 
+$postId = $_GET['id'];
+
+// Still need to get post to load in title and message
+$post = getPost($connection, $postId);
 
 //
 // Save New Edited Post 
@@ -75,7 +61,6 @@ $pageTitle = 'Edit Post';
 include('header.php');?>
 <div class="wrapper">
   <h1>Edit your post</h1>
-  <?php if($post) :?>
     <form action="edit.php?id=<?php echo $postId; ?>"
       method="post" 
       class="form">
@@ -86,7 +71,7 @@ include('header.php');?>
               name="title" 
               id="title" 
               class="form__input"
-              value="<?php echo $post['title']; ?>"
+              value="<?php echo $post['title'] ?>"
               />
             <p class="form__error">
               <?php echo $title_err; ?>
@@ -108,13 +93,12 @@ include('header.php');?>
         <div class="form__group actions">
             <button type="submit" class="btn btn--primary">Save new message</button>
         </div>
-      </form>
+    </form>
 
       <div class="post__actions">
         <button type="button" class="btn btn--primary delete js-delete-post">Delete Post</button>
         <a href="/welcome.php">Cancel</a>
       </div>
-  <?php endif;?>
   <?php if($error) :?>
     <h3><?php echo $error;?> </h3>
   <?php endif;?>

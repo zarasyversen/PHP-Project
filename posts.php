@@ -58,7 +58,7 @@ require_once("functions.php");
                   <?php echo date_format(new DateTime($date), 'g:ia \o\n l jS F Y'); ?>
                 </time>
                 by <?php echo $post['username']; ?>.
-                <?php if(canEditPost($post['username'])) :?>
+                <?php if(canEditPost($connection, $post['id'])) :?>
                   <a href="edit.php?id=<?php echo $post['id']; ?>">Edit</a>
                 <?php endif;?>
             </p>

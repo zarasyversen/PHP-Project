@@ -2,33 +2,20 @@
 require_once("config.php");
 require_once("functions.php");
 
-if (isset($_GET["id"])) {
-  $postId = htmlspecialchars($_GET["id"]);
-  $post = getPost($connection, $postId);
+if (isset($_GET["id"]) || canEditPost($connection, $_GET['id'])){
 
-  // Check if posts exists && check for valid ID 
-  if($post && is_numeric($postId)) {
+  // Is it safe to just use GET['id'] here. 
+  // It should have been checked in canEditPost
+  $sql = "DELETE FROM posts WHERE id =" . $_GET['id'];
 
-    //
-    // Check if user edit the post 
-    //
-    if(canEditPost($post['username'])){
-
-      $sql = "DELETE FROM posts WHERE id =" . $postId;
-
-      if($result = mysqli_query($connection, $sql)) {
-          // Set a param with success on the url and redirect to welcome
-          header("location: welcome.php?deleted");
-      } else {
-        header("location: welcome.php?error");
-      }
+    if($result = mysqli_query($connection, $sql)) {
+        // Set a param with success on the url and redirect to welcome
+        header("location: welcome.php?deleted");
     } else {
-      header("location: welcome.php?noedit");
+      header("location: welcome.php?error");
     }
-
-  } else {
-    header("location: welcome.php?nopost");
-  }
-
+  
+} else {
+  header("location: welcome.php?noedit");
 }
 

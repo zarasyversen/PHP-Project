@@ -1,13 +1,37 @@
 <?php
 
-function canEditPost($username){
+// set flash message function
+// get flash message 
 
-  // Potentially change to id soon 
-  // Check session username matches post username
-  if($_SESSION["username"] === $username){
-    return true;
-  }
+function canEditPost($connection, $postId) {
   
+  // 
+  // Check if postId is an array
+  // 
+  if (is_array($postId)) {
+    if (isset($postId['id'])) {
+      $postId = $postId['id'];
+    }
+
+    return false;
+  }
+
+  //
+  // Get Post 
+  // Check it exists and id is valid
+  //
+  $post = getPost($connection, $postId);
+  if ($post && is_numeric($postId)) {
+
+    // Potentially change to id soon 
+    // Check session username matches post username
+    if($_SESSION["username"] === $post['username']){
+      return true;
+    }
+
+  }
+
+  return false;  
 }
 
 function getPost($connection, $postId){
@@ -27,15 +51,20 @@ function getPost($connection, $postId){
             'title' => $row['title'], 
             'message' => $row['message'],
             'created' => $row['created_at'],
-            'username' => $row['username']
+            'username' => $row['username'],
+            'id' => $row['id']
           ];
 
           // Add each post to posts 
           return $post;
         }
-      } else {
-        return false;
+
       }
+
     }
-  }
+
+  } 
+
+  return false;
+
 }
