@@ -2,7 +2,8 @@
 require_once("config.php");
 require_once("functions.php");
 
-if (isset($_GET["id"]) || canEditPost($connection, $_GET['id'])){
+
+if (isset($_GET["id"]) && canEditPost($connection, $_GET['id'])){
 
   // Is it safe to just use GET['id'] here. 
   // It should have been checked in canEditPost
