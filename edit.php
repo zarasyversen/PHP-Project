@@ -47,8 +47,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             WHERE id =" . $postId;
 
     if (mysqli_query($connection, $sql)) {
-       // Set a param with success on the url and redirect to welcome
-        header("location: welcome.php?success");
+         // Set a session message and redirect to welcome
+        $_SESSION["session_message"] = 'Successfully edited your message';
+        header("location: welcome.php");
     } else {
       $error = 'Something went wrong, please try again later.';
     }

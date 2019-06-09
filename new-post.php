@@ -38,8 +38,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
       // Attempt to execute statement 
       if(mysqli_stmt_execute($statement)){
-        // Set a param with success on the url and redirect to welcome
-        header("location: welcome.php?success");
+        // Set a session message and redirect to welcome
+        $_SESSION["session_message"] = 'Successfully posted your message';
+        header("location: welcome.php");
 
       } else {
         $error = 'Something went wrong, please try again later.';
@@ -86,8 +87,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 </form>
 
-<?php /* MESSAGES */ ?>
-<?php if(isset($_GET["success"])) :?>
+<?php /* 
+
+Look at flash messages 
+ - Set session variable like [message]
+ - redirect 
+ - check if set 
+ - show message 
+ - empty var
+ - done 
+
+MESSAGES */ ?>
+<!-- <?php if(isset($_GET["success"])) :?>
   <h3>Message successfully posted</h3>
 <?php elseif(isset($_GET["deleted"])) :?>
   <h3>Message successfully deleted</h3>
@@ -97,7 +108,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
    <h3>Sorry, you are not allowed to edit that post</h3>
    <?php elseif(isset($_GET["error"])) :?>
    <h3>Sorry. something went wrong, please try again.</h3>
-<?php endif;?>
+<?php endif;?> -->
 
 <?php if($error) :?>
   <h3><?php echo $error;?> </h3>

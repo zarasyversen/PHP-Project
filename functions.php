@@ -1,7 +1,24 @@
 <?php
 
-// set flash message function
-// get flash message 
+function showMessage() {
+  /*
+ - check if set 
+ - show message 
+ - empty var
+ - done 
+  */
+ if(isset($_SESSION["session_message"])) {
+  // store it in var before you delete it? 
+  $errorMessage = $_SESSION['session_message'];
+
+  // remove it
+  unset($_SESSION['session_message']);
+
+  // return message 
+  return $errorMessage;
+ }
+
+}
 
 function canEditPost($connection, $postId) {
   
