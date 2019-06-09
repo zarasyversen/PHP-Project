@@ -43,7 +43,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         header("location: welcome.php");
 
       } else {
-        $error = 'Something went wrong, please try again later.';
+        $_SESSION["session_message"] = 'Something went wrong, please try again later.';
       }
     }
 
@@ -86,30 +86,3 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn btn--primary">Submit message</button>
         </div>
 </form>
-
-<?php /* 
-
-Look at flash messages 
- - Set session variable like [message]
- - redirect 
- - check if set 
- - show message 
- - empty var
- - done 
-
-MESSAGES */ ?>
-<!-- <?php if(isset($_GET["success"])) :?>
-  <h3>Message successfully posted</h3>
-<?php elseif(isset($_GET["deleted"])) :?>
-  <h3>Message successfully deleted</h3>
-<?php elseif(isset($_GET["nopost"])) :?>
-   <h3>Sorry, no post found with that id</h3>
- <?php elseif(isset($_GET["noedit"])) :?>
-   <h3>Sorry, you are not allowed to edit that post</h3>
-   <?php elseif(isset($_GET["error"])) :?>
-   <h3>Sorry. something went wrong, please try again.</h3>
-<?php endif;?> -->
-
-<?php if($error) :?>
-  <h3><?php echo $error;?> </h3>
-<?php endif;?>
