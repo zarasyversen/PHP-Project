@@ -10,6 +10,7 @@
   --dark-grey: #333;
   --light-grey: #dadada;
   --turq: #00bcd4;
+  --light-turq: rgba(17, 188, 212, .3);
   --focus-outline: 2px dashed var(--turq);
   --focus-box-shadow: 0px 2px 4px var(--dark-grey);
   --red: #f44336;
@@ -134,3 +135,27 @@ a:focus {
   box-sizing: border-box;
   padding: var(--padding-small);
 }
+
+/* Messages */
+.session-message {
+   background: var(--light-turq);
+   padding: var(--padding-base) 0;
+   display: flex;
+   align-items: center;
+}
+
+.session-message p {
+   width: 90%;
+}
+
+.session-message__icon {
+  background: var(--off-white);
+  margin: var(--padding-small);
+  border: 0;
+  border-radius: 50%;
+}
+
+
+
+
+

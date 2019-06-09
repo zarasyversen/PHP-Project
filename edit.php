@@ -6,8 +6,10 @@ $title_err = $message_err = $error = '';
 $titleOk = $messageOk = $confirmDeletePost = false;
 
 // Check if user can edit
-if(!isset($_GET['id']) || !canEditPost($connection, $_GET['id'])){
-  header("location: welcome.php?noedit");
+if(!isset($_GET['id']) || !canEditPost($connection, $_GET['id'])) {
+  // Set a session message and redirect to welcome
+  $_SESSION["session_message"] = 'Sorry, you are not allowed to edit that post';
+  header("location: welcome.php");
 }
 
 $postId = $_GET['id'];
