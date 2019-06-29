@@ -38,12 +38,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
       // Attempt to execute statement 
       if(mysqli_stmt_execute($statement)){
-        // Set a session message and redirect to welcome
-        $_SESSION["session_message"] = 'Successfully posted your message';
+        // Set a success message and redirect to welcome
+        setSuccessMessage('Successfully posted your message');
         header("location: welcome.php");
 
       } else {
-        $_SESSION["session_message"] = 'Something went wrong, please try again later.';
+         setErrorMessage('Something went wrong, please try again later.');
       }
     }
 

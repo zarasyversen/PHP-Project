@@ -138,10 +138,18 @@ a:focus {
 
 /* Messages */
 .session-message {
-   background: var(--light-turq);
    padding: var(--padding-base) 0;
    display: flex;
    align-items: center;
+   font-weight: bold;
+}
+
+.session-message.success {
+   background: var(--light-turq);
+}
+
+.session-message.error {
+  background: var(--red);
 }
 
 .session-message p {
@@ -151,6 +159,7 @@ a:focus {
 .session-message__icon {
   background: var(--off-white);
   margin: var(--padding-small);
+  padding: var(--padding-small);
   border: 0;
   border-radius: 50%;
 }

@@ -1,21 +1,39 @@
 <?php
 
+//setMessage
+// session variable as array 
+// message and type
+
+function setMessage($type, $message) {
+  $sessionMessage = [$type, $message];
+  $_SESSION["session_message"] = $sessionMessage;
+}
+
+function setSuccessMessage($message) {
+  $type = 'success';
+  setMessage($type, $message);
+}
+
+function setErrorMessage($message) {
+  $type = 'error';
+  setMessage($type, $message);
+}
+
+
 function showMessage() {
   /*
- - check if set 
- - show message 
- - empty var
- - done 
+ // create function setFlashMessage 
   */
  if(isset($_SESSION["session_message"])) {
+  
   // store it in var before you delete it? 
-  $errorMessage = $_SESSION['session_message'];
+  $sessionMessage = $_SESSION['session_message'];
 
   // remove it
   unset($_SESSION['session_message']);
 
   // return message 
-  return $errorMessage;
+  return $sessionMessage;
  }
 
 }
