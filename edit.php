@@ -1,6 +1,5 @@
 <?php
 require_once("config.php");
-require_once("functions.php");
 $title = $message = '';
 $title_err = $message_err = $error = '';
 $titleOk = $messageOk = $confirmDeletePost = false;

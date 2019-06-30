@@ -1,7 +1,5 @@
 <?php 
 require_once("config.php");
-require_once("functions.php");
-
 
 if (isset($_GET["id"]) && canEditPost($connection, $_GET['id'])){
 

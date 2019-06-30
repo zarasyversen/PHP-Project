@@ -1,9 +1,5 @@
 <?php
 
-//setMessage
-// session variable as array 
-// message and type
-
 function setMessage($type, $message) {
   $sessionMessage = [$type, $message];
   $_SESSION["session_message"] = $sessionMessage;
@@ -19,14 +15,11 @@ function setErrorMessage($message) {
   setMessage($type, $message);
 }
 
-
+// Show Message if it is Set
 function showMessage() {
-  /*
- // create function setFlashMessage 
-  */
  if(isset($_SESSION["session_message"])) {
   
-  // store it in var before you delete it? 
+  // store it in var before you delete it
   $sessionMessage = $_SESSION['session_message'];
 
   // remove it
@@ -35,7 +28,6 @@ function showMessage() {
   // return message 
   return $sessionMessage;
  }
-
 }
 
 function canEditPost($connection, $postId) {

@@ -1,4 +1,5 @@
 <?php 
+// I dont need config, should I only add functions? 
 require_once("functions.php");
 $sessionMessage = showMessage();
 ?>

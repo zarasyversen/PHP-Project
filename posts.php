@@ -1,4 +1,5 @@
 <?php 
+require_once("config.php");
 function getPosts($connection) {
   
    // Prepare select statement 
@@ -33,7 +34,6 @@ function getPosts($connection) {
     }
   }
 }
-require_once("functions.php");
 ?>
 <?php if($posts = getPosts($connection)): ?>
   <section class="posts">
