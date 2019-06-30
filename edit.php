@@ -8,7 +8,7 @@ $titleOk = $messageOk = $confirmDeletePost = false;
 // Check if user can edit
 if(!isset($_GET['id']) || !canEditPost($connection, $_GET['id'])) {
   // Set a session message and redirect to welcome
-  $_SESSION["session_message"] = 'Sorry, you are not allowed to edit that post';
+  setErrorMessage('Sorry, you are not allowed to edit that post.');
   header("location: welcome.php");
 }
 
@@ -49,11 +49,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             WHERE id =" . $postId;
 
     if (mysqli_query($connection, $sql)) {
-         // Set a session message and redirect to welcome
-        $_SESSION["session_message"] = 'Successfully edited your message';
-        header("location: welcome.php");
+      // Set a session message and redirect to welcome
+      setSuccessMessage('Successfully edited your message.');
+      header("location: welcome.php");
+
     } else {
-      $error = 'Something went wrong, please try again later.';
+      setErrorMessage('Something went wrong, please try again later.');
     }
   }
 
