@@ -24,15 +24,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if($titleOk && $messageOk){
     // Prepare an INSERT statement 
-    $sql = "INSERT INTO posts (username, title, message) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO posts (user_id, title, message) VALUES (?, ?, ?)";
 
     if($statement = mysqli_prepare($connection, $sql)){
 
       // Bind variables to prepared statement 
-      mysqli_stmt_bind_param($statement, "sss", $param_username, $param_title, $param_message);
+      mysqli_stmt_bind_param($statement, "iss", $param_userid, $param_title, $param_message);
 
       // Set params 
-      $param_username = $_SESSION["username"]; 
+      $param_userid = $_SESSION["user_id"]; 
       $param_title = $title;
       $param_message = $message;
 
