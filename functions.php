@@ -95,3 +95,33 @@ function getPost($connection, $postId){
   return false;
 
 }
+
+function getUsername($connection, $userId){
+  if(is_numeric($userId)){
+
+    // Why can't I just do Select username from users and return result? 
+    $sql = "SELECT username FROM users WHERE id =" . mysqli_real_escape_string($connection, $userId);
+
+    if($result = mysqli_query($connection, $sql)) {
+
+      if(mysqli_num_rows($result) > 0) {
+
+        // If I only return result, it is an object
+        // If I only return row, its an array with my username in it
+        // Do I really have to go through all of this, 
+        // is this what it does in sequel pro when I run that same query? 
+
+        $row = mysqli_fetch_assoc($result);
+        $username = $row['username'];
+
+        return $username;
+
+      }
+
+    }
+
+  } 
+
+  return false;
+
+}

@@ -13,6 +13,7 @@ include('header.php');?>
   <p>
     <a href="logout.php">Sign Out of Your Account</a>
   </p>
+  <?php var_dump(getUsername($connection, 22));?>
   <?php include('message.php'); ?>
   <?php include('new-post.php'); ?>
   <?php include('posts.php'); ?>
