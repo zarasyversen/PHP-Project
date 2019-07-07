@@ -16,7 +16,7 @@ function getPosts($connection) {
         // Create a post array with keys and the post info
         $post = [
           'id' => $row['id'], 
-          'username' => $row['username'], 
+          'user_id' => $row['user_id'], 
           'title' => $row['title'], 
           'message' => $row['message'],
           'created' => $row['created_at'],
@@ -57,7 +57,7 @@ function getPosts($connection) {
                 <time datetime="<?php echo $date; ?>">
                   <?php echo date_format(new DateTime($date), 'g:ia \o\n l jS F Y'); ?>
                 </time>
-                by <?php echo $post['username']; ?>.
+                by <?php echo getUsername($connection, $post['user_id']); ?>.
                 <?php if(canEditPost($connection, $post['id'])) :?>
                   <a href="edit.php?id=<?php echo $post['id']; ?>">Edit</a>
                 <?php endif;?>

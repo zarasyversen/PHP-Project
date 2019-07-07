@@ -49,10 +49,11 @@ function canEditPost($connection, $postId) {
   //
   $post = getPost($connection, $postId);
   if ($post && is_numeric($postId)) {
-
-    // Potentially change to id soon 
-    // Check session username matches post username
-    if($_SESSION["username"] === $post['username']){
+    
+    //
+    /// Session is a int, post is a string!!
+    // Shoul I change that?? 
+    if($_SESSION["user_id"] == $post['user_id']){
       return true;
     }
 
@@ -79,6 +80,7 @@ function getPost($connection, $postId){
             'message' => $row['message'],
             'created' => $row['created_at'],
             'username' => $row['username'],
+            'user_id' => $row['user_id'],
             'id' => $row['id']
           ];
 
