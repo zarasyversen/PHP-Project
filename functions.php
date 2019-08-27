@@ -33,6 +33,37 @@ function showMessage() {
  }
 }
 
+function getUser($connection, $userId) {
+  if (is_numeric($userId)) {
+
+    // Get Post from DB 
+    $sql = "SELECT * FROM users WHERE id =" . mysqli_real_escape_string($connection, $userId);
+
+    if($result = mysqli_query($connection, $sql)) {
+
+      if(mysqli_num_rows($result) > 0) {
+
+        while($row = mysqli_fetch_array($result)) {
+
+          // Create a user array with keys and the user info
+          $user = [
+            'username' => $row['username'], 
+            'created' => $row['created_at'],
+            'is_admin' => (int)$row['is_admin']
+          ];
+
+          return $user;
+        }
+
+      }
+
+    }
+
+  } 
+
+  return false;
+}
+
 function canEditPost($connection, $postId) {
   
   // 
