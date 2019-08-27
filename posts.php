@@ -38,7 +38,7 @@ function getPosts($connection) {
 <?php if($posts = getPosts($connection)): ?>
   <section class="posts">
     <h2>Posts</h2>
-      <ul>
+    <ul>
       <?php foreach($posts as $post):?>
         <li>
           <article class="post">
@@ -61,7 +61,7 @@ function getPosts($connection) {
                 <?php if(canEditPost($connection, $post['id'])) :?>
                   <a href="edit.php?id=<?php echo $post['id']; ?>">Edit</a>
                 <?php endif;?>
-            </p>
+              </p>
             </footer>
           </article>
         </li>

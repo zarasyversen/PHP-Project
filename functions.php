@@ -1,5 +1,8 @@
 <?php
 
+// make in to array
+// test to set both error and success at once!! 
+// message.php will need to change to a foreach
 function setMessage($type, $message) {
   $sessionMessage = [$type, $message];
   $_SESSION["session_message"] = $sessionMessage;
@@ -50,12 +53,16 @@ function canEditPost($connection, $postId) {
   $post = getPost($connection, $postId);
   if ($post && is_numeric($postId)) {
     
-    //
-    /// Session is a int, post is a string!!
-    // Shoul I change that?? 
-    if($_SESSION["user_id"] == $post['user_id']){
+    // Check if user has posted the post
+    if ($_SESSION["user_id"] === $post['user_id']){
       return true;
     }
+
+    // Check if logged in user is admin
+    if(getIsAdmin($connection, $_SESSION["user_id"])) {
+      return true;
+    }
+
 
   }
 
@@ -79,9 +86,8 @@ function getPost($connection, $postId){
             'title' => $row['title'], 
             'message' => $row['message'],
             'created' => $row['created_at'],
-            'username' => $row['username'],
-            'user_id' => $row['user_id'],
-            'id' => $row['id']
+            'user_id' => (int)$row['user_id'],
+            'id' => (int)$row['id']
           ];
 
           // Add each post to posts 
@@ -101,17 +107,11 @@ function getPost($connection, $postId){
 function getUsername($connection, $userId){
   if(is_numeric($userId)){
 
-    // Why can't I just do Select username from users and return result? 
     $sql = "SELECT username FROM users WHERE id =" . mysqli_real_escape_string($connection, $userId);
 
     if($result = mysqli_query($connection, $sql)) {
 
       if(mysqli_num_rows($result) > 0) {
-
-        // If I only return result, it is an object
-        // If I only return row, its an array with my username in it
-        // Do I really have to go through all of this, 
-        // is this what it does in sequel pro when I run that same query? 
 
         $row = mysqli_fetch_assoc($result);
         $username = $row['username'];
@@ -127,3 +127,33 @@ function getUsername($connection, $userId){
   return false;
 
 }
+
+function getIsAdmin($connection, $userId){
+  if(is_numeric($userId)){
+
+    $sql = "SELECT is_admin FROM users WHERE id =" . mysqli_real_escape_string($connection, $userId);
+
+    if($result = mysqli_query($connection, $sql)) {
+
+      if(mysqli_num_rows($result) > 0) {
+
+        $row = mysqli_fetch_assoc($result);
+
+        // Make it return integer instead of string
+        $isAdmin = (int) $row['is_admin'];
+
+        return $isAdmin;
+
+      }
+
+    }
+
+  } 
+
+  return false;
+
+}
+
+//
+/// Show username function, return unknown if not set 
+//
