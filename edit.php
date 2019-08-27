@@ -45,7 +45,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             SET title = '$title', 
                 message = '$message',
                 updated_at = now()
-            WHERE id =" . $postId;
+            WHERE id =" . (int) $postId;
 
     if (mysqli_query($connection, $sql)) {
       // Set a session message and redirect to welcome
