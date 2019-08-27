@@ -62,6 +62,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
               type="text" 
               name="title" 
               id="title" 
+              placeholder="Title"
               class="form__input"
               value="<?php echo $title; ?>"
               />
