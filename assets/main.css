@@ -23,6 +23,10 @@ body {
   margin: 0;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 h1,h2 {
   color: var(--turq);
 }
@@ -40,6 +44,28 @@ ul {
   box-sizing: border-box;
 }
 
+/* 2 Column Page */
+.page-2column {
+  display: flex;
+  flex-wrap: wrap;
+}
+.page-2column .page-header {
+  width: 100%;
+}
+
+.page-2column .page-sidebar {
+  width: 30%;
+  padding: var(--padding-base);
+  background: var(--light-turq);
+}
+
+.page-2column .page-main {
+  width: 70%;
+  padding: var(--padding-base);
+  border: 1px solid var(--light-turq);
+}
+
+/* Forms */
 .form label {
   display: block;
   font-weight: bold;
@@ -102,7 +128,7 @@ a:focus {
   background: var(--red);
 }
 
-
+/* Footer */
 .footer--main {
   position: fixed;
   width: 100%;

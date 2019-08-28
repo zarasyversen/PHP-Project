@@ -57,7 +57,11 @@ function getPosts($connection) {
                 <time datetime="<?php echo $date; ?>">
                   <?php echo date_format(new DateTime($date), 'g:ia \o\n l jS F Y'); ?>
                 </time>
-                by <?php echo getUsername($connection, $post['user_id']); ?>.
+                by 
+                <?php $userName = getUsername($connection, $post['user_id']); ?>
+                <a title="<?php echo $userName; ?> Profile" 
+                  href="profile.php?id=<?php echo $post['user_id']; ?>">
+                  <?php echo $userName; ?></a>.
                 <?php if(canEditPost($connection, $post['id'])) :?>
                   <a href="edit.php?id=<?php echo $post['id']; ?>">Edit</a>
                 <?php endif;?>
