@@ -79,6 +79,11 @@ ul {
   border: 1px solid var(--light-grey);
 }
 
+.form__input.file {
+  border: 0;
+  margin: var(--padding-small) 0;
+}
+
 .form__input:focus {
   outline: var(--focus-outline);
 }
@@ -93,7 +98,7 @@ ul {
 }
 
 .btn {
-  padding: 10px 0;
+  padding: var(--padding-small) 0;
   min-width: 200px;
   background: var(--turq);
   color: var(--off-white);
@@ -102,6 +107,7 @@ ul {
   font-size: var(--font-size__base);
   cursor: pointer;
   border: none;
+  margin: var(--padding-small) 0;
 }
 
 .btn:focus{
@@ -168,6 +174,8 @@ a:focus {
    display: flex;
    align-items: center;
    font-weight: bold;
+   width: 100%;
+   margin-bottom: var(--padding-base);
 }
 
 .session-message.success {

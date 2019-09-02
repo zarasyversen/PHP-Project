@@ -21,7 +21,7 @@ if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
         // Check Image Size 
         $imageWidth = getimagesize($fileTmp)[0];
     
-        if($imageWidth < 200) {
+        if($imageWidth <= 200) {
 
           // Upload file to directory
           if(move_uploaded_file($fileTmp, $targetFilePath)){
