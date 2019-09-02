@@ -8,7 +8,7 @@
   --padding-small: 10px;
   --off-white: #fdfcfc;
   --dark-grey: #333;
-  --light-grey: #dadada;
+  --light-grey: #f1f1f1;
   --turq: #00bcd4;
   --light-turq: rgba(17, 188, 212, .3);
   --focus-outline: 2px dashed var(--turq);
@@ -173,6 +173,11 @@ a:focus {
   margin: var(--padding-base) 0;
   box-sizing: border-box;
   padding: var(--padding-small);
+}
+
+/* Profile */
+.profile__post {
+  background: var(--light-grey);
 }
 
 /* Messages */

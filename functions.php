@@ -182,6 +182,44 @@ function getPost($connection, $postId){
 
 }
 
+function getAllUserPosts($connection, $userId) {
+  if(is_numeric($userId)){
+
+    $sql = "SELECT * FROM posts WHERE user_id =" . mysqli_real_escape_string($connection, $userId);
+
+    if($result = mysqli_query($connection, $sql)) {
+
+     if(mysqli_num_rows($result) > 0) {
+
+      $posts = [];
+
+      while($row = mysqli_fetch_array($result)) {
+
+        // Create a post array with keys and the post info
+        $post = [
+          'id' => $row['id'], 
+          'user_id' => $row['user_id'], 
+          'title' => $row['title'], 
+          'message' => $row['message'],
+          'created' => $row['created_at'],
+          'updated' => $row['updated_at']
+        ];
+
+        // Add each post to posts 
+        array_push($posts, $post);
+      }
+
+      return $posts;
+
+      }
+
+    }
+
+  } 
+
+  return false;
+}
+
 function getUsername($connection, $userId){
   if(is_numeric($userId)){
 
