@@ -36,6 +36,12 @@ ul {
   list-style: none;
 }
 
+
+img {
+ display: block;
+ max-width: 100%; 
+}
+
 .wrapper {
   width: 100%;
   max-width: 1100px;
@@ -123,6 +129,7 @@ a:visited {
 a:focus {
   outline: var(--focus-outline);
 }
+
 
 /* Edit Page */
 
