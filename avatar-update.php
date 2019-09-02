@@ -34,6 +34,20 @@ include('header.php');?>
       </div>
       <button type="submit" class="btn btn--primary" name="submit">Upload</button>
     </form>
+    <button type="button" class="btn btn--primary delete js-delete-avatar">Delete Avatar</button>
     <a href="profile.php?id=<?php echo $userId;?>">Cancel</a>
   </main>
 </div>
+<script>
+  var deleteAction = document.querySelector('.js-delete-avatar');
+
+  function deleteAvatar() {
+    var confirmed = confirm('Are you sure you want to delete your avatar?');
+
+    if(confirmed){
+      window.location.href = "avatar-delete.php?id=<?php echo $userId; ?>";
+    } 
+  }
+
+  deleteAction.addEventListener('click', deleteAvatar);
+</script>
