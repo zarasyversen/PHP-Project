@@ -4,6 +4,12 @@
 $public_access = true; 
 require_once('config.php');
 
+// Check no user is logged in
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+  header("location: welcome.php");
+  exit;
+}
+
 //Define Variables
 $username = $password  = $confirm_password = '';
 $username_err = $password_err = $confirm_password_err = '';
