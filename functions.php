@@ -56,11 +56,10 @@ function getUser($connection, $userId) {
         }
 
       }
-
+      return false;
     }
-
+    return false;
   } 
-
   return false;
 }
 
@@ -94,10 +93,35 @@ function canEditPost($connection, $postId) {
       return true;
     }
 
-
   }
 
   return false;  
+}
+
+function canEditUser($connection, $userId) {
+
+  // Check id is valid
+  if (is_numeric($userId)) {
+
+    $user = getUser($connection, $userId);
+
+    // Check user exists
+    if ($user) {
+
+      // Check if same user is logged in
+      if ($_SESSION["user_id"] === $userId){
+        return true;
+      }
+
+      // Check if logged in user is admin
+      if(getIsAdmin($connection, $_SESSION["user_id"])) {
+        return true;
+      }
+
+    }
+    return false;
+  }
+  return false;
 }
 
 function getPost($connection, $postId){
