@@ -16,30 +16,40 @@ if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
 
     if(in_array($fileType, $allowTypes)){
 
-        // Upload file to directory
-        if(move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)){
+        $fileTmp = $_FILES["file"]["tmp_name"];
+      
+        // Check Image Size 
+        $imageWidth = getimagesize($fileTmp)[0];
+    
+        if($imageWidth < 200) {
 
-          $fileName = mysqli_real_escape_string($connection, $fileName);
+          // Upload file to directory
+          if(move_uploaded_file($fileTmp, $targetFilePath)){
 
-          $sql = "UPDATE users 
-            SET avatar = '$fileName'
-            WHERE id =" . (int) $userId;
+            $fileName = mysqli_real_escape_string($connection, $fileName);
 
-          if (mysqli_query($connection, $sql)) {
-           $statusMsg = "The file ".$fileName. " has been uploaded successfully.";
+            $sql = "UPDATE users 
+              SET avatar = '$fileName'
+              WHERE id =" . (int) $userId;
+
+            if (mysqli_query($connection, $sql)) {
+             setSuccessMessage('Successfully uploaded your image.');
+            } else {
+              setErrorMessage('File upload failed, please try again.');
+            }
           } else {
-            $statusMsg = "File upload failed, please try again.";
+             setErrorMessage('Sorry, there was an error uploading your file.');
           }
+
         } else {
-          $statusMsg = "Sorry, there was an error uploading your file.";
+          setErrorMessage('Sorry, Maximum Width is 200px');
         }
+        
     } else {
-        $statusMsg = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed to upload.';
+         setErrorMessage('Sorry, only JPG, JPEG, PNG & GIF files are allowed to upload.');
     }
 } else {
-    $statusMsg = 'Please select a file to upload.';
+     setErrorMessage('Please select a file to upload.');
 }
 
-// Display status message
-echo $statusMsg;
-?>
+header('Location: profile.php?id=' . $userId);

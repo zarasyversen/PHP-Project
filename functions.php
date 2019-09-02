@@ -124,6 +124,29 @@ function canEditUser($connection, $userId) {
   return false;
 }
 
+function hasUserAvatar($connection, $userId) {
+  if(is_numeric($userId)){
+
+    $sql = "SELECT avatar FROM users WHERE id =" . mysqli_real_escape_string($connection, $userId);
+
+    if($result = mysqli_query($connection, $sql)) {
+
+      if(mysqli_num_rows($result) > 0) {
+
+        $row = mysqli_fetch_assoc($result);
+        $avatar = $row['avatar'];
+
+        return $avatar;
+
+      }
+
+    }
+
+  } 
+
+  return false;
+}
+
 function getPost($connection, $postId){
   if(is_numeric($postId)){
 
