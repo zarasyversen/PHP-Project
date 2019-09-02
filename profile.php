@@ -29,18 +29,20 @@ include('header.php');?>
   <?php if($isAdmin) :?>
     <p>This user is an admin.</p>
   <?php endif;?>
-  <?php if ($canEdit) :?>
-    <?php if ($hasAvatar):?>
-      <img src="images/user/avatar/<?php echo $hasAvatar;?>"/>
-      <a href="avatar-upload.php?id=<?php echo $userId;?>" title="Upload Avatar Image">Edit Avatar</a>
-    <?php else :?>
-      <form action="upload.php" method="post" enctype="multipart/form-data">
-        Upload Avatar:
-        <input type="file" name="file">
-        <input type="hidden" name="user" value="<?php echo $userId;?>"/>
-        <button type="submit" name="submit">Upload</button>
-      </form>
+  <?php if ($hasAvatar) :?>
+    <img src="images/user/avatar/<?php echo $hasAvatar;?>"/>
+    <?php if ($canEdit) :?>
+      <a href="avatar-update.php?id=<?php echo $userId;?>" title="Upload Avatar Image">Edit Avatar</a>
     <?php endif;?>
+  <?php elseif($canEdit) :?>
+    <form class="form" action="avatar-upload.php" method="post" enctype="multipart/form-data">
+      <div class="form__group">
+        <label for="avatar">Upload Avatar:</label>
+        <input type="file" name="file" id="avatar">
+        <input type="hidden" name="user" value="<?php echo $userId;?>"/>
+      </div>
+      <button type="submit" class="btn btn--primary" name="submit">Upload</button>
+    </form>
   <?php endif;?>
   </aside>
   <main class="page-main">
