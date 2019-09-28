@@ -1,13 +1,10 @@
 <?php
-
+require_once("helper.php");
 
 //
 // Routing 
 //
 
-// make in to array
-// test to set both error and success at once!! 
-// message.php will need to change to a foreach
 function setMessage($type, $message) {
   $sessionMessage = [
     'type' => $type, 
@@ -47,11 +44,11 @@ function getUser($connection, $userId) {
     // Get Post from DB 
     $sql = "SELECT * FROM users WHERE id =" . mysqli_real_escape_string($connection, $userId);
 
-    if($result = mysqli_query($connection, $sql)) {
+    if ($result = mysqli_query($connection, $sql)) {
 
-      if(mysqli_num_rows($result) > 0) {
+      if (mysqli_num_rows($result) > 0) {
 
-        while($row = mysqli_fetch_array($result)) {
+        while ($row = mysqli_fetch_array($result)) {
 
           // Create a user array with keys and the user info
           $user = [
@@ -77,6 +74,7 @@ function canEditPost($connection, $postId) {
   // Check if postId is an array
   // 
   if (is_array($postId)) {
+
     if (isset($postId['id'])) {
       $postId = $postId['id'];
     }
@@ -92,12 +90,12 @@ function canEditPost($connection, $postId) {
   if ($post && is_numeric($postId)) {
     
     // Check if user has posted the post
-    if ($_SESSION["user_id"] === $post['user_id']){
+    if ($_SESSION["user_id"] === $post['user_id']) {
       return true;
     }
 
     // Check if logged in user is admin
-    if(getIsAdmin($connection, $_SESSION["user_id"])) {
+    if (getIsAdmin($connection, $_SESSION["user_id"])) {
       return true;
     }
 
@@ -117,7 +115,7 @@ function canEditUser($connection, $userId) {
     if ($user) {
 
       // Check if same user is logged in
-      if ($_SESSION["user_id"] === $userId){
+      if ($_SESSION["user_id"] === $userId) {
         return true;
       }
 
@@ -133,41 +131,35 @@ function canEditUser($connection, $userId) {
 }
 
 function hasUserAvatar($connection, $userId) {
-  if(is_numeric($userId)){
+  if (is_numeric($userId)) {
 
     $sql = "SELECT avatar FROM users WHERE id =" . mysqli_real_escape_string($connection, $userId);
 
-    if($result = mysqli_query($connection, $sql)) {
+    $row = getSQLRow($sql, $connection);
 
-      if(mysqli_num_rows($result) > 0) {
+    if ($row) {
+      $avatar = $row['avatar'];
 
-        $row = mysqli_fetch_assoc($result);
-        $avatar = $row['avatar'];
+      $filePath = 'images/user/' . $userId . '/avatar/';
 
-        $filePath = 'images/user/' . $userId . '/avatar/';
-
-        return $filePath . $avatar;
-
-      }
-
+      return $filePath . $avatar;
     }
-
+    return false; 
   } 
-
   return false;
 }
 
 function getPost($connection, $postId){
-  if(is_numeric($postId)){
+  if (is_numeric($postId)) {
 
     // Get Post from DB 
     $sql = "SELECT * FROM posts WHERE id =" . mysqli_real_escape_string($connection, $postId);
 
-    if($result = mysqli_query($connection, $sql)) {
+    if ($result = mysqli_query($connection, $sql)) {
 
-      if(mysqli_num_rows($result) > 0) {
+      if (mysqli_num_rows($result) > 0) {
 
-        while($row = mysqli_fetch_array($result)) {
+        while ($row = mysqli_fetch_array($result)) {
 
           // Create a post array with keys and the post info
           $post = [
@@ -193,13 +185,13 @@ function getPost($connection, $postId){
 }
 
 function getAllUserPosts($connection, $userId) {
-  if(is_numeric($userId)){
+  if (is_numeric($userId)) {
 
     $sql = "SELECT * FROM posts WHERE user_id =" . mysqli_real_escape_string($connection, $userId);
 
-    if($result = mysqli_query($connection, $sql)) {
+    if ($result = mysqli_query($connection, $sql)) {
 
-     if(mysqli_num_rows($result) > 0) {
+     if (mysqli_num_rows($result) > 0) {
 
       $posts = [];
 
@@ -230,50 +222,44 @@ function getAllUserPosts($connection, $userId) {
   return false;
 }
 
-function getUsername($connection, $userId){
-  if(is_numeric($userId)){
+function getUsername($connection, $userId) {
+  if (is_numeric($userId)) {
 
     $sql = "SELECT username FROM users WHERE id =" . mysqli_real_escape_string($connection, $userId);
 
-    if($result = mysqli_query($connection, $sql)) {
+    $row = getSQLRow($sql, $connection);
 
-      if(mysqli_num_rows($result) > 0) {
+    if ($row) {
 
-        $row = mysqli_fetch_assoc($result);
-        $username = $row['username'];
+      $username = $row['username'];
 
-        return $username;
-
-      }
-
+      return $username;
     }
 
+   return false;
+    
   } 
 
   return false;
 
 }
 
-function getIsAdmin($connection, $userId){
-  if(is_numeric($userId)){
+function getIsAdmin($connection, $userId) {
+  if (is_numeric($userId)) {
 
     $sql = "SELECT is_admin FROM users WHERE id =" . mysqli_real_escape_string($connection, $userId);
 
-    if($result = mysqli_query($connection, $sql)) {
+    $row = getSQLRow($sql, $connection);
 
-      if(mysqli_num_rows($result) > 0) {
+    if ($row) {
 
-        $row = mysqli_fetch_assoc($result);
+      // Make it return integer instead of string
+      $isAdmin = (int) $row['is_admin'];
 
-        // Make it return integer instead of string
-        $isAdmin = (int) $row['is_admin'];
-
-        return $isAdmin;
-
-      }
-
+      return $isAdmin;
     }
 
+    return false; 
   } 
 
   return false;
