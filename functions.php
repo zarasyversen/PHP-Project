@@ -144,7 +144,9 @@ function hasUserAvatar($connection, $userId) {
         $row = mysqli_fetch_assoc($result);
         $avatar = $row['avatar'];
 
-        return $avatar;
+        $filePath = 'images/user/' . $userId . '/avatar/';
+
+        return $filePath . $avatar;
 
       }
 
@@ -278,6 +280,3 @@ function getIsAdmin($connection, $userId){
 
 }
 
-//
-/// Show username function, return unknown if not set 
-//

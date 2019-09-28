@@ -22,15 +22,14 @@ include('header.php');?>
   </header>
   <aside class="page-sidebar">
     <h2>Current Avatar</h2>
-    <img src="images/user/avatar/<?php echo $hasAvatar;?>"/>
+    <img src="<?php echo $hasAvatar;?>"/>
   </aside>
   <main class="page-main">
     <h2>Update your Avatar</h2>
-    <form class="form" action="avatar-upload.php" method="post" enctype="multipart/form-data">
+    <form class="form" action="avatar-upload.php?id=<?php echo $userId;?>" method="post" enctype="multipart/form-data">
       <div class="form__group">
         <label for="avatar">Upload New Avatar:</label>
         <input type="file" class="form__input file" name="file" id="avatar">
-        <input type="hidden" name="user" value="<?php echo $userId;?>"/>
       </div>
       <button type="submit" class="btn btn--primary" name="submit">Upload</button>
     </form>

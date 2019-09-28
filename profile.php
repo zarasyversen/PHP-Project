@@ -30,16 +30,15 @@ include('header.php');?>
     <p>This user is an admin.</p>
   <?php endif;?>
   <?php if ($hasAvatar) :?>
-    <img src="images/user/avatar/<?php echo $hasAvatar;?>"/>
+    <img src="<?php echo $hasAvatar;?>"/>
     <?php if ($canEdit) :?>
       <a href="avatar-update.php?id=<?php echo $userId;?>" title="Upload Avatar Image">Edit Avatar</a>
     <?php endif;?>
   <?php elseif($canEdit) :?>
-    <form class="form" action="avatar-upload.php" method="post" enctype="multipart/form-data">
+    <form class="form" action="avatar-upload.php?id=<?php echo $userId;?>" method="post" enctype="multipart/form-data">
       <div class="form__group">
         <label for="avatar">Upload Avatar:</label>
         <input type="file" name="file" id="avatar">
-        <input type="hidden" name="user" value="<?php echo $userId;?>"/>
       </div>
       <button type="submit" class="btn btn--primary" name="submit">Upload</button>
     </form>
