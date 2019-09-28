@@ -1,11 +1,19 @@
 <?php
 
+
+//
+// Routing 
+//
+
 // make in to array
 // test to set both error and success at once!! 
 // message.php will need to change to a foreach
 function setMessage($type, $message) {
-  $sessionMessage = [$type, $message];
-  $_SESSION["session_message"] = $sessionMessage;
+  $sessionMessage = [
+    'type' => $type, 
+    'msg' => $message
+  ];
+  $_SESSION["session_message"][] = $sessionMessage;
 }
 
 function setSuccessMessage($message) {
