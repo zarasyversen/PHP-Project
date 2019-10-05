@@ -4,19 +4,21 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 // Check if User exits
 if(!isset($_GET['id']) || !getUser($connection, intval($_GET['id']))) {
   setErrorMessage('Sorry, that user does not exist.');
-  header("location: ../../page/welcome.php");
+  header("location: /page/welcome.php");
 } elseif (!canEditUser($connection, intval($_GET['id']))) {
   // Check if User can edit
   setErrorMessage('Sorry, you are not allowed to edit this profile.');
-  header("location: ../profile.php?id=" . intval($_GET['id']));
+  header("location: /user/profile.php?id=" . intval($_GET['id']));
 }
 
 $userId = intval($_GET['id']);
 $timestamp = time();
-$targetDir = "images/user/" . $userId . "/avatar/";
+$targetDir = BASE . "/images/user/" . $userId . "/avatar/";
 $fileName = $timestamp . "_" . basename($_FILES["file"]["name"]);
 $targetFilePath = $targetDir . $fileName ;
 $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+
+
 
 if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
 
@@ -47,9 +49,9 @@ if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
         // Create Folder for User if it does not exist
         //
         if (!is_dir($targetDir)) {
-          mkdir($targetDir, 0644, true); // TEST
+          mkdir($targetDir, 0744, true); // TEST
         }
-       
+
         // Upload file to directory
         if (move_uploaded_file($fileTmp, $targetFilePath)) {
 
@@ -85,4 +87,4 @@ if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
   setErrorMessage('Please select a file to upload.');
 }
 
-header('Location: ../profile.php?id=' . $userId);
+header('Location: /user/profile.php?id=' . $userId);

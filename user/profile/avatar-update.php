@@ -4,11 +4,11 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 // Check if User exits
 if(!isset($_GET['id']) || !getUser($connection, intval($_GET['id']))) {
   setErrorMessage('Sorry, that user does not exist.');
-  header("location: ../../page/welcome.php");
+  header("location: /page/welcome.php");
 } elseif (!canEditUser($connection, intval($_GET['id']))) {
   // Check if User can edit
   setErrorMessage('Sorry, you are not allowed to edit this profile.');
-  header("location: ../profile.php?id=" . intval($_GET['id']));
+  header("location: /profile.php?id=" . intval($_GET['id']));
 }
 
 
@@ -29,11 +29,11 @@ include(BASE . '/page/header.php');?>
   </header>
   <aside class="page-sidebar">
     <h2>Current Avatar</h2>
-    <img src="../../<?php echo $hasAvatar;?>"/>
+    <img src="<?php echo $hasAvatar;?>"/>
   </aside>
   <main class="page-main">
     <h2>Update your Avatar</h2>
-    <form class="form" action="avatar-upload.php?id=<?php echo $userId;?>" method="post" enctype="multipart/form-data">
+    <form class="form" action="/user/profile/avatar-upload.php?id=<?php echo $userId;?>" method="post" enctype="multipart/form-data">
       <div class="form__group">
         <label for="avatar">Upload New Avatar:</label>
         <input type="file" class="form__input file" name="file" id="avatar">

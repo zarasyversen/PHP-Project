@@ -145,9 +145,13 @@ function hasUserAvatar($connection, $userId) {
     if ($row) {
       $avatar = $row['avatar'];
 
-      $filePath = 'images/user/' . $userId . '/avatar/';
+      if ($avatar) {
+        $filePath = '/images/user/' . $userId . '/avatar/';
+        return $filePath . $avatar;
+      }
 
-      return $filePath . $avatar;
+      return false;
+
     }
     return false; 
   } 
