@@ -4,11 +4,11 @@ $public_access = true;
 require_once("config.php");
 
 $pageTitle = 'Welcome, please log in';
-include('header.php');?>
+include(BASE . '/page/header.php');?>
   <div class="wrapper">
     <h1>Welcome to our site.</h1>
-    <?php include('login.php');?>
+    <?php include(BASE .'/session/login.php');?>
   </div>
-  <?php include('footer.php');?>
+  <?php include(BASE .'/page/footer.php');?>
   </body>
 </html>

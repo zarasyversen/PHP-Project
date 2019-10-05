@@ -56,7 +56,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     mysqli_close($connection);
 }
 $pageTitle = 'Reset Password';
-include('../page/header.php');?>
+include(BASE . '/page/header.php');?>
 <div class="wrapper">
     <h2>Reset Password</h2>
     <p>Please fill out this form to reset your password.</p>
@@ -73,8 +73,8 @@ include('../page/header.php');?>
         </div>
         <div class="form__group actions">
             <button type="submit" class="btn btn-primary">Submit</button>
-            <a href="../page/welcome.php">Cancel</a>
+            <a href="/page/index.php">Cancel</a>
         </div>
     </form>
 </div>    
-<?php include('../page/footer.php');?>
+<?php include(BASE . '/page/footer.php');?>

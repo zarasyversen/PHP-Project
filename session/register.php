@@ -4,8 +4,6 @@
 $public_access = true; 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
-die('ha');
-
 // Check no user is logged in
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
   header("location: ../page/welcome.php");
@@ -110,7 +108,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   mysqli_close($connection);
 }
 $pageTitle = 'Sign Up';
-include('../page/header.php');?>
+include(BASE . '/page/header.php');?>
 <div class="wrapper">
   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" 
     method="post" class="form">
@@ -141,7 +139,7 @@ include('../page/header.php');?>
       <button type="submit" class="btn btn--primary">Submit</button>
       <input type="reset" class="btn" value="Reset">
     </div>
-    <p>Already have an account? <a href="../index.php">Login here</a>.</p>
+    <p>Already have an account? <a href="/session/index.php">Login here</a>.</p>
   </form>
 </div>
-<?php include('../page/footer.php');?>
+<?php include(BASE . '/page/footer.php');?>

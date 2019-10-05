@@ -107,5 +107,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form__group actions">
         <button type="submit" class="btn btn--primary">Login</button>
     </div>
-    <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
+    <p>Don't have an account? <a href="/session/register.php">Sign up now</a>.</p>
 </form>
