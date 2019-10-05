@@ -1,14 +1,14 @@
 <?php
-require_once("config.php");
+require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // Check if User exits
 if(!isset($_GET['id']) || !getUser($connection, intval($_GET['id']))) {
   setErrorMessage('Sorry, that user does not exist.');
-  header("location: welcome.php");
+  header("location: ../../page/welcome.php");
 } elseif (!canEditUser($connection, intval($_GET['id']))) {
   // Check if User can edit
   setErrorMessage('Sorry, you are not allowed to edit this profile.');
-  header("location: profile.php?id=" . intval($_GET['id']));
+  header("location: ../profile.php?id=" . intval($_GET['id']));
 }
 
 $userId = intval($_GET['id']);
@@ -47,7 +47,7 @@ if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
         // Create Folder for User if it does not exist
         //
         if (!is_dir($targetDir)) {
-          mkdir($targetDir, 0777, true);
+          mkdir($targetDir, 0644, true); // TEST
         }
        
         // Upload file to directory
@@ -85,4 +85,4 @@ if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
   setErrorMessage('Please select a file to upload.');
 }
 
-header('Location: profile.php?id=' . $userId);
+header('Location: ../profile.php?id=' . $userId);

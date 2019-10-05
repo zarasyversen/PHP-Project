@@ -1,6 +1,6 @@
 <?php 
 // I dont need config, should I only add functions? 
-require_once("functions.php");
+require_once($_SERVER["DOCUMENT_ROOT"] . "/functions.php");
 $sessionMessage = showMessage();
 ?>
 <?php if($sessionMessage) :
@@ -19,5 +19,5 @@ $sessionMessage = showMessage();
       <?php echo $message; ?>
       </p>
     </div>
-<?php endforeach; ?>
+  <?php endforeach; ?>
 <?php endif; ?>

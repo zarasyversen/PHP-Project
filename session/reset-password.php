@@ -1,5 +1,5 @@
 <?php 
-require_once("config.php");
+require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
  
 // Define variables and initialize with empty values
 $new_password = $confirm_password = "";
@@ -12,25 +12,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $new_password = trim($_POST["new_password"]);
     $confirm_password = trim($_POST["confirm_password"]);
-
-    // Validate new password
-    // if(empty(trim($_POST["new_password"]))){
-        
-    // } elseif(strlen(trim($_POST["new_password"])) < 6){
-    //     $new_password_err = "Password must have atleast 6 characters.";
-    // } else{
-    //     $new_password = trim($_POST["new_password"]);
-    // }
-    
-    // // Validate confirm password
-    // if(empty(trim($_POST["confirm_password"]))){
-    //     $confirm_password_err = "Please confirm the password.";
-    // } else{
-    //     $confirm_password = trim($_POST["confirm_password"]);
-    //     if(empty($new_password_err) && ($new_password != $confirm_password)){
-    //         $confirm_password_err = "Password did not match.";
-    //     }
-    // }
 
     if(empty($new_password)){
         $new_password_err = "Please enter the new password.";
@@ -75,7 +56,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     mysqli_close($connection);
 }
 $pageTitle = 'Reset Password';
-include('header.php');?>
+include('../page/header.php');?>
 <div class="wrapper">
     <h2>Reset Password</h2>
     <p>Please fill out this form to reset your password.</p>
@@ -92,8 +73,8 @@ include('header.php');?>
         </div>
         <div class="form__group actions">
             <button type="submit" class="btn btn-primary">Submit</button>
-            <a href="welcome.php">Cancel</a>
+            <a href="../page/welcome.php">Cancel</a>
         </div>
     </form>
 </div>    
-<?php include('footer.php');?>
+<?php include('../page/footer.php');?>

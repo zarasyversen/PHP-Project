@@ -1,6 +1,6 @@
 
 <?php 
-require_once "config.php";
+require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 $title = $message = '';
 $title_err = $message_err = $error = '';
 $titleOk = $messageOk = false;
@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       if(mysqli_stmt_execute($statement)){
         // Set a success message and redirect to welcome
         setSuccessMessage('Successfully posted your message');
-        header("location: welcome.php");
+        header("location: ../../page/welcome.php");
 
       } else {
          setErrorMessage('Something went wrong, please try again later.');

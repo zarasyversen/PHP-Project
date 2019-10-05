@@ -1,5 +1,5 @@
 <?php 
-require_once("config.php");
+require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 if (isset($_GET["id"]) && canEditPost($connection, $_GET['id'])){
 
@@ -10,16 +10,16 @@ if (isset($_GET["id"]) && canEditPost($connection, $_GET['id'])){
     if($result = mysqli_query($connection, $sql)) {
       // Set a session message and redirect to welcome
       setSuccessMessage('Successfully deleted your message.');
-      header("location: welcome.php");
     } else {
       // Set a session message and redirect to welcome
       setErrorMessage('Sorry. Something went wrong, please try again.');
-      header("location: welcome.php?error");
     }
+
+    header("location: ../../page/welcome.php");
   
 } else {
   // Set a session message and redirect to welcome
   setErrorMessage('Sorry, you are not allowed to edit that post.');
-  header("location: welcome.php");
+  header("location: ../../page/welcome.php");
 }
 

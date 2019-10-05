@@ -1,11 +1,11 @@
 <?php 
-require_once("config.php");
+require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // Check if User exits
 if(!isset($_GET['id']) || !getUser($connection, intval($_GET['id']))) {
   // Set a session message and redirect to welcome
   setErrorMessage('Sorry, that user does not exist.');
-  header("location: welcome.php");
+  header("location: ../page/welcome.php");
 }
 
 $userId = intval($_GET['id']);
@@ -18,19 +18,19 @@ $hasAvatar = hasUserAvatar($connection, $userId);
 
 
 $pageTitle = $username;
-include('header.php');?>
+include('../page/header.php');?>
 <div class="wrapper page-2column">
   <header class="page-header">
     <h1><?php echo $username;?></h1>
   </header>
-  <?php include('message.php'); ?>
+  <?php include('../session/message.php'); ?>
   <aside class="page-sidebar">
   <p>Profile created: <?php echo $createdBy;?></p>
   <?php if($isAdmin) :?>
     <p>This user is an admin.</p>
   <?php endif;?>
   <?php if ($hasAvatar) :?>
-    <img src="<?php echo $hasAvatar;?>"/>
+    <img src="../<?php echo $hasAvatar;?>"/>
     <?php if ($canEdit) :?>
       <a href="avatar-update.php?id=<?php echo $userId;?>" title="Upload Avatar Image">Edit Avatar</a>
     <?php endif;?>
@@ -68,7 +68,7 @@ include('header.php');?>
                       <?php echo date_format(new DateTime($date), 'g:ia \o\n l jS F Y'); ?>.
                     </time> 
                     <?php if(canEditPost($connection, $post['id'])) :?>
-                      <a href="edit.php?id=<?php echo $post['id']; ?>">Edit</a>
+                      <a href="post/edit.php?id=<?php echo $post['id']; ?>">Edit</a>
                     <?php endif;?>
                   </p>
                 </footer>
@@ -80,7 +80,7 @@ include('header.php');?>
         <p>Sorry, no posts available yet. </p>
       <?php endif; ?>
     </section>
-    <a href="welcome.php">Return to all posts</a>
+    <a href="../page/welcome.php">Return to all posts</a>
   </main>
 </div>
-<?php include('footer.php');?>
+<?php include('../page/footer.php');?>

@@ -1,5 +1,8 @@
 <?php
-require_once("config.php");
+
+require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
+
+
 $title = $message = '';
 $title_err = $message_err = $error = '';
 $titleOk = $messageOk = $confirmDeletePost = false;
@@ -8,7 +11,7 @@ $titleOk = $messageOk = $confirmDeletePost = false;
 if(!isset($_GET['id']) || !canEditPost($connection, $_GET['id'])) {
   // Set a session message and redirect to welcome
   setErrorMessage('Sorry, you are not allowed to edit that post.');
-  header("location: welcome.php");
+  header("location: ../../welcome.php");
 }
 
 $postId = $_GET['id'];
@@ -50,7 +53,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_query($connection, $sql)) {
       // Set a session message and redirect to welcome
       setSuccessMessage('Successfully edited your message.');
-      header("location: welcome.php");
+      header("location: ../../page/welcome.php");
 
     } else {
       setErrorMessage('Something went wrong, please try again later.');
@@ -61,7 +64,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $pageTitle = 'Edit Post';
-include('header.php');?>
+include($_SERVER["DOCUMENT_ROOT"] .'/page/header.php');?>
 <div class="wrapper">
   <h1>Edit your post</h1>
     <form action="edit.php?id=<?php echo $postId; ?>"
@@ -100,7 +103,7 @@ include('header.php');?>
 
       <div class="post__actions">
         <button type="button" class="btn btn--primary delete js-delete-post">Delete Post</button>
-        <a href="/welcome.php">Cancel</a>
+        <a href="../../page/welcome.php">Cancel</a>
       </div>
   <?php if($error) :?>
     <h3><?php echo $error;?> </h3>
