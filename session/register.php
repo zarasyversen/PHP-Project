@@ -6,7 +6,7 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // Check no user is logged in
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-  header("location: ../page/welcome.php");
+  header("location: /page/welcome.php");
   exit;
 }
 
@@ -94,7 +94,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       // Attempt to execute statement 
       if(mysqli_stmt_execute($statement)){
         // Redirect to login
-        header("location: login.php");
+        header("location: /index.php");
       } else {
         echo "Something went wrong!";
       }

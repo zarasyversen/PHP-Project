@@ -16,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($new_password)){
         $new_password_err = "Please enter the new password.";
     } elseif(strlen($new_password) < 6) {
-        $new_password_err = "Password must have atleast 6 characters.";
+        $new_password_err = "Password must have at least 6 characters.";
     } elseif(empty($confirm_password)) {
         $confirm_password_err = "Please confirm the password.";
     } elseif($new_password != $confirm_password) {
@@ -35,16 +35,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             
             // Set parameters
             $param_password = password_hash($new_password, PASSWORD_DEFAULT);
-            $param_id = $_SESSION["id"];
+            $param_id = $_SESSION["user_id"];
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($statement)){
-                // Password updated successfully. Destroy the session, and redirect to login page
+                // Password updated successfully. Destroy the session and redirect
                 session_destroy();
-                header("location: login.php");
+                header("location: /index.php");
                 exit();
             } else{
-                echo "Oops! Something went wrong. Please try again later.";
+                 setErrorMessage('Sorry. Something went wrong, please try again.');
             }
         }
         

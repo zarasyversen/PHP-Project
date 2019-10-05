@@ -5,7 +5,7 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // Session is set and is true ????
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-  header("location: ../page/welcome.php");
+  header("location: /page/welcome.php");
   exit;
 }
 
@@ -65,7 +65,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
               $_SESSION["username"] = $param_username;
               
               // Redirect user to welcome page
-              header("location: ../page/welcome.php");
+              header("location: /page/welcome.php");
             } else {
               // Password is incorrect
               $password_err = "The password you entered was not valid.";
