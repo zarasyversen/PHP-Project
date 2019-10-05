@@ -15,11 +15,11 @@ if (isset($_GET["id"]) && canEditPost($connection, $_GET['id'])){
       setErrorMessage('Sorry. Something went wrong, please try again.');
     }
 
-    header("location: ../../page/welcome.php");
+    header("location: /page/welcome.php");
   
 } else {
   // Set a session message and redirect to welcome
   setErrorMessage('Sorry, you are not allowed to edit that post.');
-  header("location: ../../page/welcome.php");
+  header("location: /page/welcome.php");
 }
 

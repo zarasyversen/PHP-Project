@@ -22,7 +22,7 @@ $userId = intval($_GET['id']);
 $hasAvatar = hasUserAvatar($connection, $userId);
 
 $pageTitle = 'Update Avatar';
-include('../../page/header.php');?>
+include(BASE . '/page/header.php');?>
 <div class="wrapper page-2column">
   <header class="page-header">
     <h1>Update Avatar</h1>
@@ -41,7 +41,7 @@ include('../../page/header.php');?>
       <button type="submit" class="btn btn--primary" name="submit">Upload</button>
     </form>
     <button type="button" class="btn btn--primary delete js-delete-avatar">Delete Avatar</button>
-    <a href="../profile.php?id=<?php echo $userId;?>">Cancel</a>
+    <a href="/profile.php?id=<?php echo $userId;?>">Cancel</a>
   </main>
 </div>
 <script>

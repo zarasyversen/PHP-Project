@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       if(mysqli_stmt_execute($statement)){
         // Set a success message and redirect to welcome
         setSuccessMessage('Successfully posted your message');
-        header("location: ../../page/welcome.php");
+        header("location: /page/welcome.php");
 
       } else {
          setErrorMessage('Something went wrong, please try again later.');
