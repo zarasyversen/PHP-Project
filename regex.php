@@ -3,6 +3,7 @@ $message = 'Hej jag _heter_ Zara';
 $message2 = "## Hej
  *jag _heter_ Zara* 
 ###### ey
+## Riccardo is the BEST 
 d";
 
 //
@@ -20,20 +21,20 @@ function boldText($string) {
 }
 
 //
-// # Hej
+// # Hej -> ###### Hej
 //
 function heading($string) {
   preg_match_all('/^(#{1,6})\s(\w+)/m', $string, $matches);
+  list($markdown, $hashes, $heading) = $matches;
 
-  print_r($matches);
-  exit;
-  list($match, $split) = $matches;
-  list($title, $hashes) = $split;
-  $headingLevel = $hashes-1;
+  foreach ($markdown as $key => $value) {
 
+    $headingLevel = strlen($hashes[$key]);
 
+    $string = preg_replace('/' .$value. '/', '<h' .$headingLevel. '>' .$heading[$key]. '</h' .$headingLevel. '>', $string);
+  }
 
-  return '<h' . $headingLevel .'>' . $title . '</h' . $headingLevel . '>' ;
+  return $string;
 }
 
 
@@ -54,10 +55,10 @@ function heading($string) {
 
 function render($string) {
 
-  $regexMatches = array(
-    'bold' => '/\*([^\*]+)\*/',
-    'italic' => '/\_([^\*]+)\_/i'
-  );
+  // $regexMatches = array(
+  //   'bold' => '/\*([^\*]+)\*/',
+  //   'italic' => '/\_([^\*]+)\_/i'
+  // );
 
   // var_dump($regexMatches);
 
