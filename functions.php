@@ -275,3 +275,7 @@ function getIsAdmin($connection, $userId) {
 
 }
 
+function getUserId() {
+  return $_SESSION["user_id"];
+}
+
