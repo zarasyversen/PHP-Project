@@ -4,6 +4,9 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 ?>
 <nav class="menu">
   <ul class="menu__list">
+    <li class="menu__item menu__item--indicator">
+       <span>>></span>
+    </li>
     <li class="menu__item">
       <a href="/user/profile.php?id=<?php echo getUserId();?>" class="menu__title">My Profile</a>
     </li>
@@ -18,3 +21,4 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
     </li>
   </ul>
 </nav>
+

@@ -50,6 +50,10 @@ header {
 
 .menu {
   background-color: var(--turq);
+  white-space: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar
 }
 
 .menu__list {
@@ -61,9 +65,37 @@ header {
 
 .menu__item {
   padding: var(--padding-base) 0;
+  margin: 0 0 0 var(--padding-base);
 }
 
+.menu__item:last-child {
+  margin: 0 var(--padding-base);
+}
 
+.menu__item a {
+  color: var(--off-white);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.menu__item a:visited {
+   color: var(--off-white);
+}
+
+.menu__item a:hover {
+  text-decoration: underline;
+}
+
+.menu__item--indicator {
+  color: var(--off-white);
+}
+
+/* Only Show on Mobile*/
+@media(min-width: 500px) {
+  .menu__item--indicator {
+    display: none;
+  }
+}
 
 .wrapper {
   width: 100%;
