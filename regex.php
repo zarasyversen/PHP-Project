@@ -1,10 +1,4 @@
 <?php
-$message = "## Hej
- *jag _heter_ Zara* 
-###### ey
-## Riccardo is the BEST 
-Hej there  this is my link [My Project](https://github.com/zarasyversen/PHP-Project)";
-
 //
 // _hej_
 //
@@ -69,8 +63,61 @@ function links($string) {
 
 function renderMarkDown($string) {
 
+  $functions = array(
+    'links' => function($string) {
+      $regex = '/\[([\w\s\d]+)\]\((.+)\)/';
+      preg_match_all($regex, $string, $matches);
 
+      list($fullLink, $title, $url) = $matches;
+
+      foreach ($fullLink as $key => $value) {
+
+        $string = str_replace(
+          $value, 
+          '<a href="' .$url[$key]. '" title="' .$title[$key]. '">' .$title[$key]. '</a>', 
+          $string
+        );
+      }
+      return $string;
+    },
+    'heading' => function($string) {
+      preg_match_all('/^(#{1,6})\s(.+)/m', $string, $matches);
+      list($markdown, $hashes, $heading) = $matches;
+
+      foreach ($markdown as $key => $value) {
+
+        $headingLevel = strlen($hashes[$key]);
+
+        $string = str_replace(
+          $value, 
+          '<h' .$headingLevel. '>' .$heading[$key]. '</h' .$headingLevel. '>', 
+          $string
+        );
+      }
+      return $string;
+    },
+    'boldText' => function($string) {
+      return preg_replace('/\*([^\*]+)\*/', '<strong>$1</strong>', $string);
+    },
+    'empatiseText' => function($string) {
+      return preg_replace('/\_([^\*]+)\_/i', '<em>$1</em>', $string);
+    }
+
+  );
+
+  // Wish I could do something like this? 
+  // $functions = array(
+  //   'links' => links($string),
+  //   'heading' => heading($string),
+  //   'boldText' => boldText($string),
+  //   'empatiseText' => empatiseText($string)
+  // );
+
+  foreach($functions as $function) {
+    $string = $function($string);
+  }
+
+  return $string;
 }
 
-echo renderMarkDown($message);
 
