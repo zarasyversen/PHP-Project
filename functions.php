@@ -327,14 +327,6 @@ function renderMarkDown($string) {
 
   );
 
-  // Wish I could do something like this? 
-  // $functions = array(
-  //   'links' => links($string),
-  //   'heading' => heading($string),
-  //   'boldText' => boldText($string),
-  //   'empatiseText' => empatiseText($string)
-  // );
-
   foreach($functions as $function) {
     $string = $function($string);
   }
