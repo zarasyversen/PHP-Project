@@ -1,9 +1,14 @@
 <?php
 require_once("helper.php");
 
+
 //
-// Routing 
+// ????????
+// Where ????
 //
+$markdown = new Markdown();
+
+
 
 function setMessage($type, $message) {
   $sessionMessage = [
@@ -196,7 +201,7 @@ function getPost($connection, $postId){
 function getAllUserPosts($connection, $userId) {
   if (is_numeric($userId)) {
 
-    $sql = "SELECT * FROM posts WHERE user_id =" . mysqli_real_escape_string($connection, $userId);
+    $sql = "SELECT * FROM posts WHERE user_id =" . mysqli_real_escape_string($connection, $userId). " ORDER BY created_at DESC";
 
     if ($result = mysqli_query($connection, $sql)) {
 
