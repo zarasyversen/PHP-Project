@@ -66,7 +66,7 @@ class Markdown {
   //
   // This function can not be static because I need $this
   //
-  public function renderMarkDown($string) {
+  public function render($string) {
 
     $functions = array(
       'links',

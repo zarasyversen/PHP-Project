@@ -42,8 +42,8 @@ img {
  max-width: 100%; 
 }
 
-header {
-   position: -webkit-sticky; /* Safari */
+.main-header {
+  position: -webkit-sticky; /* Safari */
   position: sticky;
   top: 0;
 }
