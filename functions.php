@@ -1,15 +1,6 @@
 <?php
 require_once("helper.php");
 
-
-//
-// ????????
-// Where ????
-//
-$markdown = new Markdown();
-
-
-
 function setMessage($type, $message) {
   $sessionMessage = [
     'type' => $type, 
@@ -163,6 +154,10 @@ function hasUserAvatar($connection, $userId) {
   return false;
 }
 
+//
+// Necessary for website
+// Business stuff logic
+//
 function getPost($connection, $postId){
   if (is_numeric($postId)) {
 

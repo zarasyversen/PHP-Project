@@ -15,7 +15,7 @@ function getPosts($connection) {
 
         // Create a post array with keys and the post info
         $post = [
-          'id' => $row['id'], 
+          'id' => $row['id'],
           'user_id' => $row['user_id'], 
           'title' => $row['title'], 
           'message' => $row['message'],
@@ -45,7 +45,7 @@ function getPosts($connection) {
             <header class="post__header">
               <h2 class="post__title"><?php echo $post['title']; ?></h2>
             </header>
-            <p class="post__message"><?php echo $markdown->render($post['message']); ?></p>
+            <p class="post__message"><?php echo Helper\Markdown::render($post['message']); ?></p>
             <footer class="post__footer">
               <p class="post__details">
                 <?php if($post['updated']):?>

@@ -1,10 +1,8 @@
 <?php 
 
-class Markdown {
+namespace Helper;
 
-  public static function hello() {
-    return 'hello';
-  }
+class Markdown {
 
   //
   // _hej_
@@ -63,10 +61,7 @@ class Markdown {
     
   }
 
-  //
-  // This function can not be static because I need $this
-  //
-  public function render($string) {
+  public static function render($string) {
 
     $functions = array(
       'links',
@@ -76,7 +71,7 @@ class Markdown {
     );
 
     foreach($functions as $function) {
-      $string = $this->$function($string);
+      $string = self::$function($string);
     }
 
     return $string;
@@ -84,3 +79,4 @@ class Markdown {
 
 
 }
+
