@@ -58,9 +58,11 @@ class Markdown {
     }
 
     return $string;
-    
   }
 
+  //
+  // Render Markdown
+  //
   public static function render($string) {
 
     $functions = array(
@@ -76,7 +78,5 @@ class Markdown {
 
     return $string;
   }
-
-
 }
 
