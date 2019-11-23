@@ -2,9 +2,9 @@
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // Check if User exits
-if(!isset($_GET['id']) || !getUser($connection, intval($_GET['id']))) {
+if (!isset($_GET['id']) || !getUser($connection, intval($_GET['id']))) {
   // Set a session message and redirect to welcome
-  setErrorMessage('Sorry, that user does not exist.');
+  Helper\Session::setErrorMessage('Sorry, that user does not exist.');
   header("location: /page/welcome.php");
 }
 
@@ -15,7 +15,6 @@ $createdBy = $user['created'];
 $isAdmin = $user['is_admin'];
 $canEdit = canEditUser($connection, $userId);
 $hasAvatar = hasUserAvatar($connection, $userId);
-
 
 $pageTitle = $username;
 include(BASE . '/page/header.php');?>

@@ -2,12 +2,12 @@
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // Check if User exits
-if(!isset($_GET['id']) || !getUser($connection, intval($_GET['id']))) {
-  setErrorMessage('Sorry, that user does not exist.');
+if (!isset($_GET['id']) || !getUser($connection, intval($_GET['id']))) {
+  Helper\Session::setErrorMessage('Sorry, that user does not exist.');
   header("location: /page/welcome.php");
 } elseif (!canEditUser($connection, intval($_GET['id']))) {
   // Check if User can edit
-  setErrorMessage('Sorry, you are not allowed to edit this profile.');
+  Helper\Session::setErrorMessage('Sorry, you are not allowed to edit this profile.');
   header("location: /user/profile.php?id=" . intval($_GET['id']));
 }
 
@@ -17,7 +17,6 @@ $targetDir = BASE . "/images/user/" . $userId . "/avatar/";
 $fileName = $timestamp . "_" . basename($_FILES["file"]["name"]);
 $targetFilePath = $targetDir . $fileName ;
 $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
-
 
 
 if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
@@ -62,29 +61,29 @@ if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
             WHERE id =" . (int) $userId;
 
           if (mysqli_query($connection, $sql)) {
-            setSuccessMessage('Successfully uploaded your image.');
+            Helper\Session::setSuccessMessage('Successfully uploaded your image.');
           } else {
-            setErrorMessage('File upload failed, please try again.');
+            Helper\Session::setErrorMessage('File upload failed, please try again.');
           }
 
         } else {
-           setErrorMessage('Sorry, there was an error uploading your file.');
+          Helper\Session::setErrorMessage('Sorry, there was an error uploading your file.');
         }
 
       } else {
-        setErrorMessage('Sorry, Maximum Width is 200px');
+        Helper\Session::setErrorMessage('Sorry, Maximum Width is 200px');
       }
 
     } else {
-     setErrorMessage('Sorry, Maximum file size is 80kb.');
+     Helper\Session::setErrorMessage('Sorry, Maximum file size is 80kb.');
     }
 
   } else {
-    setErrorMessage('Sorry, only JPG, JPEG, PNG & GIF files are allowed to upload.');
+    Helper\Session::setErrorMessage('Sorry, only JPG, JPEG, PNG & GIF files are allowed to upload.');
   }
 
 } else {
-  setErrorMessage('Please select a file to upload.');
+  Helper\Session::setErrorMessage('Please select a file to upload.');
 }
 
 header('Location: /user/profile.php?id=' . $userId);

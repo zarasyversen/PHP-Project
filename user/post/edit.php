@@ -7,7 +7,7 @@ $titleOk = $messageOk = $confirmDeletePost = false;
 
 // Check if user can edit
 if(!isset($_GET['id']) || !canEditPost($connection, $_GET['id'])) {
-  setErrorMessage('Sorry, you are not allowed to edit that post.');
+  Helper\Session::setErrorMessage('Sorry, you are not allowed to edit that post.');
   header("location: /welcome.php");
 }
 
@@ -46,11 +46,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             WHERE id =" . (int) $postId;
 
     if (mysqli_query($connection, $sql)) {
-      setSuccessMessage('Successfully edited your message.');
+      Helper\Session::setSuccessMessage('Successfully edited your message.');
       header("location: /page/welcome.php");
 
     } else {
-      setErrorMessage('Something went wrong, please try again later.');
+      Helper\Session::setErrorMessage('Something went wrong, please try again later.');
     }
   }
 
@@ -95,13 +95,10 @@ include(BASE .'/page/header.php');?>
         </div>
     </form>
 
-      <div class="post__actions">
-        <button type="button" class="btn btn--primary delete js-delete-post">Delete Post</button>
-        <a href="/page/welcome.php">Cancel</a>
-      </div>
-  <?php if($error) :?>
-    <h3><?php echo $error;?> </h3>
-  <?php endif;?>
+    <div class="post__actions">
+      <button type="button" class="btn btn--primary delete js-delete-post">Delete Post</button>
+      <a href="/page/welcome.php">Cancel</a>
+    </div>
 </div>
 <script>
   var deleteAction = document.querySelector('.js-delete-post');
