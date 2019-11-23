@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $param_password = password_hash($new_password, PASSWORD_DEFAULT);
             $param_id = $_SESSION["user_id"];
             
-            // Attempt to execute he prepared statement
+            // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($statement)) {
                 // Password updated successfully. Destroy the session and redirect
                 session_destroy();

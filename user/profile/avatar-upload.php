@@ -2,7 +2,7 @@
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // Check if User exits
-if(!isset($_GET['id']) || !getUser($connection, intval($_GET['id']))) {
+if (!isset($_GET['id']) || !getUser($connection, intval($_GET['id']))) {
   Helper\Session::setErrorMessage('Sorry, that user does not exist.');
   header("location: /page/welcome.php");
 } elseif (!canEditUser($connection, intval($_GET['id']))) {
@@ -17,7 +17,6 @@ $targetDir = BASE . "/images/user/" . $userId . "/avatar/";
 $fileName = $timestamp . "_" . basename($_FILES["file"]["name"]);
 $targetFilePath = $targetDir . $fileName ;
 $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
-
 
 
 if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
