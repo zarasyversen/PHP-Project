@@ -1,6 +1,6 @@
 <?php 
-require_once($_SERVER["DOCUMENT_ROOT"] . "/functions.php");
-$sessionMessage = showMessage();
+
+$sessionMessage = Helper\Session::showMessage();
 ?>
 <?php if($sessionMessage) :
   foreach ($sessionMessage as $notification) :

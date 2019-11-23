@@ -6,27 +6,27 @@ $title_err = $message_err = $error = '';
 $titleOk = $messageOk = false;
 
 // Process data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $title = trim($_POST["title"]);
   $message = trim($_POST["message"]);
 
-  if(empty($title)){
+  if (empty($title)) {
     $title_err = "Please enter a title";
   } else {
     $titleOk = true;
   }
 
-  if(empty($message)){
+  if (empty($message)) {
     $message_err = "Please enter a message";
   } else {
     $messageOk = true;
   }
 
-  if($titleOk && $messageOk){
+  if ($titleOk && $messageOk) {
     // Prepare an INSERT statement 
     $sql = "INSERT INTO posts (user_id, title, message) VALUES (?, ?, ?)";
 
-    if($statement = mysqli_prepare($connection, $sql)){
+    if ($statement = mysqli_prepare($connection, $sql)) {
 
       // Bind variables to prepared statement 
       mysqli_stmt_bind_param($statement, "iss", $param_userid, $param_title, $param_message);
@@ -37,13 +37,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       $param_message = $message;
 
       // Attempt to execute statement 
-      if(mysqli_stmt_execute($statement)){
+      if (mysqli_stmt_execute($statement)) {
         // Set a success message and redirect to welcome
-        setSuccessMessage('Successfully posted your message');
+        Helper\Session::setSuccessMessage('Successfully posted your message');
         header("location: /page/welcome.php");
 
       } else {
-         setErrorMessage('Something went wrong, please try again later.');
+        Helper\Session::setErrorMessage('Something went wrong, please try again later.');
       }
     }
 

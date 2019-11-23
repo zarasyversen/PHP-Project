@@ -7,29 +7,29 @@ $new_password_err = $confirm_password_err = "";
 $newPasswordOk = false;
  
 // Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     $new_password = trim($_POST["new_password"]);
     $confirm_password = trim($_POST["confirm_password"]);
 
-    if(empty($new_password)){
+    if (empty($new_password)) {
         $new_password_err = "Please enter the new password.";
-    } elseif(strlen($new_password) < 6) {
+    } elseif (strlen($new_password) < 6) {
         $new_password_err = "Password must have at least 6 characters.";
-    } elseif(empty($confirm_password)) {
+    } elseif (empty($confirm_password)) {
         $confirm_password_err = "Please confirm the password.";
-    } elseif($new_password != $confirm_password) {
+    } elseif ($new_password != $confirm_password) {
         $confirm_password_err = "Password did not match.";
     } else {
         $newPasswordOk = true;
     }
 
-    if($newPasswordOk === true){
+    if ($newPasswordOk === true) {
         // Prepare an update statement
         $sql = "UPDATE users SET password = ? WHERE id = ?";
         
-        if($statement = mysqli_prepare($connection, $sql)){
+        if ($statement = mysqli_prepare($connection, $sql)) {
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($statement, "si", $param_password, $param_id);
             
@@ -37,14 +37,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_password = password_hash($new_password, PASSWORD_DEFAULT);
             $param_id = $_SESSION["user_id"];
             
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($statement)){
+            // Attempt to execute he prepared statement
+            if (mysqli_stmt_execute($statement)) {
                 // Password updated successfully. Destroy the session and redirect
                 session_destroy();
                 header("location: /index.php");
                 exit();
-            } else{
-                 setErrorMessage('Sorry. Something went wrong, please try again.');
+            } else {
+                Helper\Session::setErrorMessage('Sorry. Something went wrong, please try again.');
             }
         }
         

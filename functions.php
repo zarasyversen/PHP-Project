@@ -1,39 +1,6 @@
 <?php
 require_once("helper.php");
 
-function setMessage($type, $message) {
-  $sessionMessage = [
-    'type' => $type, 
-    'msg' => $message
-  ];
-  $_SESSION["session_message"][] = $sessionMessage;
-}
-
-function setSuccessMessage($message) {
-  $type = 'success';
-  setMessage($type, $message);
-}
-
-function setErrorMessage($message) {
-  $type = 'error';
-  setMessage($type, $message);
-}
-
-// Show Message if it is Set
-function showMessage() {
- if(isset($_SESSION["session_message"])) {
-  
-  // store it in var before you delete it
-  $sessionMessage = $_SESSION['session_message'];
-
-  // remove it
-  unset($_SESSION['session_message']);
-
-  // return message 
-  return $sessionMessage;
- }
-}
-
 function getUser($connection, $userId) {
   if (is_numeric($userId)) {
 

@@ -9,17 +9,17 @@ if (isset($_GET["id"]) && canEditPost($connection, $_GET['id'])){
 
     if($result = mysqli_query($connection, $sql)) {
       // Set a session message and redirect to welcome
-      setSuccessMessage('Successfully deleted your message.');
+      Helper\Session::setSuccessMessage('Successfully deleted your message.');
     } else {
       // Set a session message and redirect to welcome
-      setErrorMessage('Sorry. Something went wrong, please try again.');
+      Helper\Session::setErrorMessage('Sorry. Something went wrong, please try again.');
     }
 
     header("location: /page/welcome.php");
   
 } else {
   // Set a session message and redirect to welcome
-  setErrorMessage('Sorry, you are not allowed to edit that post.');
+  Helper\Session::setErrorMessage('Sorry, you are not allowed to edit that post.');
   header("location: /page/welcome.php");
 }
 
