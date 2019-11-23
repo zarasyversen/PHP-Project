@@ -10,7 +10,7 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
     <link rel="stylesheet" href="/assets/main.css">
 </head>
 <body>
-  <header>
+  <header class="main-header">
     <?php if(!isset($public_access)) :?>
       <?php include(BASE . '/page/navigation.php');?>
     <?php endif; ?>

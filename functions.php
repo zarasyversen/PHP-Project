@@ -1,10 +1,6 @@
 <?php
 require_once("helper.php");
 
-//
-// Routing 
-//
-
 function setMessage($type, $message) {
   $sessionMessage = [
     'type' => $type, 
@@ -158,6 +154,10 @@ function hasUserAvatar($connection, $userId) {
   return false;
 }
 
+//
+// Necessary for website
+// Business stuff logic
+//
 function getPost($connection, $postId){
   if (is_numeric($postId)) {
 
@@ -196,7 +196,7 @@ function getPost($connection, $postId){
 function getAllUserPosts($connection, $userId) {
   if (is_numeric($userId)) {
 
-    $sql = "SELECT * FROM posts WHERE user_id =" . mysqli_real_escape_string($connection, $userId);
+    $sql = "SELECT * FROM posts WHERE user_id =" . mysqli_real_escape_string($connection, $userId). " ORDER BY created_at DESC";
 
     if ($result = mysqli_query($connection, $sql)) {
 

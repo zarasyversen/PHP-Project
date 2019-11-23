@@ -55,7 +55,7 @@ include(BASE . '/page/header.php');?>
                 <header class="post__header">
                   <h2 class="post__title"><?php echo $post['title']; ?></h2>
                 </header>
-                <p class="post__message"><?php echo $post['message']; ?></p>
+                <p class="post__message"><?php echo Helper\Markdown::render($post['message']); ?></p>
                 <footer class="post__footer">
                   <p class="post__details">
                     <?php if($post['updated']):?>
