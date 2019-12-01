@@ -67,7 +67,7 @@ include(BASE . '/page/header.php');?>
                       <?php echo date_format(new DateTime($date), 'g:ia \o\n l jS F Y'); ?>.
                     </time> 
                     <?php if(canEditPost($connection, $post['id'])) :?>
-                      <a href="user/post/edit.php?id=<?php echo $post['id']; ?>">Edit</a>
+                      <a href="/user/post/edit.php?id=<?php echo $post['id']; ?>">Edit</a>
                     <?php endif;?>
                   </p>
                 </footer>
