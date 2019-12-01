@@ -8,6 +8,13 @@ class Post extends \Helper\Connection {
   public $userId;
   public $postId;
 
+  //
+  // Call getPost on when instantiate
+  //
+  public function __construct($postId) {
+    $this->getPost($postId);
+  }
+
   private function setTitle($new_title) { 
       $this->title = $new_title;  
   }
@@ -49,9 +56,9 @@ class Post extends \Helper\Connection {
   }
   
   //
+  // Get Post to Set Properties
   //
-  //
-  public function getPost($postId){
+  private function getPost($postId){
 
     if (is_numeric($postId)) {
 
@@ -65,15 +72,6 @@ class Post extends \Helper\Connection {
         if (mysqli_num_rows($result) > 0) {
 
           while ($row = mysqli_fetch_array($result)) {
-
-            // Create a post array with keys and the post info
-            // $post = [
-            //   'title' => $row['title'], 
-            //   'message' => $row['message'],
-            //   'created' => $row['created_at'],
-            //   'user_id' => (int)$row['user_id'],
-            //   'id' => (int)$row['id']
-            // ];
 
             $this->setTitle($row['title']);
             $this->setMessage($row['message']);

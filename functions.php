@@ -48,8 +48,7 @@ function canEditPost($connection, $postId) {
   //
   // Get Post 
   // Check it exists and id is valid
-  $post = new Post();
-  $post1 = $post->getPost($postId);
+  $post = new Post($postId);
   if ($post && is_numeric($post->getPostId())) {
     
     // Check if user has posted the post

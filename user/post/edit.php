@@ -12,8 +12,7 @@ if(!isset($_GET['id']) || !canEditPost($connection, $_GET['id'])) {
 }
 
 $postId = $_GET['id'];
-$post = new Post();
-$thisPost = $post->getPost($postId);
+$post = new Post($postId);
 
 //
 // Save New Edited Post 
