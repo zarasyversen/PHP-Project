@@ -4,9 +4,11 @@ class Post extends \Helper\Connection {
 
   public $title;
   public $message;
-  public $date;
+  public $createdDate;
   public $userId;
   public $postId;
+  public $updatedDate;
+  public $posts = [];
 
   //
   // Call getPost on when instantiate
@@ -31,12 +33,20 @@ class Post extends \Helper\Connection {
       return $this->message;
   }
 
-  private function setDate($new_date) { 
-      $this->date = $new_date;  
+  private function setCreatedDate($new_date) { 
+      $this->createdDate = $new_date;  
   }
  
-  public function getDate() {
-      return $this->date;
+  public function getCreatedDate() {
+      return $this->createdDate;
+  }
+
+  private function setUpdatedDate($new_date) { 
+      $this->updatedDate = $new_date;  
+  }
+ 
+  public function getUpdatedDate() {
+      return $this->updatedDate;
   }
 
   private function setUserId($new_user_id) { 
@@ -75,7 +85,7 @@ class Post extends \Helper\Connection {
 
             $this->setTitle($row['title']);
             $this->setMessage($row['message']);
-            $this->setDate($row['created_at']);
+            $this->setCreatedDate($row['created_at']);
             $this->setUserId((int)$row['user_id']);
             $this->setPostId((int)$row['id']);
 
