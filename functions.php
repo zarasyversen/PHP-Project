@@ -52,7 +52,7 @@ function canEditPost($connection, $postId) {
   if ($post && is_numeric($post->getPostId())) {
     
     // Check if user has posted the post
-    if ($_SESSION["user_id"] === $post->getPostId()) {
+    if ($_SESSION["user_id"] === $post->getUserId()) {
       return true;
     }
 
