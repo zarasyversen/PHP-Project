@@ -86,9 +86,11 @@ class Post extends \Helper\Connection {
             $this->setTitle($row['title']);
             $this->setMessage($row['message']);
             $this->setCreatedDate($row['created_at']);
+            $this->setUpdatedDate($row['updated_at']);
             $this->setUserId((int)$row['user_id']);
             $this->setPostId((int)$row['id']);
 
+            // what do I do here 
             return $this;
           }
 
@@ -99,6 +101,28 @@ class Post extends \Helper\Connection {
     } 
 
     return false;
+  }
+
+  public function getDate() {
+    $date = $this->getUpdatedDate() ? $this->getUpdatedDate() : $this->getCreatedDate();
+    return date($date);
+  }
+
+  public function getFormattedDate($date) {
+    return date_format(new DateTime($date), 'g:ia \o\n l jS F Y');
+  }
+
+  public function getDateLabel() {
+
+    if ($this->getUpdatedDate()) {
+      return 'Updated';
+    }
+
+    return 'Posted';
+  }
+
+  public function getFormattedContent() {
+    return Helper\Markdown::render($this->getMessage());
   }
 
 }

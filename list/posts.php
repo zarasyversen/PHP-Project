@@ -14,17 +14,12 @@ $postList = $posts->getAllPostsId();
             <header class="post__header">
               <h2 class="post__title"><?php echo $post->getTitle(); ?></h2>
             </header>
-            <p class="post__message"><?php echo Helper\Markdown::render($post->getMessage()); ?></p>
+            <p class="post__message"><?php echo $post->getFormattedContent() ?></p>
             <footer class="post__footer">
               <p class="post__details">
-                <?php if($post->getUpdatedDate()):?>
-                    Updated on
-                  <?php else: ?>
-                    Posted on
-                <?php endif;?>
-                <?php $date = date($post->getUpdatedDate()) ? date($post->getUpdatedDate()) : date($post->getCreatedDate());?>
-                <time datetime="<?php echo $date; ?>">
-                  <?php echo date_format(new DateTime($date), 'g:ia \o\n l jS F Y'); ?>
+                <?php echo $post->getDateLabel();?>
+                <time datetime="<?php echo $post->getDate() ?>">
+                  <?php echo $post->getFormattedDate($post->getDate()); ?>
                 </time>
                 by 
                 <?php $userName = getUsername($connection, $post->getUserId()); ?>
