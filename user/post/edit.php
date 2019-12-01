@@ -15,9 +15,6 @@ $postId = $_GET['id'];
 $post = new Post();
 $thisPost = $post->getPost($postId);
 
-var_dump($post->getTitle());
-die('hej');
-
 //
 // Save New Edited Post 
 // 
@@ -65,7 +62,7 @@ $pageTitle = 'Edit Post';
 include(BASE .'/page/header.php');?>
 <div class="wrapper">
   <h1>Edit your post</h1>
-    <form action="edit.php?id=<?php echo $post->getPostId($thisPost); ?>"
+    <form action="edit.php?id=<?php echo $post->getPostId(); ?>"
       method="post" 
       class="form">
       <div class="form__group<?php echo (!empty($message_err)) ? ' has-error' : ''; ?>">
@@ -75,7 +72,7 @@ include(BASE .'/page/header.php');?>
               name="title" 
               id="title" 
               class="form__input"
-              value="<?php echo $post->getTitle($thisPost) ?>"
+              value="<?php echo $post->getTitle() ?>"
               />
             <p class="form__error">
               <?php echo $title_err; ?>
@@ -89,7 +86,7 @@ include(BASE .'/page/header.php');?>
               class="form__input"
               placeholder="Please enter your message here..."
               rows="5" 
-              cols="33"><?php echo $post->getMessage($thisPost) ?></textarea>
+              cols="33"><?php echo $post->getMessage() ?></textarea>
             <p class="form__error">
               <?php echo $message_err;?>
             </p>
