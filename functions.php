@@ -48,12 +48,12 @@ function canEditPost($connection, $postId) {
   //
   // Get Post 
   // Check it exists and id is valid
-  //
-  $post = getPost($connection, $postId);
-  if ($post && is_numeric($postId)) {
+  $post = new Post();
+  $post1 = $post->getPost($postId);
+  if ($post && is_numeric($post->getPostId())) {
     
     // Check if user has posted the post
-    if ($_SESSION["user_id"] === $post['user_id']) {
+    if ($_SESSION["user_id"] === $post->getPostId()) {
       return true;
     }
 
@@ -119,45 +119,6 @@ function hasUserAvatar($connection, $userId) {
     return false; 
   } 
   return false;
-}
-
-//
-// Necessary for website
-// Business stuff logic
-//
-function getPost($connection, $postId){
-  if (is_numeric($postId)) {
-
-    // Get Post from DB 
-    $sql = "SELECT * FROM posts WHERE id =" . mysqli_real_escape_string($connection, $postId);
-
-    if ($result = mysqli_query($connection, $sql)) {
-
-      if (mysqli_num_rows($result) > 0) {
-
-        while ($row = mysqli_fetch_array($result)) {
-
-          // Create a post array with keys and the post info
-          $post = [
-            'title' => $row['title'], 
-            'message' => $row['message'],
-            'created' => $row['created_at'],
-            'user_id' => (int)$row['user_id'],
-            'id' => (int)$row['id']
-          ];
-
-          // Add each post to posts 
-          return $post;
-        }
-
-      }
-
-    }
-
-  } 
-
-  return false;
-
 }
 
 function getAllUserPosts($connection, $userId) {
