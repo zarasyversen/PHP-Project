@@ -13,7 +13,7 @@ class Post extends \Helper\Connection {
   //
   // Call getPost on when instantiate
   //
-  public function __construct($postId) {
+  public function __construct($postId = false) {
     $this->getPost($postId);
   }
 
@@ -68,7 +68,7 @@ class Post extends \Helper\Connection {
   //
   // Get Post to Set Properties
   //
-  private function getPost($postId){
+  public function getPost($postId = false){
 
     if (is_numeric($postId)) {
 
@@ -102,6 +102,72 @@ class Post extends \Helper\Connection {
 
     return false;
   }
+
+  public function getAllPosts() {
+    // Prepare select statement 
+    $query = "SELECT * FROM posts ORDER BY created_at DESC";
+    $connection = $this->getConnection();
+
+    if ($result = mysqli_query($connection, $query)){
+      // Check if the table has rows 
+      if (mysqli_num_rows($result) > 0) {
+
+        $posts = [];
+
+        while ($row = mysqli_fetch_array($result)) {
+
+          $post = new Post(); 
+          $post->setTitle($row['title']);
+          $post->setMessage($row['message']);
+          $post->setCreatedDate($row['created_at']);
+          $post->setUpdatedDate($row['updated_at']);
+          $post->setUserId((int)$row['user_id']);
+          $post->setPostId((int)$row['id']);
+
+          // Add each post to posts 
+          array_push($posts, $post);
+        }
+
+        return $posts;
+
+      } else {
+        return false;
+      }
+    }
+  }
+
+  public function getAllUserPosts($userId) {
+    if (is_numeric($userId)) {
+
+      $connection = $this->getConnection();
+      $sql = "SELECT * FROM posts WHERE user_id =" . mysqli_real_escape_string($connection, $userId). " ORDER BY created_at DESC";
+
+      if ($result = mysqli_query($connection, $sql)) {
+
+        if (mysqli_num_rows($result) > 0) {
+
+          $posts = [];
+
+          while($row = mysqli_fetch_array($result)) {
+
+            $post = new Post(); 
+            $post->setTitle($row['title']);
+            $post->setMessage($row['message']);
+            $post->setCreatedDate($row['created_at']);
+            $post->setUpdatedDate($row['updated_at']);
+            $post->setUserId((int)$row['user_id']);
+            $post->setPostId((int)$row['id']);
+
+            // Add each post to posts 
+            array_push($posts, $post);
+          }
+
+          return $posts;
+        }
+      }
+    }
+    return false;
+  } 
 
   public function getDate() {
     $date = $this->getUpdatedDate() ? $this->getUpdatedDate() : $this->getCreatedDate();

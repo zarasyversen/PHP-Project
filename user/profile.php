@@ -46,33 +46,12 @@ include(BASE . '/page/header.php');?>
   <main class="page-main">
     <section class="profile__posts">
       <h2>Posts by <?php echo $username; ?></h2>
-      <?php if($posts = getAllUserPosts($connection, $userId)): ?>
+      <?php 
+      $posts = new Post();
+      if($postList = $posts->getAllUserPosts($userId)): ?>
         <ul>
-          <?php foreach($posts as $post):?>
-            <li>
-              <article class="post profile__post">
-                <header class="post__header">
-                  <h2 class="post__title"><?php echo $post['title']; ?></h2>
-                </header>
-                <p class="post__message"><?php echo Helper\Markdown::render($post['message']); ?></p>
-                <footer class="post__footer">
-                  <p class="post__details">
-                    <?php if($post['updated']):?>
-                        Updated on
-                      <?php else: ?>
-                        Posted on
-                    <?php endif;?>
-                    <?php $date = date($post['updated']) ? date($post['updated']) : date($post['created']);?>
-                    <time datetime="<?php echo $date; ?>">
-                      <?php echo date_format(new DateTime($date), 'g:ia \o\n l jS F Y'); ?>.
-                    </time> 
-                    <?php if(canEditPost($connection, $post['id'])) :?>
-                      <a href="/user/post/edit.php?id=<?php echo $post['id']; ?>">Edit</a>
-                    <?php endif;?>
-                  </p>
-                </footer>
-              </article>
-            </li>
+          <?php foreach($postList as $post):?>
+            <?php include(BASE .'/list/post.php');?>
           <?php endforeach; ?>
         </ul>
       <?php else : ?>
