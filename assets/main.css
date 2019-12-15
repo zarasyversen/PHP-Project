@@ -231,7 +231,7 @@ a:focus {
 }
 
 /* Profile */
-.profile__post {
+.profile__posts .post {
   background: var(--light-grey);
 }
 

@@ -48,12 +48,11 @@ function canEditPost($connection, $postId) {
   //
   // Get Post 
   // Check it exists and id is valid
-  //
-  $post = getPost($connection, $postId);
-  if ($post && is_numeric($postId)) {
+  $post = new Post($postId);
+  if ($post && is_numeric($post->getPostId())) {
     
     // Check if user has posted the post
-    if ($_SESSION["user_id"] === $post['user_id']) {
+    if ($_SESSION["user_id"] === $post->getUserId()) {
       return true;
     }
 
@@ -119,45 +118,6 @@ function hasUserAvatar($connection, $userId) {
     return false; 
   } 
   return false;
-}
-
-//
-// Necessary for website
-// Business stuff logic
-//
-function getPost($connection, $postId){
-  if (is_numeric($postId)) {
-
-    // Get Post from DB 
-    $sql = "SELECT * FROM posts WHERE id =" . mysqli_real_escape_string($connection, $postId);
-
-    if ($result = mysqli_query($connection, $sql)) {
-
-      if (mysqli_num_rows($result) > 0) {
-
-        while ($row = mysqli_fetch_array($result)) {
-
-          // Create a post array with keys and the post info
-          $post = [
-            'title' => $row['title'], 
-            'message' => $row['message'],
-            'created' => $row['created_at'],
-            'user_id' => (int)$row['user_id'],
-            'id' => (int)$row['id']
-          ];
-
-          // Add each post to posts 
-          return $post;
-        }
-
-      }
-
-    }
-
-  } 
-
-  return false;
-
 }
 
 function getAllUserPosts($connection, $userId) {
@@ -246,58 +206,4 @@ function getUserId() {
   return $_SESSION["user_id"];
 }
 
-
-//
-// MarkDown for Posts
-//
-function renderMarkDown($string) {
-
-  $functions = array(
-    'links' => function($string) {
-      $regex = '/\[([\w\s\d]+)\]\((.+)\)/';
-      preg_match_all($regex, $string, $matches);
-
-      list($fullLink, $title, $url) = $matches;
-
-      foreach ($fullLink as $key => $value) {
-
-        $string = str_replace(
-          $value, 
-          '<a href="' .$url[$key]. '" title="' .$title[$key]. '">' .$title[$key]. '</a>', 
-          $string
-        );
-      }
-      return $string;
-    },
-    'heading' => function($string) {
-      preg_match_all('/^(#{1,6})\s(.+)/m', $string, $matches);
-      list($markdown, $hashes, $heading) = $matches;
-
-      foreach ($markdown as $key => $value) {
-
-        $headingLevel = strlen($hashes[$key]);
-
-        $string = str_replace(
-          $value, 
-          '<h' .$headingLevel. '>' .$heading[$key]. '</h' .$headingLevel. '>', 
-          $string
-        );
-      }
-      return $string;
-    },
-    'boldText' => function($string) {
-      return preg_replace('/\*([^\*]+)\*/', '<strong>$1</strong>', $string);
-    },
-    'empatiseText' => function($string) {
-      return preg_replace('/\_([^\*]+)\_/i', '<em>$1</em>', $string);
-    }
-
-  );
-
-  foreach($functions as $function) {
-    $string = $function($string);
-  }
-
-  return $string;
-}
 
