@@ -47,7 +47,7 @@ include(BASE . '/page/header.php');?>
     <section class="profile__posts">
       <h2>Posts by <?php echo $username; ?></h2>
       <?php 
-      $posts = new Post();
+      $posts = new PostRepository();
       if($postList = $posts->getAllUserPosts($userId)): ?>
         <ul>
           <?php foreach($postList as $post):?>

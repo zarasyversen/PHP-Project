@@ -1,6 +1,6 @@
 <?php 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
-$posts = new Post();
+$posts = new PostRepository();
 $postList = $posts->getAllPosts();
 ?>
 <?php if($postList): ?>

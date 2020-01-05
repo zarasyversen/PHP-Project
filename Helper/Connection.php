@@ -1,23 +1,36 @@
 <?php 
-
 namespace Helper;
 
+/**
+ * Connection to Database
+ */
 class Connection {
 
+  protected static $connection;
+
   public static function getConnection() {
-    $dbhost = "localhost";
-    $dbusername = "root";
-    $dbpassword = "root";
-    $dbname = "php_project";
+   
+    if (!isset(self::$connection)) {
+      $dbhost = "localhost";
+      $dbusername = "root";
+      $dbpassword = "root";
+      $dbname = "php_project";
 
-    $connection = mysqli_connect($dbhost, $dbusername, $dbpassword, $dbname);
+      //
+      // BUT If I change details / it errors 
+      // It shows before my die, do i want that 
+      //
+      $connection = mysqli_connect($dbhost, $dbusername, $dbpassword, $dbname);
 
-    if ($connection) {
-      return $connection;
-    } else {
-    die('Could not connect');
-   }
+      if ($connection) {
+        self::$connection = $connection;
+      } else {
+        die('Unable to Connect to Database');
+      }
 
+    } 
+   
+   return self::$connection;
   }
   
 }
