@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = mysqli_real_escape_string($connection, $title);
     $message = mysqli_real_escape_string($connection, $message);
 
-    PostRepository::editPost($postId, $title, $message);
+    PostRepository::edit($postId, $title, $message);
   }
 
 }

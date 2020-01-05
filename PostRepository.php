@@ -125,7 +125,10 @@ class PostRepository {
 
   }
 
-  public static function editPost($postId, $title, $message) {
+  /**
+   * Edit Post
+   */
+  public static function edit(int $postId, $title, $message) {
 
     $connection = Helper\Connection::getConnection();
 
@@ -138,10 +141,26 @@ class PostRepository {
     if (mysqli_query($connection, $sql)) {
       Helper\Session::setSuccessMessage('Successfully edited your message.');
       header("location: /page/welcome.php");
-
     } else {
       Helper\Session::setErrorMessage('Something went wrong, please try again later.');
     }
   } 
+
+  /**
+   * Delete Post
+   */
+  public static function delete(int $postId)  {
+
+    $connection = Helper\Connection::getConnection();
+    $sql = "DELETE FROM posts WHERE id =" . $postId;
+
+    if($result = mysqli_query($connection, $sql)) {
+      Helper\Session::setSuccessMessage('Successfully deleted your message.');
+    } else {
+      Helper\Session::setErrorMessage('Sorry. Something went wrong, please try again.');
+    }
+
+    header("location: /page/welcome.php");
+  }
 
 }
