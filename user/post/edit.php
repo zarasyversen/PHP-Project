@@ -12,8 +12,7 @@ if(!isset($_GET['id']) || !canEditPost($connection, $_GET['id'])) {
 }
 
 $postId = $_GET['id'];
-$post = new PostRepository();
-$post = $post->getPost($postId);
+$post = PostRepository::getPost($postId);
 
 //
 // Save New Edited Post 

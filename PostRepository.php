@@ -12,7 +12,7 @@ class PostRepository {
    * Get Single Post
    * Returns Object {}
    */
-  public function getPost(int $postId) : Post {
+  public static function getPost(int $postId) : Post {
 
     if (array_key_exists($postId, self::$postList)) {
       return self::$postList[$postId];
