@@ -17,44 +17,30 @@ $post = PostRepository::getPost($postId);
 //
 // Save New Edited Post 
 // 
-if($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $title = trim($_POST["title"]);
   $message = trim($_POST["message"]);
 
-  if(empty($title)){
+  if (empty($title)) {
     $title_err = "Please enter a title";
   } else {
     $titleOk = true;
   }
 
-  if(empty($message)){
+  if (empty($message)) {
     $message_err = "Please enter a message";
   } else {
     $messageOk = true;
   }
 
-  if($titleOk && $messageOk){
+  if ($titleOk && $messageOk) {
 
-    /// Stop sql injection 
     $title = mysqli_real_escape_string($connection, $title);
     $message = mysqli_real_escape_string($connection, $message);
 
-    $sql = "UPDATE posts 
-            SET title = '$title', 
-                message = '$message',
-                updated_at = now()
-            WHERE id =" . (int) $postId;
-
-    if (mysqli_query($connection, $sql)) {
-      Helper\Session::setSuccessMessage('Successfully edited your message.');
-      header("location: /page/welcome.php");
-
-    } else {
-      Helper\Session::setErrorMessage('Something went wrong, please try again later.');
-    }
+    PostRepository::editPost($postId, $title, $message);
   }
 
-  mysqli_close($connection);
 }
 
 $pageTitle = 'Edit Post';

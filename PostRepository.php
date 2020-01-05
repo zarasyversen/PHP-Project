@@ -125,4 +125,23 @@ class PostRepository {
 
   }
 
+  public static function editPost($postId, $title, $message) {
+
+    $connection = Helper\Connection::getConnection();
+
+    $sql = "UPDATE posts 
+            SET title = '$title', 
+                message = '$message',
+                updated_at = now()
+            WHERE id =" . (int) $postId;
+
+    if (mysqli_query($connection, $sql)) {
+      Helper\Session::setSuccessMessage('Successfully edited your message.');
+      header("location: /page/welcome.php");
+
+    } else {
+      Helper\Session::setErrorMessage('Something went wrong, please try again later.');
+    }
+  } 
+
 }
