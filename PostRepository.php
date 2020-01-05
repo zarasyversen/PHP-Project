@@ -6,41 +6,46 @@
  */
 class PostRepository {
 
+  protected static $postList = [];
+
   /**
    * Get Single Post
    * Returns Object {}
    */
-  public function getPost($postId){
+  public function getPost(int $postId) : Post {
 
-    if (is_numeric($postId)) {
+    if (array_key_exists($postId, self::$postList)) {
+      return self::$postList[$postId];
+    }
 
-      $connection = Helper\Connection::getConnection();
-      $sql = "SELECT * FROM posts WHERE id =" . mysqli_real_escape_string($connection, $postId);
+    $connection = Helper\Connection::getConnection();
+    $sql = "SELECT * FROM posts WHERE id = " . (int) $postId;
 
-      if ($result = mysqli_query($connection, $sql)) {
+    if ($result = mysqli_query($connection, $sql)) {
 
-        if (mysqli_num_rows($result) > 0) {
+      if (mysqli_num_rows($result) > 0) {
 
-          while ($row = mysqli_fetch_array($result)) {
+        while ($row = mysqli_fetch_array($result)) {
 
-            $post = new Post(); 
-            $post->setTitle($row['title']);
-            $post->setMessage($row['message']);
-            $post->setCreatedDate($row['created_at']);
-            $post->setUpdatedDate($row['updated_at']);
-            $post->setUserId((int)$row['user_id']);
-            $post->setPostId((int)$row['id']);
+          $post = new Post(); 
+          $post->setTitle($row['title']);
+          $post->setMessage($row['message']);
+          $post->setCreatedDate($row['created_at']);
+          $post->setUpdatedDate($row['updated_at']);
+          $post->setUserId((int)$row['user_id']);
+          $post->setPostId((int)$row['id']);
 
-            return $post;
-          }
+          self::$postList[$post->getPostId()] = $post;
 
+          return $post;
         }
 
       }
 
-    } 
+    }
 
-    return false;
+    return (object)[];
+    
   }
 
   /**
@@ -68,17 +73,15 @@ class PostRepository {
           $post->setUserId((int)$row['user_id']);
           $post->setPostId((int)$row['id']);
 
-          array_push($posts, $post);
+          $posts[] = $post;
         }
 
         return $posts;
-
-      } else {
-        return false;
       }
 
     }
 
+    return [];
   }
 
   /**
@@ -112,13 +115,13 @@ class PostRepository {
           }
 
           return $posts;
-        } else {
-          return false;
-        }
+        } 
 
       }
 
     }
+
+    return [];
 
   }
 
