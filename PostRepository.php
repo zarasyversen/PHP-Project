@@ -14,6 +14,9 @@ class PostRepository {
    */
   public static function getPost(int $postId) : Post {
 
+    //
+    // I dont think its working? 
+    //
     if (array_key_exists($postId, self::$postList)) {
       return self::$postList[$postId];
     }
@@ -155,7 +158,16 @@ class PostRepository {
     $sql = "DELETE FROM posts WHERE id =" . $postId;
 
     if($result = mysqli_query($connection, $sql)) {
+
+      //
+      // Is this working?
+      //
+      if (array_key_exists($postId, self::$postList)) {
+        unset(self::$postList[$postId]);
+      }
+
       Helper\Session::setSuccessMessage('Successfully deleted your message.');
+
     } else {
       Helper\Session::setErrorMessage('Sorry. Something went wrong, please try again.');
     }
