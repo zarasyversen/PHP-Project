@@ -1,8 +1,21 @@
 <?php 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
-if (isset($_GET["id"]) && canEditPost($connection, $_GET['id'])){
+$postId = (int)$_GET['id'];
 
+try {
+ $post = PostRepository::getPost($postId);
+} catch (\Exceptions\NotFound $e) {
+  Helper\Session::setErrorMessage('Sorry, that post does not exist.');
+  header("location: /page/welcome.php");
+} 
+
+try {
+  $post->isEditable();
+
+  //
+  // If this is not in the try I can delete anything
+  // 
   if (PostRepository::delete($_GET["id"])) {
     Helper\Session::setSuccessMessage('Successfully deleted your message.');
   } else {
@@ -11,8 +24,7 @@ if (isset($_GET["id"]) && canEditPost($connection, $_GET['id'])){
 
   header("location: /page/welcome.php");
 
-} else {
-  // Set a session message and redirect to welcome
+} catch (\Exceptions\NoPermission $e) {
   Helper\Session::setErrorMessage('Sorry, you are not allowed to edit that post.');
   header("location: /page/welcome.php");
 }
