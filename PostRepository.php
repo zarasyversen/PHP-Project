@@ -145,10 +145,8 @@ class PostRepository {
     $connection = Helper\Connection::getConnection();
     $sql = "DELETE FROM posts WHERE id =" . $postId;
 
-    if($result = mysqli_query($connection, $sql)) {
-
+    if ($result = mysqli_query($connection, $sql)) {
       return true; 
-
     } 
 
     return false;
