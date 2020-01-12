@@ -152,4 +152,31 @@ class PostRepository {
     return false;
   }
 
+  public static function save($post) {
+
+    $connection = Helper\Connection::getConnection();
+    $sql = "INSERT INTO posts (user_id, title, message) VALUES (?, ?, ?)";
+
+    if ($statement = mysqli_prepare($connection, $sql)) {
+
+      // Bind variables to prepared statement
+      mysqli_stmt_bind_param($statement, "iss", $param_userid, $param_title, $param_message);
+
+      // Set params
+      $param_userid = $post->getUserId();
+      $param_title = $post->getTitle();
+      $param_message = $post->getMessage();
+
+      // Attempt to execute statement 
+      if (mysqli_stmt_execute($statement)) {
+        return true;
+      }
+
+      // Close statement - DO I NEED THIS???
+      mysqli_stmt_close($statement);
+    }
+
+    throw new \Exceptions\NotSaved("Unable to save post");
+  }
+
 }
