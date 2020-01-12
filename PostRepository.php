@@ -36,8 +36,7 @@ class PostRepository {
 
     }
 
-    // This is creating a new instance of this exception
-    throw new \Exceptions\NotFound("Post $postId does not exist");
+    return false;
   }
 
   /**
