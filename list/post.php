@@ -15,7 +15,7 @@
         <a title="<?php echo $userName; ?> Profile" 
           href="/user/profile.php?id=<?php echo $post->getUserId(); ?>">
           <?php echo $userName; ?></a>.
-        <?php if(canEditPost($connection, $post->getPostId())) :?>
+        <?php if ($post->isEditable()) :?>
           <a href="/user/post/edit.php?id=<?php echo $post->getPostId(); ?>">Edit</a>
         <?php endif;?>
       </p>
