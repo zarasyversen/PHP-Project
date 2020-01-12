@@ -1,3 +1,16 @@
+<?php
+
+//
+// How to do this?
+//
+try {
+ $post->isEditable();
+ $postEditable = true; 
+} catch (\Exceptions\NoPermission $e) {
+  $postEditable = false; 
+}
+
+?>
 <li>
   <article class="post">
     <header class="post__header">
@@ -15,7 +28,7 @@
         <a title="<?php echo $userName; ?> Profile" 
           href="/user/profile.php?id=<?php echo $post->getUserId(); ?>">
           <?php echo $userName; ?></a>.
-        <?php if ($post->isEditable()) :?>
+        <?php if ($postEditable) :?>
           <a href="/user/post/edit.php?id=<?php echo $post->getPostId(); ?>">Edit</a>
         <?php endif;?>
       </p>
