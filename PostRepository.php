@@ -6,20 +6,11 @@
  */
 class PostRepository {
 
-  protected static $postList = [];
-
   /**
    * Get Single Post
    * Returns Object {}
    */
   public static function getPost(int $postId) : Post {
-
-    //
-    // I dont think its working? 
-    //
-    if (array_key_exists($postId, self::$postList)) {
-      return self::$postList[$postId];
-    }
 
     $connection = Helper\Connection::getConnection();
     $sql = "SELECT * FROM posts WHERE id = " . (int) $postId;
@@ -38,8 +29,6 @@ class PostRepository {
           $post->setUserId((int)$row['user_id']);
           $post->setPostId((int)$row['id']);
 
-          self::$postList[$post->getPostId()] = $post;
-
           return $post;
         }
 
@@ -47,8 +36,8 @@ class PostRepository {
 
     }
 
-    return (object)[];
-    
+    // This is creating a new instance of this exception
+    throw new \Exceptions\NotFound("Post $postId does not exist");
   }
 
   /**
@@ -142,11 +131,10 @@ class PostRepository {
             WHERE id =" . (int) $postId;
 
     if (mysqli_query($connection, $sql)) {
-      Helper\Session::setSuccessMessage('Successfully edited your message.');
-      header("location: /page/welcome.php");
-    } else {
-      Helper\Session::setErrorMessage('Something went wrong, please try again later.');
-    }
+      return true;
+    } 
+
+    return false;
   } 
 
   /**
@@ -159,20 +147,11 @@ class PostRepository {
 
     if($result = mysqli_query($connection, $sql)) {
 
-      //
-      // Is this working?
-      //
-      if (array_key_exists($postId, self::$postList)) {
-        unset(self::$postList[$postId]);
-      }
+      return true; 
 
-      Helper\Session::setSuccessMessage('Successfully deleted your message.');
+    } 
 
-    } else {
-      Helper\Session::setErrorMessage('Sorry. Something went wrong, please try again.');
-    }
-
-    header("location: /page/welcome.php");
+    return false;
   }
 
 }

@@ -38,7 +38,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = mysqli_real_escape_string($connection, $title);
     $message = mysqli_real_escape_string($connection, $message);
 
-    PostRepository::edit($postId, $title, $message);
+    if (PostRepository::edit($postId, $title, $message)) {
+      Helper\Session::setSuccessMessage('Successfully edited your message.');
+      header("location: /page/welcome.php");
+    } else {
+      Helper\Session::setErrorMessage('Something went wrong, please try again later.');
+    }
   }
 
 }
