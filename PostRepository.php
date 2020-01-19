@@ -12,7 +12,7 @@ class PostRepository {
    */
   public static function getPost(int $postId) : Post {
 
-    $connection = Helper\Connection::getConnection();
+    $connection = Helper\DB::getConnection();
     $sql = "SELECT * FROM posts WHERE id = " . (int) $postId;
 
     if ($result = mysqli_query($connection, $sql)) {
@@ -47,7 +47,7 @@ class PostRepository {
   public function getAllPosts() {
 
     $query = "SELECT * FROM posts ORDER BY created_at DESC";
-    $connection = Helper\Connection::getConnection();
+    $connection = Helper\DB::getConnection();
 
     if ($result = mysqli_query($connection, $query)) {
  
@@ -84,7 +84,7 @@ class PostRepository {
 
     if (is_numeric($userId)) {
 
-      $connection = Helper\Connection::getConnection();
+      $connection = Helper\DB::getConnection();
       $sql = "SELECT * FROM posts WHERE user_id =" . mysqli_real_escape_string($connection, $userId). " ORDER BY created_at DESC";
 
       if ($result = mysqli_query($connection, $sql)) {
@@ -122,7 +122,7 @@ class PostRepository {
    */
   public static function edit(int $postId, $title, $message) {
 
-    $connection = Helper\Connection::getConnection();
+    $connection = Helper\DB::getConnection();
 
     //
     // Not escaping strings
@@ -145,13 +145,13 @@ class PostRepository {
    */
   public static function delete(int $postId)  {
 
-    $connection = Helper\Connection::getConnection();
-    $sql = "DELETE FROM posts WHERE id =" . $postId;
+    $tableName = 'posts';
+    $where = ['id', $postId];
 
-    if ($result = mysqli_query($connection, $sql)) {
-      return true; 
-    } 
-
+    if (Helper\DB::delete($tableName, $where)) {
+      return true;
+    }
+    
     return false;
   }
 
@@ -160,7 +160,7 @@ class PostRepository {
    */
   public static function save($post) {
 
-    $connection = Helper\Connection::getConnection();
+    $connection = Helper\DB::getConnection();
     $sql = "INSERT INTO posts (user_id, title, message) VALUES (?, ?, ?)";
 
     if ($statement = mysqli_prepare($connection, $sql)) {
