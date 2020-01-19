@@ -83,4 +83,20 @@ class Post {
     return Helper\Markdown::render($this->getMessage());
   }
 
+  public function isEditable() {
+      
+    // Check if user has posted the post
+    if ($_SESSION["user_id"] === $this->getUserId()) {
+      return true;
+    }
+
+    // Check if logged in user is admin
+    // if (getIsAdmin($connection, $_SESSION["user_id"])) {
+    //   return true;
+    // }
+
+    throw new \Exceptions\NoPermission("Not allowed to edit post");
+  }
+
+
 }

@@ -23,33 +23,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   if ($titleOk && $messageOk) {
-    // Prepare an INSERT statement 
-    $sql = "INSERT INTO posts (user_id, title, message) VALUES (?, ?, ?)";
 
-    if ($statement = mysqli_prepare($connection, $sql)) {
+    $post = new Post(); 
+    $post->setTitle($title);
+    $post->setMessage($message);
+    $post->setUserId((int)$_SESSION["user_id"]);
 
-      // Bind variables to prepared statement 
-      mysqli_stmt_bind_param($statement, "iss", $param_userid, $param_title, $param_message);
-
-      // Set params 
-      $param_userid = $_SESSION["user_id"]; 
-      $param_title = $title;
-      $param_message = $message;
-
-      // Attempt to execute statement 
-      if (mysqli_stmt_execute($statement)) {
-        // Set a success message and redirect to welcome
-        Helper\Session::setSuccessMessage('Successfully posted your message');
-        header("location: /page/welcome.php");
-
-      } else {
-        Helper\Session::setErrorMessage('Something went wrong, please try again later.');
-      }
+    try {
+      PostRepository::save($post);
+      Helper\Session::setSuccessMessage('Successfully posted your message');
+    } catch (\Exceptions\NotSaved $e){
+      Helper\Session::setErrorMessage('Something went wrong, please try again later.');
+    } finally {
+      header("location: /page/welcome.php");
+      exit;
     }
 
-    // Close statement
-    mysqli_stmt_close($statement);
-  } 
+  }
 }
 ?>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" 

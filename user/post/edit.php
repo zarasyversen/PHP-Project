@@ -5,14 +5,19 @@ $title = $message = '';
 $title_err = $message_err = $error = '';
 $titleOk = $messageOk = $confirmDeletePost = false;
 
-// Check if user can edit
-if(!isset($_GET['id']) || !canEditPost($connection, $_GET['id'])) {
+$postId = (int)$_GET['id'];
+
+try {
+  $post = PostRepository::getPost($postId);
+  $post->isEditable();
+} catch (\Exceptions\NotFound $e) {
+  Helper\Session::setErrorMessage('Sorry, that post does not exist.');
+  header("location: /welcome.php");
+} catch (\Exceptions\NoPermission $e) {
   Helper\Session::setErrorMessage('Sorry, you are not allowed to edit that post.');
   header("location: /welcome.php");
 }
 
-$postId = $_GET['id'];
-$post = PostRepository::getPost($postId);
 
 //
 // Save New Edited Post 
