@@ -84,26 +84,7 @@ class Post {
   }
 
   public function isEditable() {
-
-    $postId = $this->getPostId();
-
-    // Post does not exist
-    if (!$postId) {
-      return false;
-    }
-
-    // 
-    // Check if postId is an array
-    // 
-    if (is_array($postId)) {
-
-      if (isset($postId['id'])) {
-        $postId = $postId['id'];
-      }
-
-      return false;
-    }
-
+      
     // Check if user has posted the post
     if ($_SESSION["user_id"] === $this->getUserId()) {
       return true;

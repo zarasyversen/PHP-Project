@@ -34,9 +34,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       Helper\Session::setSuccessMessage('Successfully posted your message');
     } catch (\Exceptions\NotSaved $e){
       Helper\Session::setErrorMessage('Something went wrong, please try again later.');
+    } finally {
+      header("location: /page/welcome.php");
+      exit;
     }
 
-    header("location: /page/welcome.php");
   }
 }
 ?>

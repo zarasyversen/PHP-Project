@@ -1,13 +1,9 @@
 <?php
 
-//
-// How to do this?
-//
 try {
- $post->isEditable();
- $postEditable = true; 
+ $postEditable = $post->isEditable();
 } catch (\Exceptions\NoPermission $e) {
-  $postEditable = false; 
+ $postEditable = false; 
 }
 
 ?>

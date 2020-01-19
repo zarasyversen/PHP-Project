@@ -124,6 +124,9 @@ class PostRepository {
 
     $connection = Helper\Connection::getConnection();
 
+    //
+    // Not escaping strings
+    //
     $sql = "UPDATE posts 
             SET title = '$title', 
                 message = '$message',
@@ -152,6 +155,9 @@ class PostRepository {
     return false;
   }
 
+  /**
+   * Save Post
+   */
   public static function save($post) {
 
     $connection = Helper\Connection::getConnection();
@@ -172,7 +178,7 @@ class PostRepository {
         return true;
       }
 
-      // Close statement - DO I NEED THIS???
+      // Close statement
       mysqli_stmt_close($statement);
     }
 
