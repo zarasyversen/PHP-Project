@@ -122,20 +122,19 @@ class PostRepository {
    */
   public static function edit(int $postId, $title, $message) {
 
-    $connection = Helper\DB::getConnection();
+    $tableName = 'posts';
 
-    //
-    // Not escaping strings
-    //
-    $sql = "UPDATE posts 
-            SET title = '$title', 
-                message = '$message',
-                updated_at = now()
-            WHERE id =" . (int) $postId;
+    $set = [
+      'title' => $title,
+      'message' => $message,
+      'updated_at' => date('Y-m-d H:i:s')
+    ];
 
-    if (mysqli_query($connection, $sql)) {
+    $where = ['id', $postId];
+
+    if (Helper\DB::update($tableName, $set, $where)) {
       return true;
-    } 
+    }
 
     return false;
   } 

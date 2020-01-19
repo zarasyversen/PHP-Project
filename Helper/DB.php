@@ -37,7 +37,7 @@ class DB {
    */
   public static function delete($tableName, $where) {
 
-    list($column, $value) = $where;
+    list($column, $columnValue) = $where;
 
     // Escape Strings
     $tableName = mysqli_real_escape_string(self::$connection, $tableName);
@@ -53,7 +53,7 @@ class DB {
       mysqli_stmt_bind_param($statement, "i", $param_value);
 
       // Set params
-      $param_value = $value;
+      $param_value = $columnValue;
 
       // Attempt to execute statement 
       if (mysqli_stmt_execute($statement)) {
@@ -61,6 +61,37 @@ class DB {
       }
 
       // Close statement
+      mysqli_stmt_close($statement);
+    }
+
+  }
+
+  public static function update($tableName, $set, $where) {
+
+    $cols = [];
+    list($column, $columnValue) = $where;
+
+    foreach($set as $key => $val) {
+        $cols[] = "$key = '$val'";
+    }
+
+    $sql = "UPDATE ".$tableName." SET " . implode(', ', $cols) . " WHERE " .$column. " = ?";
+ 
+    //Prepare statement
+    if ($statement = mysqli_prepare(self::$connection, $sql)) {
+
+      // Bind variables to prepared statement
+      mysqli_stmt_bind_param($statement, "i", $param_value);
+
+      // Set params
+      $param_value = $columnValue;
+
+      // Attempt to execute statement 
+      if (mysqli_stmt_execute($statement)) {
+        return true;
+      }
+
+      // Close statements
       mysqli_stmt_close($statement);
     }
 
