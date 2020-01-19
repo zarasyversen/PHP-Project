@@ -72,7 +72,7 @@ class DB {
     list($column, $columnValue) = $where;
 
     foreach($set as $key => $val) {
-        $cols[] = "$key = '$val'";
+        $cols[] = "$key = '" . mysqli_real_escape_string(self::$connection, $val). "'";
     }
 
     $sql = "UPDATE ".$tableName." SET " . implode(', ', $cols) . " WHERE " .$column. " = ?";
