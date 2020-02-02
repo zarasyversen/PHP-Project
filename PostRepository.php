@@ -159,6 +159,21 @@ class PostRepository {
    */
   public static function save($post) {
 
+    // $tableName = 'posts';
+    // $insertValues = [
+    //   'user_id' => $post->getUserId(),
+    //   'title' => $post->getTitle(),
+    //   'message' => $post->getMessage()
+    // ];
+
+    // if (Helper\DB::insert($tableName, $insertValues)) {
+    //   return true;
+    // }
+    
+    // return false;
+
+
+
     $connection = Helper\DB::getConnection();
     $sql = "INSERT INTO posts (user_id, title, message) VALUES (?, ?, ?)";
 
