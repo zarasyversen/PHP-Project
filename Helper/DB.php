@@ -105,7 +105,7 @@ class DB {
     //
     $sql = "UPDATE `$tableName` ";
     $sql .= "SET " . implode(", " , $prepareSet);
-    $sql .= " WHERE `" .$column. "` = :$column";
+    $sql .= " WHERE `" .$column. "`  ";
 
     //
     // Prepare Statement
@@ -165,6 +165,42 @@ class DB {
         echo $e;
     }
 
+  }
+
+  public static function select($tableName, $where = null, $order = null, $sort = null) {
+    $dbh = self::getPdo();
+
+    //
+    // Prepare SQL
+    //
+    $sql = "SELECT * ";
+    $sql .= "FROM `$tableName`";
+
+    if ($where) {
+
+      $whereKeys = [];
+      foreach($where as $key => $val) {
+          $whereKeys[] = "`$key` = :$key";
+      }
+
+      $sql .= " WHERE " . implode(", ", $whereKeys);
+    }
+
+    if ($order) {
+      $sql .= " ORDER BY `$order`";
+    }
+
+    if ($sort) {
+      $sql .= " `$sort`";
+    }
+
+    // var_dump($sql);
+    // die('hej');
+
+
+    $stmt = $dbh->query($sql);
+
+    return $stmt->fetchAll();
   }
 
 }
