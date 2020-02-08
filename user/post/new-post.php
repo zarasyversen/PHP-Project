@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
       PostRepository::save($post);
       Helper\Session::setSuccessMessage('Successfully posted your message');
-    } catch (\Exceptions\NotSaved $e){
+    } catch (\PDOException $e){
       Helper\Session::setErrorMessage('Something went wrong, please try again later.');
     } finally {
       header("location: /page/welcome.php");

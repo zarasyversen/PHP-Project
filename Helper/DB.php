@@ -90,16 +90,13 @@ class DB {
   public static function update($tableName, $set, $where) {
 
     $dbh = self::getPdo();
-
     //
     // Prepare Data to use in SQL
     //
     list($column, $columnValue) = $where;
 
-    $values = [];
-    $emptyVals = [];
+    $prepareSet = [];
     foreach($set as $key => $val) {
-        $values[] = $val;
         $prepareSet[] = "`$key` = :$key";
     };
 
@@ -123,11 +120,8 @@ class DB {
     // Bind Where
     $sth->bindParam(':'.$column, $columnValue);
 
-    // Array with only values to pass in the execute
-    $values[] = $columnValue;
-
     try {
-    $sth->execute(); //$values);
+    $sth->execute();
     return true;
 
     } catch(\PDOException $e) {
@@ -136,5 +130,41 @@ class DB {
 
   }
 
+  public static function insert($tableName, $insert) {
+
+    $dbh = self::getPdo();
+
+    $insertKeys = [];
+    $placeHolders = [];
+    foreach($insert as $key => $val) {
+        $insertKeys[] = "`$key`";
+        $placeHolders[] = ":$key";
+    }
+
+    //
+    // Prepare SQL
+    //
+    $sql = "INSERT `$tableName` ";
+    $sql .= "(" . implode(", ", $insertKeys) . ")";
+    $sql .= " VALUES (" . implode(", ", $placeHolders) . ")";
+
+    //
+    // Prepare Statement
+    //
+    $sth = $dbh->prepare($sql);
+
+    // Bind params
+    foreach ($insert as $key => $val) {
+      $sth->bindValue(':'.$key, $val);
+    }
+
+    try {
+      $sth->execute();
+      return true;
+    } catch(\PDOException $e) {
+        echo $e;
+    }
+
+  }
 
 }
