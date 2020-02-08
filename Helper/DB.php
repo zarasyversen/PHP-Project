@@ -7,6 +7,7 @@ namespace Helper;
 class DB {
 
   protected static $connection;
+  protected static $dbh;
 
   /**
    * Database Connection
@@ -30,6 +31,26 @@ class DB {
     } 
    
    return self::$connection;
+  }
+
+  private static function getPdo() {
+
+    if (!isset(self::$dbh)) {
+      $dsn = 'mysql:dbname=php_project;host=127.0.0.1';
+      $user = 'root';
+      $password = 'root';
+
+      try {
+          self::$dbh = new \PDO($dsn, $user, $password);
+      } catch (\PDOException $e) {
+          echo 'Connection failed: ' . $e->getMessage();
+      }
+    }
+    
+    // Show Errors
+    self::$dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+    return self::$dbh;
   }
 
   /**
@@ -68,19 +89,7 @@ class DB {
 
   public static function update($tableName, $set, $where) {
 
-    $dsn = 'mysql:dbname=php_project;host=127.0.0.1';
-    $user = 'root';
-    $password = 'root';
-
-    try {
-        $dbh = new \PDO($dsn, $user, $password);
-    } catch (\PDOException $e) {
-        echo 'Connection failed: ' . $e->getMessage();
-    }
-
-    // Show Errors
-    $dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
+    $dbh = self::getPdo();
 
     //
     // Prepare Data to use in SQL
@@ -90,39 +99,36 @@ class DB {
     $values = [];
     $emptyVals = [];
     foreach($set as $key => $val) {
-        $values[] = "$val";
-        $prepareSet[] = "$key = ?";
+        $values[] = $val;
+        $prepareSet[] = "`$key` = :$key";
     };
-
 
     //
     // Prepare SQL
     //
     $sql = "UPDATE `$tableName` ";
-    $sql .= "SET `" . implode(" " , $prepareSet) . "`";
-    $sql .= " WHERE " .$column. " = ?";
+    $sql .= "SET " . implode(", " , $prepareSet);
+    $sql .= " WHERE `" .$column. "` = :$column";
 
     //
     // Prepare Statement
     //
     $sth = $dbh->prepare($sql);
 
-    // Array to bind all key and values, including WHERE. 
-    // $sqlValues = array_merge($set, [$column => $columnValue]);
-
     // Bind params
     foreach ($set as $key => $val) {
-      $sth->bindParam($key, $val);
+      $sth->bindValue(':'.$key, $val);
     }
 
     // Bind Where
-    $sth->bindParam($column, $columnValue);
+    $sth->bindParam(':'.$column, $columnValue);
 
     // Array with only values to pass in the execute
     $values[] = $columnValue;
 
     try {
-    $sth->execute($values);
+    $sth->execute(); //$values);
+    return true;
 
     } catch(\PDOException $e) {
         echo $e;
@@ -130,62 +136,5 @@ class DB {
 
   }
 
-  // public static function insert($tableName, $insertValues) {
 
-  //   $rows = [];
-  //   $values = [];
-  //   $emptyVals = [];
-
-    // foreach($insertValues as $key => $val) {
-    //     $rows[] = "$key";
-    //     $values[] = "$val";
-    //     $emptyVals[] = "?";
-    // }
-
-  //   $sql = "INSERT INTO ".$tableName." (" .implode(', ', $rows). ") VALUES (" .implode(', ', $emptyVals). ")";
-
-
-  //   if ($statement = mysqli_prepare(self::$connection, $sql)) {
-
-  //     // $valsz = implode(',', $rows);
-  //     // var_dump($valsz);
-
-  //     // // Bind variables to prepared statement
-  //     // mysqli_stmt_bind_param($statement, "iss", implode(', ', $rows));
-
-  //     // // Set params
-  //     // $param_table = $tableName;
-
-  //     // Set dynamic params
-  //     for($i = 0; count($rows) > $i; $i++) {
-
-  //       $param_{"$rows[$i]"} = $values[$i];
-  //       var_dump($rows[$i]);
-  //       var_dump($values[$i]);
-
-  //     }
-
-  //     echo $param_table;
-  //     echo $param_userid;
-  //     echo $param_title;
-  //     echo $param_message;
-
-  //     die('hej');
-
-  //     // $param_userid = $post->getUserId();
-  //     // $param_title = $post->getTitle();
-  //     // $param_message = $post->getMessage();
-
-  //     // Attempt to execute statement 
-  //     if (mysqli_stmt_execute($statement)) {
-  //       return true;
-  //     }
-
-  //     // Close statement
-  //     mysqli_stmt_close($statement);
-  //   }
-
-  //   throw new \Exceptions\NotSaved("Unable to save post");
-  // }
-  
 }
