@@ -190,12 +190,13 @@ class DB {
       $sql .= " ORDER BY `$order`";
     }
 
-    if ($sort) {
-      $sql .= " `$sort`";
+    if ($sort === 'desc') {
+      $sql .= " DESC";
     }
 
-    // var_dump($sql);
-    // die('hej');
+    if ($sort === 'asc') {
+      $sql .= " ASC";
+    }
 
 
     $stmt = $dbh->query($sql);

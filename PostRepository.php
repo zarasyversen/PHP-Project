@@ -48,8 +48,12 @@ class PostRepository {
 
     $posts = [];
 
-    // How to pass optional params here like skip where but add order
-    $returnedPosts = Helper\DB::select('posts');
+    $tableName = 'posts';
+    $where = null; 
+    $order = 'created_at';
+    $sort = 'desc';
+
+    $returnedPosts = Helper\DB::select($tableName, $where, $order, $sort);
 
     if (is_array($returnedPosts)) {
 
@@ -71,38 +75,6 @@ class PostRepository {
     }
 
     return [];
-
-    
-
-
-    // $query = "SELECT * FROM posts ORDER BY created_at DESC";
-    // $connection = Helper\DB::getConnection();
-
-    // if ($result = mysqli_query($connection, $query)) {
- 
-    //   if (mysqli_num_rows($result) > 0) {
-
-    //     $posts = [];
-
-    //     while ($row = mysqli_fetch_array($result)) {
-
-    //       $post = new Post(); 
-    //       $post->setTitle($row['title']);
-    //       $post->setMessage($row['message']);
-    //       $post->setCreatedDate($row['created_at']);
-    //       $post->setUpdatedDate($row['updated_at']);
-    //       $post->setUserId((int)$row['user_id']);
-    //       $post->setPostId((int)$row['id']);
-
-    //       $posts[] = $post;
-    //     }
-
-    //     return $posts;
-    //   }
-
-    // }
-
-    // return [];
   }
 
   /**
