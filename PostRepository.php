@@ -20,7 +20,7 @@ class PostRepository {
     $returnedPost = Helper\DB::select($tableName, $where);
 
     // check if post is array and is not empty
-    if(is_array($returnedPost) && count($returnedPost) > 0) {
+    if (is_array($returnedPost) && count($returnedPost) > 0) {
 
       $post = new Post();
       $post->setTitle($returnedPost[0]['title']);
@@ -78,36 +78,35 @@ class PostRepository {
    * Get All Posts from specific User
    * Returns Array []
    */
-  public function getAllUserPosts($userId) {
+  public function getAllUserPosts(int $userId) {
 
-    if (is_numeric($userId)) {
+    $posts = [];
 
-      $connection = Helper\DB::getConnection();
-      $sql = "SELECT * FROM posts WHERE user_id =" . mysqli_real_escape_string($connection, $userId). " ORDER BY created_at DESC";
+    $tableName = 'posts';
+    $where = [
+      'user_id' => (int)$userId
+    ]; 
+    $order = 'created_at';
+    $sort = 'desc';
 
-      if ($result = mysqli_query($connection, $sql)) {
+    $returnedPosts = Helper\DB::select($tableName, $where, $order, $sort);
 
-        if (mysqli_num_rows($result) > 0) {
+    if (is_array($returnedPosts)) {
 
-          $posts = [];
+      foreach ($returnedPosts as $row) {
 
-          while ($row = mysqli_fetch_array($result)) {
+        $post = new Post(); 
+        $post->setTitle($row['title']);
+        $post->setMessage($row['message']);
+        $post->setCreatedDate($row['created_at']);
+        $post->setUpdatedDate($row['updated_at']);
+        $post->setUserId((int)$row['user_id']);
+        $post->setPostId((int)$row['id']);
 
-            $post = new Post(); 
-            $post->setTitle($row['title']);
-            $post->setMessage($row['message']);
-            $post->setCreatedDate($row['created_at']);
-            $post->setUpdatedDate($row['updated_at']);
-            $post->setUserId((int)$row['user_id']);
-            $post->setPostId((int)$row['id']);
-
-            array_push($posts, $post);
-          }
-
-          return $posts;
-        } 
-
+        $posts[] = $post;
       }
+
+      return $posts;
 
     }
 
