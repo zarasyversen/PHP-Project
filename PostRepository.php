@@ -47,10 +47,9 @@ class PostRepository {
 
     $tableName = 'posts';
     $where = null; 
-    $order = 'created_at';
-    $sort = 'desc';
+    $order = 'created_at DESC';
 
-    $returnedPosts = Helper\DB::select($tableName, $where, $order, $sort);
+    $returnedPosts = Helper\DB::select($tableName, $where, $order);
 
     if (is_array($returnedPosts)) {
 
@@ -86,10 +85,9 @@ class PostRepository {
     $where = [
       'user_id' => (int)$userId
     ]; 
-    $order = 'created_at';
-    $sort = 'desc';
+    $order = 'created_at DESC';
 
-    $returnedPosts = Helper\DB::select($tableName, $where, $order, $sort);
+    $returnedPosts = Helper\DB::select($tableName, $where, $order);
 
     if (is_array($returnedPosts)) {
 

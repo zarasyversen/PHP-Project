@@ -10,7 +10,7 @@ class DB {
   protected static $dbh;
 
   /**
-   * Database Connection
+   * MySQL Connection
    */
   public static function getConnection() {
    
@@ -33,6 +33,9 @@ class DB {
    return self::$connection;
   }
 
+  /**
+   * PDO Connection
+   */
   private static function getPdo() {
 
     if (!isset(self::$dbh)) {
@@ -87,6 +90,9 @@ class DB {
 
   }
 
+  /**
+   * Update Query
+   */
   public static function update($tableName, $set, $where) {
 
     $dbh = self::getPdo();
@@ -129,6 +135,9 @@ class DB {
 
   }
 
+  /**
+   * Insert Query
+   */
   public static function insert($tableName, $insert) {
 
     $dbh = self::getPdo();
@@ -166,15 +175,21 @@ class DB {
 
   }
 
-  public static function select($tableName, $where = null, $order = null, $sort = null) {
+  /**
+   * Select Query
+   */
+  public static function select($tableName, $where = null, $order = null) {
     $dbh = self::getPdo();
 
-    //
-    // Prepare SQL
-    //
+    /**
+     * Prepare SQL
+     */
     $sql = "SELECT * ";
     $sql .= "FROM `$tableName`";
 
+    /**
+     * Check Params
+     */
     if ($where) {
 
       $whereKeys = [];
@@ -186,30 +201,22 @@ class DB {
     }
 
     if ($order) {
-      $sql .= " ORDER BY `$order`";
+      $sql .= " ORDER BY $order";
     }
 
-    if ($sort === 'desc') {
-      $sql .= " DESC";
-    }
-
-    if ($sort === 'asc') {
-      $sql .= " ASC";
-    }
-
-
+    // Prepare SQL
     $stmt = $dbh->prepare($sql);
 
+    // Bind if necessary
     if ($where) {
-      // Bind params
       foreach ($where as $key => $val) {
         $stmt->bindParam(':'.$key, $val);
       }
-
     }
 
     $stmt->execute();
 
+    // Return Array
     return $stmt->fetchAll();
   }
 
