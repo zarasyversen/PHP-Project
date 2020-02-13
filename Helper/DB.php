@@ -199,7 +199,17 @@ class DB {
     }
 
 
-    $stmt = $dbh->query($sql);
+    $stmt = $dbh->prepare($sql);
+
+    if ($where) {
+      // Bind params
+      foreach ($where as $key => $val) {
+        $stmt->bindParam(':'.$key, $val);
+      }
+
+    }
+
+    $stmt->execute();
 
     return $stmt->fetchAll();
   }

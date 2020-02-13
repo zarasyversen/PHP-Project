@@ -12,28 +12,25 @@ class PostRepository {
    */
   public static function getPost(int $postId) : Post {
 
-    $connection = Helper\DB::getConnection();
-    $sql = "SELECT * FROM posts WHERE id = " . (int) $postId;
+    $tableName = 'posts';
+    $where = [
+      'id' => (int)$postId
+    ];
+  
+    $returnedPost = Helper\DB::select($tableName, $where);
 
-    if ($result = mysqli_query($connection, $sql)) {
+    // check if post is array and is not empty
+    if(is_array($returnedPost) && count($returnedPost) > 0) {
 
-      if (mysqli_num_rows($result) > 0) {
+      $post = new Post();
+      $post->setTitle($returnedPost[0]['title']);
+      $post->setMessage($returnedPost[0]['message']);
+      $post->setCreatedDate($returnedPost[0]['created_at']);
+      $post->setUpdatedDate($returnedPost[0]['updated_at']);
+      $post->setUserId((int)$returnedPost[0]['user_id']);
+      $post->setPostId((int)$returnedPost[0]['id']);
 
-        while ($row = mysqli_fetch_array($result)) {
-
-          $post = new Post(); 
-          $post->setTitle($row['title']);
-          $post->setMessage($row['message']);
-          $post->setCreatedDate($row['created_at']);
-          $post->setUpdatedDate($row['updated_at']);
-          $post->setUserId((int)$row['user_id']);
-          $post->setPostId((int)$row['id']);
-
-          return $post;
-        }
-
-      }
-
+      return $post;
     }
 
     // This is creating a new instance of this exception
