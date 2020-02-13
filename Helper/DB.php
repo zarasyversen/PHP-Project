@@ -105,7 +105,7 @@ class DB {
     //
     $sql = "UPDATE `$tableName` ";
     $sql .= "SET " . implode(", " , $prepareSet);
-    $sql .= " WHERE `" .$column. "`  ";
+    $sql .= " WHERE `" .$column. "` = :$column";
 
     //
     // Prepare Statement
@@ -121,9 +121,8 @@ class DB {
     $sth->bindParam(':'.$column, $columnValue);
 
     try {
-    $sth->execute();
-    return true;
-
+      $sth->execute();
+      return true;
     } catch(\PDOException $e) {
         echo $e;
     } 
