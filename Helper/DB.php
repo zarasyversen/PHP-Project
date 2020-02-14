@@ -61,32 +61,23 @@ class DB {
    */
   public static function delete($tableName, $where) {
 
+    $dbh = self::getPdo();
     list($column, $columnValue) = $where;
 
-    // Escape Strings
-    $tableName = mysqli_real_escape_string(self::$connection, $tableName);
-    $column = mysqli_real_escape_string(self::$connection, $column);
+     // Prepare SQL
+    $sql = "DELETE FROM " .$tableName." WHERE ".$column." = :" .$column;
+    $stmt = $dbh->prepare($sql);
 
-    // Create SQL
-    $sql = "DELETE FROM " .$tableName." WHERE ".$column." = ? ";
-
-    //Prepare statement
-    if ($statement = mysqli_prepare(self::$connection, $sql)) {
-
-      // Bind variables to prepared statement
-      mysqli_stmt_bind_param($statement, "i", $param_value);
-
-      // Set params
-      $param_value = $columnValue;
-
-      // Attempt to execute statement 
-      if (mysqli_stmt_execute($statement)) {
-        return true;
-      }
-
-      // Close statement
-      mysqli_stmt_close($statement);
-    }
+    // Bind params
+    $stmt->bindValue(':'.$column, $columnValue);
+    
+    try {
+      $stmt->execute();
+      return true;
+    } catch(\PDOException $e) {
+        echo $e;
+    } 
+   
 
   }
 
