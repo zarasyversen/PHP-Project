@@ -76,8 +76,7 @@ class DB {
       return true;
     } catch(\PDOException $e) {
         echo $e;
-    } 
-   
+    }
 
   }
 
@@ -167,9 +166,39 @@ class DB {
   }
 
   /**
-   * Select Query
+   * Select Query : All Items
    */
-  public static function select($tableName, $where = null, $order = null) {
+  public static function select($tableName, $where = null, $order = null, $direction = 'ASC') {
+    
+    $stmt = self::buildSelectQuery($tableName, $where, $order, $direction);
+
+    $allItems = $stmt->fetchAll();
+
+    if ($allItems !== null) {
+      return $allItems;
+    } 
+  }
+
+  /**
+   * Select Query : First Item
+   */
+  public static function selectFirst($tableName, $where = null, $order = null, $direction = 'ASC') {
+
+    $stmt = self::buildSelectQuery($tableName, $where, $order, $direction);
+
+    $firstItem = $stmt->fetch();
+
+    if ($firstItem !== null) {
+      return $firstItem;
+    } 
+    
+  }
+
+  /**
+   * Select Query : Build SQL
+   */
+  private static function buildSelectQuery($tableName, $where = null, $order = null, $direction = 'ASC') {
+
     $dbh = self::getPdo();
 
     /**
@@ -192,7 +221,7 @@ class DB {
     }
 
     if ($order) {
-      $sql .= " ORDER BY $order";
+      $sql .= " ORDER BY `$order` $direction";
     }
 
     // Prepare SQL
@@ -205,10 +234,14 @@ class DB {
       }
     }
 
-    $stmt->execute();
-
-    // Return Array
-    return $stmt->fetchAll();
+    // Execute 
+    try {
+      $stmt->execute();
+      return $stmt;
+    } catch(\PDOException $e) {
+        echo $e;
+    }
+   
   }
 
 }

@@ -6,29 +6,31 @@
  */
 class PostRepository {
 
+  const TABLE_NAME = 'posts';
+  const ASC_ORDER = 'ASC';
+  const DESC_ORDER = 'DESC';
+
   /**
    * Get Single Post
    * Returns Object {}
    */
   public static function getPost(int $postId) : Post {
 
-    $tableName = 'posts';
     $where = [
-      'id' => (int)$postId
+      'id' => $postId
     ];
   
-    $returnedPost = Helper\DB::select($tableName, $where);
+    $returnedPost = Helper\DB::selectFirst(self::TABLE_NAME, $where);
 
-    // check if post is array and is not empty
-    if (is_array($returnedPost) && count($returnedPost) > 0) {
+    if ($returnedPost) {
 
       $post = new Post();
-      $post->setTitle($returnedPost[0]['title']);
-      $post->setMessage($returnedPost[0]['message']);
-      $post->setCreatedDate($returnedPost[0]['created_at']);
-      $post->setUpdatedDate($returnedPost[0]['updated_at']);
-      $post->setUserId((int)$returnedPost[0]['user_id']);
-      $post->setPostId((int)$returnedPost[0]['id']);
+      $post->setTitle($returnedPost['title']);
+      $post->setMessage($returnedPost['message']);
+      $post->setCreatedDate($returnedPost['created_at']);
+      $post->setUpdatedDate($returnedPost['updated_at']);
+      $post->setUserId((int)$returnedPost['user_id']);
+      $post->setPostId((int)$returnedPost['id']);
 
       return $post;
     }
@@ -44,12 +46,9 @@ class PostRepository {
   public function getAllPosts() {
 
     $posts = [];
+    $order = 'created_at';
 
-    $tableName = 'posts';
-    $where = null; 
-    $order = 'created_at DESC';
-
-    $returnedPosts = Helper\DB::select($tableName, $where, $order);
+    $returnedPosts = Helper\DB::select(self::TABLE_NAME, null, $order, self::DESC_ORDER);
 
     if (is_array($returnedPosts)) {
 
@@ -79,15 +78,13 @@ class PostRepository {
    */
   public function getAllUserPosts(int $userId) {
 
+    $where = [
+      'user_id' => $userId
+    ]; 
+    $order = 'created_at';
     $posts = [];
 
-    $tableName = 'posts';
-    $where = [
-      'user_id' => (int)$userId
-    ]; 
-    $order = 'created_at DESC';
-
-    $returnedPosts = Helper\DB::select($tableName, $where, $order);
+    $returnedPosts = Helper\DB::select(self::TABLE_NAME, $where, $order, self::DESC_ORDER);
 
     if (is_array($returnedPosts)) {
 
@@ -117,8 +114,6 @@ class PostRepository {
    */
   public static function edit(int $postId, $title, $message) {
 
-    $tableName = 'posts';
-
     $set = [
       'title' => $title,
       'message' => $message,
@@ -127,7 +122,7 @@ class PostRepository {
 
     $where = ['id', $postId];
 
-    if (Helper\DB::update($tableName, $set, $where)) {
+    if (Helper\DB::update(self::TABLE_NAME, $set, $where)) {
       return true;
     }
 
@@ -139,10 +134,9 @@ class PostRepository {
    */
   public static function delete(int $postId)  {
 
-    $tableName = 'posts';
     $where = ['id', $postId];
 
-    if (Helper\DB::delete($tableName, $where)) {
+    if (Helper\DB::delete(self::TABLE_NAME, $where)) {
       return true;
     }
     
@@ -154,20 +148,17 @@ class PostRepository {
    */
   public static function save($post) {
 
-    $tableName = 'posts';
     $insert = [
       'user_id' => $post->getUserId(),
       'title' => $post->getTitle(),
       'message' => $post->getMessage()
     ];
 
-    if (Helper\DB::insert($tableName, $insert)) {
+    if (Helper\DB::insert(self::TABLE_NAME, $insert)) {
       return true;
     }
-    
-    return false;
 
-    // throw new \Exceptions\NotSaved("Unable to save post");
+    throw new \Exceptions\NotSaved("Unable to save post");
 
   }
 
