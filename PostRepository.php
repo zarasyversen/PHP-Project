@@ -6,34 +6,33 @@
  */
 class PostRepository {
 
+  const TABLE_NAME = 'posts';
+  const ASC_ORDER = 'ASC';
+  const DESC_ORDER = 'DESC';
+
   /**
    * Get Single Post
    * Returns Object {}
    */
   public static function getPost(int $postId) : Post {
 
-    $connection = Helper\Connection::getConnection();
-    $sql = "SELECT * FROM posts WHERE id = " . (int) $postId;
+    $where = [
+      'id' => $postId
+    ];
+  
+    $returnedPost = Helper\DB::selectFirst(self::TABLE_NAME, $where);
 
-    if ($result = mysqli_query($connection, $sql)) {
+    if ($returnedPost) {
 
-      if (mysqli_num_rows($result) > 0) {
+      $post = new Post();
+      $post->setTitle($returnedPost['title']);
+      $post->setMessage($returnedPost['message']);
+      $post->setCreatedDate($returnedPost['created_at']);
+      $post->setUpdatedDate($returnedPost['updated_at']);
+      $post->setUserId((int)$returnedPost['user_id']);
+      $post->setPostId((int)$returnedPost['id']);
 
-        while ($row = mysqli_fetch_array($result)) {
-
-          $post = new Post(); 
-          $post->setTitle($row['title']);
-          $post->setMessage($row['message']);
-          $post->setCreatedDate($row['created_at']);
-          $post->setUpdatedDate($row['updated_at']);
-          $post->setUserId((int)$row['user_id']);
-          $post->setPostId((int)$row['id']);
-
-          return $post;
-        }
-
-      }
-
+      return $post;
     }
 
     // This is creating a new instance of this exception
@@ -46,30 +45,27 @@ class PostRepository {
    */
   public function getAllPosts() {
 
-    $query = "SELECT * FROM posts ORDER BY created_at DESC";
-    $connection = Helper\Connection::getConnection();
+    $posts = [];
+    $order = 'created_at';
 
-    if ($result = mysqli_query($connection, $query)) {
- 
-      if (mysqli_num_rows($result) > 0) {
+    $returnedPosts = Helper\DB::select(self::TABLE_NAME, null, $order, self::DESC_ORDER);
 
-        $posts = [];
+    if (is_array($returnedPosts)) {
 
-        while ($row = mysqli_fetch_array($result)) {
+      foreach ($returnedPosts as $row) {
 
-          $post = new Post(); 
-          $post->setTitle($row['title']);
-          $post->setMessage($row['message']);
-          $post->setCreatedDate($row['created_at']);
-          $post->setUpdatedDate($row['updated_at']);
-          $post->setUserId((int)$row['user_id']);
-          $post->setPostId((int)$row['id']);
+        $post = new Post(); 
+        $post->setTitle($row['title']);
+        $post->setMessage($row['message']);
+        $post->setCreatedDate($row['created_at']);
+        $post->setUpdatedDate($row['updated_at']);
+        $post->setUserId((int)$row['user_id']);
+        $post->setPostId((int)$row['id']);
 
-          $posts[] = $post;
-        }
-
-        return $posts;
+        $posts[] = $post;
       }
+
+      return $posts;
 
     }
 
@@ -80,36 +76,32 @@ class PostRepository {
    * Get All Posts from specific User
    * Returns Array []
    */
-  public function getAllUserPosts($userId) {
+  public function getAllUserPosts(int $userId) {
 
-    if (is_numeric($userId)) {
+    $where = [
+      'user_id' => $userId
+    ]; 
+    $order = 'created_at';
+    $posts = [];
 
-      $connection = Helper\Connection::getConnection();
-      $sql = "SELECT * FROM posts WHERE user_id =" . mysqli_real_escape_string($connection, $userId). " ORDER BY created_at DESC";
+    $returnedPosts = Helper\DB::select(self::TABLE_NAME, $where, $order, self::DESC_ORDER);
 
-      if ($result = mysqli_query($connection, $sql)) {
+    if (is_array($returnedPosts)) {
 
-        if (mysqli_num_rows($result) > 0) {
+      foreach ($returnedPosts as $row) {
 
-          $posts = [];
+        $post = new Post(); 
+        $post->setTitle($row['title']);
+        $post->setMessage($row['message']);
+        $post->setCreatedDate($row['created_at']);
+        $post->setUpdatedDate($row['updated_at']);
+        $post->setUserId((int)$row['user_id']);
+        $post->setPostId((int)$row['id']);
 
-          while ($row = mysqli_fetch_array($result)) {
-
-            $post = new Post(); 
-            $post->setTitle($row['title']);
-            $post->setMessage($row['message']);
-            $post->setCreatedDate($row['created_at']);
-            $post->setUpdatedDate($row['updated_at']);
-            $post->setUserId((int)$row['user_id']);
-            $post->setPostId((int)$row['id']);
-
-            array_push($posts, $post);
-          }
-
-          return $posts;
-        } 
-
+        $posts[] = $post;
       }
+
+      return $posts;
 
     }
 
@@ -122,20 +114,17 @@ class PostRepository {
    */
   public static function edit(int $postId, $title, $message) {
 
-    $connection = Helper\Connection::getConnection();
+    $set = [
+      'title' => $title,
+      'message' => $message,
+      'updated_at' => date('Y-m-d H:i:s')
+    ];
 
-    //
-    // Not escaping strings
-    //
-    $sql = "UPDATE posts 
-            SET title = '$title', 
-                message = '$message',
-                updated_at = now()
-            WHERE id =" . (int) $postId;
+    $where = ['id', $postId];
 
-    if (mysqli_query($connection, $sql)) {
+    if (Helper\DB::update(self::TABLE_NAME, $set, $where)) {
       return true;
-    } 
+    }
 
     return false;
   } 
@@ -145,13 +134,12 @@ class PostRepository {
    */
   public static function delete(int $postId)  {
 
-    $connection = Helper\Connection::getConnection();
-    $sql = "DELETE FROM posts WHERE id =" . $postId;
+    $where = ['id', $postId];
 
-    if ($result = mysqli_query($connection, $sql)) {
-      return true; 
-    } 
-
+    if (Helper\DB::delete(self::TABLE_NAME, $where)) {
+      return true;
+    }
+    
     return false;
   }
 
@@ -160,29 +148,18 @@ class PostRepository {
    */
   public static function save($post) {
 
-    $connection = Helper\Connection::getConnection();
-    $sql = "INSERT INTO posts (user_id, title, message) VALUES (?, ?, ?)";
+    $insert = [
+      'user_id' => $post->getUserId(),
+      'title' => $post->getTitle(),
+      'message' => $post->getMessage()
+    ];
 
-    if ($statement = mysqli_prepare($connection, $sql)) {
-
-      // Bind variables to prepared statement
-      mysqli_stmt_bind_param($statement, "iss", $param_userid, $param_title, $param_message);
-
-      // Set params
-      $param_userid = $post->getUserId();
-      $param_title = $post->getTitle();
-      $param_message = $post->getMessage();
-
-      // Attempt to execute statement 
-      if (mysqli_stmt_execute($statement)) {
-        return true;
-      }
-
-      // Close statement
-      mysqli_stmt_close($statement);
+    if (Helper\DB::insert(self::TABLE_NAME, $insert)) {
+      return true;
     }
 
     throw new \Exceptions\NotSaved("Unable to save post");
+
   }
 
 }
