@@ -1,23 +1,24 @@
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
-// Check if User exits
-if (!isset($_GET['id']) || !getUser($connection, intval($_GET['id']))) {
+$userId = (int)$_GET['id'];
+
+try {
+  $user = UserRepository::getUser($userId);
+  $user->canEditUser();
+} catch (\Exceptions\NotFound $e) {
   Helper\Session::setErrorMessage('Sorry, that user does not exist.');
   header("location: /page/welcome.php");
-} elseif (!canEditUser($connection, intval($_GET['id']))) {
-  // Check if User can edit
+} catch (\Exceptions\NoPermission $e) {
   Helper\Session::setErrorMessage('Sorry, you are not allowed to edit this profile.');
-  header("location: /user/profile.php?id=" . intval($_GET['id']));
+  header("location: /page/welcome.php");
 }
 
-$userId = intval($_GET['id']);
 $timestamp = time();
 $targetDir = BASE . "/images/user/" . $userId . "/avatar/";
 $fileName = $timestamp . "_" . basename($_FILES["file"]["name"]);
 $targetFilePath = $targetDir . $fileName ;
 $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
-
 
 if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
 

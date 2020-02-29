@@ -5,13 +5,15 @@ $userId = intval($_GET['id']);
 
 try {
   $user = UserRepository::getUser($userId);
+  $canEdit = $user->canEditUser();
 } catch (\Exceptions\NotFound $e) {
   Helper\Session::setErrorMessage('Sorry, that user does not exist.');
   header("location: /page/welcome.php");
-} 
+} catch (\Exceptions\NoPermission $e) {
+  $canEdit = false; 
+}
 
 $hasAvatar = $user->getUserAvatar();
-$canEdit = $user->canEditUser();
 
 $pageTitle = $user->getName();
 include(BASE . '/page/header.php');?>

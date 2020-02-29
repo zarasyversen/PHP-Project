@@ -81,6 +81,8 @@ class User {
     if (UserRepository::getIsAdmin(self::getSessionUserId())) {
       return true;
     }
+
+    throw new \Exceptions\NoPermission("Not allowed to edit post");
     
   }
 
