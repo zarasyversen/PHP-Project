@@ -41,11 +41,6 @@ function canEditUser($connection, $userId) {
     // Check user exists
     if ($user) {
 
-      //
-      // Move $_SESSION["user_id"] to its own function
-      // then use in avatar-upload
-      //
-
       // Check if same user is logged in
       if ($_SESSION["user_id"] === $userId) {
         return true;
