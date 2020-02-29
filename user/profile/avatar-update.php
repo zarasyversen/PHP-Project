@@ -21,8 +21,6 @@ try {
 // if its admin, show another link and pass id in param
 // if params dont exist, use session
 //
-
-
 $hasAvatar = $user->getUserAvatar();
 
 $pageTitle = 'Update Avatar';
@@ -31,6 +29,7 @@ include(BASE . '/page/header.php');?>
   <header class="page-header">
     <h1>Update Avatar</h1>
   </header>
+  <?php include(BASE . '/session/message.php'); ?>
   <aside class="page-sidebar">
     <h2>Current Avatar</h2>
     <img src="<?php echo $hasAvatar;?>"/>

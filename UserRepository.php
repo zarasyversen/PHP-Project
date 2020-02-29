@@ -51,22 +51,5 @@ class UserRepository {
     }
 
   }
-// Can this be a static function
-  // public static function hasUserAvatar(int $userId) {
-
-  //   $where = [
-  //     'id' => $userId
-  //   ];
-
-  //   $select = 'avatar';
-
-  //   $avatar = Helper\DB::selectFirst(self::TABLE_NAME, $where, null, 'ASC', $select);
-
-  //   if ($avatar) {
-  //     $filePath = '/images/user/' . $userId . '/avatar/';
-  //     return $filePath . $avatar;
-  //   }
-    
-  // }
 
 }
