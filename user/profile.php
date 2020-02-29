@@ -1,24 +1,19 @@
 <?php 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
-// Check if User exits
-if (!isset($_GET['id']) || !getUser($connection, intval($_GET['id']))) {
-  // Set a session message and redirect to welcome
+$userId = intval($_GET['id']);
+
+try {
+  $user = UserRepository::getUser($userId);
+} catch (\Exceptions\NotFound $e) {
   Helper\Session::setErrorMessage('Sorry, that user does not exist.');
   header("location: /page/welcome.php");
-}
+} 
 
-$userId = intval($_GET['id']);
-$user = UserRepository::getUser($userId);
-// $username = $user['username'];
-// $createdBy = $user['created'];
-// $isAdmin = $user['is_admin'];
-// $canEdit = User::canEditUser($user->getId());
-// $hasAvatar = hasUserAvatar($connection, $userId);
 $hasAvatar = $user->getUserAvatar();
 $canEdit = $user->canEditUser();
 
-$pageTitle =  $user->getName();
+$pageTitle = $user->getName();
 include(BASE . '/page/header.php');?>
 <div class="wrapper page-2column">
   <header class="page-header">
@@ -33,10 +28,14 @@ include(BASE . '/page/header.php');?>
   <?php if ($hasAvatar) :?>
     <img src="<?php echo $hasAvatar;?>"/>
     <?php if ($canEdit) :?>
-      <a href="/user/profile/avatar-update.php?id=<?php echo $user->getId();?>" title="Upload Avatar Image">Edit Avatar</a>
+      <a href="/user/profile/avatar-update.php?id=<?php echo $user->getId();?>" 
+        title="Upload Avatar Image">Edit Avatar</a>
     <?php endif;?>
   <?php elseif ($canEdit) :?>
-    <form class="form" action="/user/profile/avatar-upload.php?id=<?php $user->getId();?>" method="post" enctype="multipart/form-data">
+    <form class="form" 
+          action="/user/profile/avatar-upload.php?id=<?php echo $user->getId();?>" 
+          method="post" 
+          enctype="multipart/form-data">
       <div class="form__group">
         <label for="avatar">Upload Avatar:</label>
         <input type="file" name="file" id="avatar">

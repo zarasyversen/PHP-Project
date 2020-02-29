@@ -78,7 +78,7 @@ class User {
     }
 
     // Check if logged in user is admin
-    if (UserRepository::getIsAdmin($this->id)) {
+    if (UserRepository::getIsAdmin(self::getSessionUserId())) {
       return true;
     }
     

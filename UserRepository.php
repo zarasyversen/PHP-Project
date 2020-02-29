@@ -22,7 +22,7 @@ class UserRepository {
 
     if ($thisUser) {
       $user = new User();
-      $user->setId($thisUser['id']);  
+      $user->setId((int)$thisUser['id']);  
       $user->setName($thisUser['username']);
       $user->setIsAdmin($thisUser['is_admin']);
       $user->setCreatedAt($thisUser['created_at']);
