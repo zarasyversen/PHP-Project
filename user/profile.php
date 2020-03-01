@@ -1,7 +1,7 @@
 <?php 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
-$userId = intval($_GET['id']);
+$userId = (int)$_GET['id'];
 
 try {
   $user = UserRepository::getUser($userId);
