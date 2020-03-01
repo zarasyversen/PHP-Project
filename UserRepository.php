@@ -43,11 +43,31 @@ class UserRepository {
 
     $select = 'is_admin';
 
-    $isAdmin = Helper\DB::selectFirst(self::TABLE_NAME, $where, null, 'ASC', $select);
+    $row = Helper\DB::selectFirst(self::TABLE_NAME, $where, null, 'ASC', $select);
 
-    // Make in to int
-    if ((int)$isAdmin['is_admin'] === 1) {
+    // Make in to int - should this be set on the user? like username?
+    if ((int)$row['is_admin'] === 1) {
       return true;
+    }
+
+  }
+
+  public static function getUserName(int $userId) {
+
+    $where = [
+      'id' => $userId
+    ];
+
+    $select = 'username';
+
+    $row = Helper\DB::selectFirst(self::TABLE_NAME, $where, null, 'ASC', $select);
+
+
+    if ($row['username'] !== null) {
+      $user = new User();
+      $user->setName($row['username']);
+
+      return $user;
     }
 
   }
