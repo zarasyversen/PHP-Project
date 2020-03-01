@@ -109,4 +109,33 @@ class UserRepository {
     return false;
   }
 
+  public static function doesUserExist($userName) {
+
+    $where = [
+      'username' => $userName
+    ];
+
+    $select = 'id';
+
+    $row = Helper\DB::selectFirst(self::TABLE_NAME, $where, null, 'ASC', $select);
+
+    if ($row['id'] !== null) {
+      return true;
+    }
+  }
+
+  public static function createUser($userName, $password) {
+    $insert = [
+      'username' => $userName,
+      'password' => password_hash($password, PASSWORD_DEFAULT)
+    ];
+
+    if (Helper\DB::insert(self::TABLE_NAME, $insert)) {
+      return true;
+    }
+
+    throw new \Exceptions\NotSaved("Unable to create user");
+
+  }
+
 }
