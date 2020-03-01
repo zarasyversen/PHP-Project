@@ -16,6 +16,7 @@ try {
 } catch (\Exceptions\NoPermission $e) {
   Helper\Session::setErrorMessage('Sorry, you are not allowed to edit that post.');
   header("location: /welcome.php");
+  exit;
 }
 
 
@@ -39,9 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   if ($titleOk && $messageOk) {
-
-    $title = mysqli_real_escape_string($connection, $title);
-    $message = mysqli_real_escape_string($connection, $message);
 
     if (PostRepository::edit($postId, $title, $message)) {
       Helper\Session::setSuccessMessage('Successfully edited your message.');
@@ -102,7 +100,7 @@ include(BASE .'/page/header.php');?>
   function deletePost() {
     var confirmed = confirm('Are you sure you want to delete your post?');
 
-    if(confirmed){
+    if (confirmed) {
       window.location.href = "delete.php?id=<?php echo $postId; ?>";
     } 
   }

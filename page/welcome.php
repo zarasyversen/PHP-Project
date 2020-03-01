@@ -5,7 +5,8 @@ $pageTitle = 'Welcome';
 include(BASE . '/page/header.php');?>
 <div class="wrapper">
   <div class="page-header">
-    <h1>Hi, <span><?php echo htmlspecialchars($_SESSION["username"]); ?></span>. Welcome to our site.</h1>
+    <!-- Leave session username here? -->
+    <h1>Hi, <?php echo htmlspecialchars($_SESSION["username"]); ?>. Welcome to our site.</h1>
   </div>
   <?php include(BASE . '/session/message.php'); ?>
   <?php include(BASE . '/user/post/new-post.php'); ?>

@@ -72,4 +72,41 @@ class UserRepository {
 
   }
 
+  /**
+   * Upload Avatar
+   */
+  public static function uploadAvatar(int $userId, $fileName) {
+
+    $set = [
+      'avatar' => $fileName
+    ];
+
+    $where = ['id', $userId];
+
+    if (Helper\DB::update(self::TABLE_NAME, $set, $where)) {
+      return true;
+    }
+
+    return false;
+  }
+
+
+  /**
+   * Delete Avatar
+   */
+  public static function deleteAvatar(int $userId) {
+
+    $set = [
+      'avatar' => NULL
+    ];
+
+    $where = ['id', $userId];
+
+    if (Helper\DB::update(self::TABLE_NAME, $set, $where)) {
+      return true;
+    }
+
+    return false;
+  }
+
 }

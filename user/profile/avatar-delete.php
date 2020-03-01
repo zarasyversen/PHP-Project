@@ -1,7 +1,6 @@
 <?php 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
-
 $userId = (int)$_GET['id'];
 
 try {
@@ -13,16 +12,15 @@ try {
 } catch (\Exceptions\NoPermission $e) {
   Helper\Session::setErrorMessage('Sorry, you are not allowed to edit this profile.');
   header("location: /page/welcome.php");
+  exit;
 } finally {
 
-  $sql = "UPDATE users 
-        SET avatar = NULL
-        WHERE id =" . $userId;
+  if (UserRepository::deleteAvatar($userId)) {
+    Helper\Session::setSuccessMessage('Successfully deleted your avatar.');
+  } else {
+    Helper\Session::setErrorMessage('Sorry. Something went wrong, please try again.');
+  }
 
-    if($result = mysqli_query($connection, $sql)) {
-      Helper\Session::setSuccessMessage('Successfully deleted your avatar.');
-    } else {
-      Helper\Session::setErrorMessage('Sorry. Something went wrong, please try again.');
-    }
-    header("location: /user/profile.php?id=" . $userId);
+  header("location: /user/profile.php?id=" . $userId);
+
 }

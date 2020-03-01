@@ -1,7 +1,11 @@
 <?php 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
-
+//
+// Get user id from session not params
+// if its admin, show another link and pass id in param
+// if params dont exist, use session
+//
 $userId = (int)$_GET['id'];
 
 try {
@@ -13,16 +17,10 @@ try {
 } catch (\Exceptions\NoPermission $e) {
   Helper\Session::setErrorMessage('Sorry, you are not allowed to edit this profile.');
   header("location: /page/welcome.php");
+  exit;
 }
 
-
-//
-// Get user id from session not params
-// if its admin, show another link and pass id in param
-// if params dont exist, use session
-//
 $hasAvatar = $user->getUserAvatar();
-
 $pageTitle = 'Update Avatar';
 include(BASE . '/page/header.php');?>
 <div class="wrapper page-2column">

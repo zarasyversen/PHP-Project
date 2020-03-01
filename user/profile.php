@@ -14,7 +14,6 @@ try {
 }
 
 $hasAvatar = $user->getUserAvatar();
-
 $pageTitle = $user->getName();
 include(BASE . '/page/header.php');?>
 <div class="wrapper page-2column">

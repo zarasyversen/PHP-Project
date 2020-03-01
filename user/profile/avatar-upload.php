@@ -12,6 +12,7 @@ try {
 } catch (\Exceptions\NoPermission $e) {
   Helper\Session::setErrorMessage('Sorry, you are not allowed to edit this profile.');
   header("location: /page/welcome.php");
+  exit;
 }
 
 $timestamp = time();
@@ -55,13 +56,7 @@ if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
         // Upload file to directory
         if (move_uploaded_file($fileTmp, $targetFilePath)) {
 
-          $fileName = mysqli_real_escape_string($connection, $fileName);
-
-          $sql = "UPDATE users 
-            SET avatar = '$fileName'
-            WHERE id =" . (int) $userId;
-
-          if (mysqli_query($connection, $sql)) {
+          if (UserRepository::uploadAvatar($userId, $fileName)) {
             Helper\Session::setSuccessMessage('Successfully uploaded your image.');
           } else {
             Helper\Session::setErrorMessage('File upload failed, please try again.');
