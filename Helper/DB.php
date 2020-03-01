@@ -168,9 +168,9 @@ class DB {
   /**
    * Select Query : All Items
    */
-  public static function select($tableName, $where = null, $order = null, $direction = 'ASC') {
+  public static function select($tableName, $where = null, $order = null, $direction = 'ASC', $select = '*') {
     
-    $stmt = self::buildSelectQuery($tableName, $where, $order, $direction);
+    $stmt = self::buildSelectQuery($tableName, $where, $order, $direction, $select);
 
     $allItems = $stmt->fetchAll();
 
@@ -182,9 +182,9 @@ class DB {
   /**
    * Select Query : First Item
    */
-  public static function selectFirst($tableName, $where = null, $order = null, $direction = 'ASC') {
+  public static function selectFirst($tableName, $where = null, $order = null, $direction = 'ASC', $select = '*') {
 
-    $stmt = self::buildSelectQuery($tableName, $where, $order, $direction);
+    $stmt = self::buildSelectQuery($tableName, $where, $order, $direction, $select);
 
     $firstItem = $stmt->fetch();
 
@@ -197,14 +197,14 @@ class DB {
   /**
    * Select Query : Build SQL
    */
-  private static function buildSelectQuery($tableName, $where = null, $order = null, $direction = 'ASC') {
+  private static function buildSelectQuery($tableName, $where = null, $order = null, $direction = 'ASC', $select = '*') {
 
     $dbh = self::getPdo();
 
     /**
      * Prepare SQL
      */
-    $sql = "SELECT * ";
+    $sql = "SELECT $select ";
     $sql .= "FROM `$tableName`";
 
     /**
@@ -223,7 +223,7 @@ class DB {
     if ($order) {
       $sql .= " ORDER BY `$order` $direction";
     }
-
+    
     // Prepare SQL
     $stmt = $dbh->prepare($sql);
 
