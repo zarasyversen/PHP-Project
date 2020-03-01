@@ -78,10 +78,16 @@ class User {
     return $this->password;
   }
 
+  /**
+   * Get User Id from Session 
+   */
   public static function getSessionUserId() {
     return $_SESSION["user_id"];
   }
 
+  /**
+   * Check if User can edit
+   */
   public function canEditUser() {
 
     // Check if same user is logged in
@@ -98,6 +104,9 @@ class User {
     
   }
 
+  /**
+   * Get User Avatar
+   */
   public function getUserAvatar() {
 
     if ($this->avatar) {
