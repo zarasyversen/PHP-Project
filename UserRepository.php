@@ -34,7 +34,9 @@ class UserRepository {
     throw new \Exceptions\NotFound("User $userId does not exist");
   }
 
-  // Can this be a static function
+  /**
+   * Check if User is Admin
+   */
   public static function getIsAdmin(int $userId) {
 
     $where = [
@@ -52,6 +54,9 @@ class UserRepository {
 
   }
 
+  /**
+   * Get Username
+   */
   public static function getUserName(int $userId) {
 
     $where = [
@@ -109,6 +114,9 @@ class UserRepository {
     return false;
   }
 
+  /**
+   * Check if User already exists
+   */
   public static function doesUserExist($userName) {
 
     $where = [
@@ -124,6 +132,9 @@ class UserRepository {
     }
   }
 
+  /**
+   * Create User
+   */
   public static function createUser($userName, $password) {
     $insert = [
       'username' => $userName,
@@ -138,6 +149,9 @@ class UserRepository {
 
   }
 
+  /**
+   * Login User
+   */
   public static function login($userName) {
     $where = [
       'username' => $userName
@@ -156,6 +170,24 @@ class UserRepository {
     }
 
     throw new \Exceptions\NotFound("User $userName does not exist");
+  }
+
+  /**
+   * Reset Password
+   */
+  public static function resetPassword($password) {
+
+    $set = [
+      'password' => $password
+    ];
+
+    $where = ['id', User::getSessionUserId()];
+
+    if (Helper\DB::update(self::TABLE_NAME, $set, $where)) {
+      return true;
+    }
+
+    return false;
   }
 
 }

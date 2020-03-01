@@ -1,59 +1,43 @@
 <?php 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
  
-// Define variables and initialize with empty values
 $new_password = $confirm_password = "";
 $new_password_err = $confirm_password_err = "";
 $newPasswordOk = false;
  
-// Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+  $new_password = trim($_POST["new_password"]);
+  $confirm_password = trim($_POST["confirm_password"]);
 
-    $new_password = trim($_POST["new_password"]);
-    $confirm_password = trim($_POST["confirm_password"]);
+  // Validate New Password
+  if (empty($new_password)) {
+      $new_password_err = "Please enter the new password.";
+  } elseif (strlen($new_password) < 6) {
+      $new_password_err = "Password must have at least 6 characters.";
+  } elseif (empty($confirm_password)) {
+      $confirm_password_err = "Please confirm the password.";
+  } elseif ($new_password != $confirm_password) {
+      $confirm_password_err = "Password did not match.";
+  } else {
+      $newPasswordOk = true;
+  }
 
-    if (empty($new_password)) {
-        $new_password_err = "Please enter the new password.";
-    } elseif (strlen($new_password) < 6) {
-        $new_password_err = "Password must have at least 6 characters.";
-    } elseif (empty($confirm_password)) {
-        $confirm_password_err = "Please confirm the password.";
-    } elseif ($new_password != $confirm_password) {
-        $confirm_password_err = "Password did not match.";
+  // Reset Password
+  if ($newPasswordOk === true) {
+
+    if (UserRepository::resetPassword(password_hash($new_password, PASSWORD_DEFAULT))) {
+      session_destroy();
+      session_start();
+      Helper\Session::setSuccessMessage('Successfully changed your password, please log in again.');
+      header("location: /index.php");
+      exit;
     } else {
-        $newPasswordOk = true;
+      Helper\Session::setErrorMessage('Something went wrong, please try again later.');
+      header("location: /page/welcome.php");
+      exit;
     }
-
-    if ($newPasswordOk === true) {
-        // Prepare an update statement
-        $sql = "UPDATE users SET password = ? WHERE id = ?";
-        
-        if ($statement = mysqli_prepare($connection, $sql)) {
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($statement, "si", $param_password, $param_id);
-            
-            // Set parameters
-            $param_password = password_hash($new_password, PASSWORD_DEFAULT);
-            $param_id = $_SESSION["user_id"];
-            
-            // Attempt to execute the prepared statement
-            if (mysqli_stmt_execute($statement)) {
-                // Password updated successfully. Destroy the session and redirect
-                session_destroy();
-                header("location: /index.php");
-                exit();
-            } else {
-                Helper\Session::setErrorMessage('Sorry. Something went wrong, please try again.');
-            }
-        }
-        
-        // Close statement
-        mysqli_stmt_close($statement);
-    }
-    
-    // Close connection
-    mysqli_close($connection);
+  }
 }
 $pageTitle = 'Reset Password';
 include(BASE . '/page/header.php');?>
@@ -70,10 +54,10 @@ include(BASE . '/page/header.php');?>
             <label for="confirm_password">Confirm Password</label>
             <input type="password" name="confirm_password" id="confirm_password" class="form__input">
             <p class="form__error"><?php echo $confirm_password_err; ?></p>
-        </div>
+        </div>s
         <div class="form__group actions">
             <button type="submit" class="btn btn-primary">Submit</button>
-            <a href="/page/index.php">Cancel</a>
+            <a href="/page/welcome.php">Cancel</a>
         </div>
     </form>
 </div>    
