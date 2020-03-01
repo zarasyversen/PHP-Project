@@ -2,8 +2,8 @@
 $public_access = true; 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
-// Check no user is logged in
-if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+// Redirect if already logged in
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
   header("location: /page/welcome.php");
   exit;
 }

@@ -138,4 +138,24 @@ class UserRepository {
 
   }
 
+  public static function login($userName) {
+    $where = [
+      'username' => $userName
+    ];
+
+    $select = 'id, username, password';
+
+    $thisUser = Helper\DB::selectFirst(self::TABLE_NAME, $where, null, 'ASC', $select);
+
+    if ($thisUser) {
+      $user = new User();
+      $user->setId((int)$thisUser['id']);  
+      $user->setName($thisUser['username']);
+      $user->setPassword($thisUser['password']);
+      return $user;
+    }
+
+    throw new \Exceptions\NotFound("User $userName does not exist");
+  }
+
 }

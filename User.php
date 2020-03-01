@@ -10,6 +10,7 @@ class User {
   public $avatar;
   public $isAdmin;
   public $createdAt;
+  public $password;
 
   /**
    * Id 
@@ -64,6 +65,17 @@ class User {
  
   public function getCreatedAt() {
     return $this->createdAt;
+  }
+
+  /**
+   * Password
+   */
+  public function setPassword($new_password) { 
+    $this->password = $new_password;  
+  }
+ 
+  public function getPassword() {
+    return $this->password;
   }
 
   public static function getSessionUserId() {
