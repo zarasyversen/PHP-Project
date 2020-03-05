@@ -5,6 +5,7 @@
  */
 class User {
 
+  // Make private
   public $id;
   public $name;
   public $avatar;
@@ -79,28 +80,23 @@ class User {
   }
 
   /**
-   * Get User Id from Session 
-   */
-  public static function getSessionUserId() {
-    return $_SESSION["user_id"];
-  }
-
-  /**
    * Check if User can edit
    */
   public function canEditUser() {
 
+    $activeUser = Helper\Session::getActiveUser();
+
     // Check if same user is logged in
-    if (self::getSessionUserId() === $this->id) {
+    if ($activeUser->getId() === $this->id) {
       return true;
     }
 
-    // Check if logged in user is admin
-    if (UserRepository::getIsAdmin(self::getSessionUserId())) {
+    // Check if active user is admin
+    if ($activeUser->getIsAdmin()) {
       return true;
     }
 
-    throw new \Exceptions\NoPermission("Not allowed to edit post");
+    throw new \Exceptions\NoPermission("Not allowed to edit user");
     
   }
 
