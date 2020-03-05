@@ -1,23 +1,25 @@
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
-// Check if User exits
-if (!isset($_GET['id']) || !getUser($connection, intval($_GET['id']))) {
+$userId = (int)$_GET['id'];
+
+try {
+  $user = UserRepository::getUser($userId);
+  $user->canEditUser();
+} catch (\Exceptions\NotFound $e) {
   Helper\Session::setErrorMessage('Sorry, that user does not exist.');
   header("location: /page/welcome.php");
-} elseif (!canEditUser($connection, intval($_GET['id']))) {
-  // Check if User can edit
+} catch (\Exceptions\NoPermission $e) {
   Helper\Session::setErrorMessage('Sorry, you are not allowed to edit this profile.');
-  header("location: /user/profile.php?id=" . intval($_GET['id']));
+  header("location: /page/welcome.php");
+  exit;
 }
 
-$userId = intval($_GET['id']);
 $timestamp = time();
 $targetDir = BASE . "/images/user/" . $userId . "/avatar/";
 $fileName = $timestamp . "_" . basename($_FILES["file"]["name"]);
 $targetFilePath = $targetDir . $fileName ;
 $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
-
 
 if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
 
@@ -54,13 +56,7 @@ if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
         // Upload file to directory
         if (move_uploaded_file($fileTmp, $targetFilePath)) {
 
-          $fileName = mysqli_real_escape_string($connection, $fileName);
-
-          $sql = "UPDATE users 
-            SET avatar = '$fileName'
-            WHERE id =" . (int) $userId;
-
-          if (mysqli_query($connection, $sql)) {
+          if (UserRepository::uploadAvatar($userId, $fileName)) {
             Helper\Session::setSuccessMessage('Successfully uploaded your image.');
           } else {
             Helper\Session::setErrorMessage('File upload failed, please try again.');
@@ -86,4 +82,4 @@ if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
   Helper\Session::setErrorMessage('Please select a file to upload.');
 }
 
-header('Location: /user/profile.php?id=' . $userId);
+header('Location: /user/profile/avatar-update.php?id=' . $userId);

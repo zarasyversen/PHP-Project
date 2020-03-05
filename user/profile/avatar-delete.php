@@ -1,24 +1,26 @@
 <?php 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
-// Check if User exits
-if(!isset($_GET['id']) || !getUser($connection, intval($_GET['id']))) {
+$userId = (int)$_GET['id'];
+
+try {
+  $user = UserRepository::getUser($userId);
+  $user->canEditUser();
+} catch (\Exceptions\NotFound $e) {
   Helper\Session::setErrorMessage('Sorry, that user does not exist.');
   header("location: /page/welcome.php");
-} elseif (!canEditUser($connection, intval($_GET['id']))) {
-  // Check if User can edit
+} catch (\Exceptions\NoPermission $e) {
   Helper\Session::setErrorMessage('Sorry, you are not allowed to edit this profile.');
-  header("location: /user/profile.php?id=" . intval($_GET['id']));
-} else {
+  header("location: /page/welcome.php");
+  exit;
+} finally {
 
- $sql = "UPDATE users 
-        SET avatar = NULL
-        WHERE id =" . intval($_GET['id']);
+  if (UserRepository::deleteAvatar($userId)) {
+    Helper\Session::setSuccessMessage('Successfully deleted your avatar.');
+  } else {
+    Helper\Session::setErrorMessage('Sorry. Something went wrong, please try again.');
+  }
 
-    if($result = mysqli_query($connection, $sql)) {
-      Helper\Session::setSuccessMessage('Successfully deleted your avatar.');
-    } else {
-      Helper\Session::setErrorMessage('Sorry. Something went wrong, please try again.');
-    }
-    header("location: /user/profile.php?id=" . intval($_GET['id']));
+  header("location: /user/profile.php?id=" . $userId);
+
 }

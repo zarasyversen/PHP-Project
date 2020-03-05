@@ -35,7 +35,7 @@ class Session {
   // Show Message if it is Set
   //
   public static function showMessage() {
-   if(isset($_SESSION["session_message"])) {
+   if (isset($_SESSION["session_message"])) {
     
     // store it in var before you delete it
     $sessionMessage = $_SESSION['session_message'];

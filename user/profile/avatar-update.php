@@ -1,32 +1,33 @@
 <?php 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
-// Check if User exits
-if (!isset($_GET['id']) || !getUser($connection, intval($_GET['id']))) {
-  Helper\Session::setErrorMessage('Sorry, that user does not exist.');
-  header("location: /page/welcome.php");
-} elseif (!canEditUser($connection, intval($_GET['id']))) {
-  // Check if User can edit
-  Helper\Session::setErrorMessage('Sorry, you are not allowed to edit this profile.');
-  header("location: /profile.php?id=" . intval($_GET['id']));
-}
-
-
 //
 // Get user id from session not params
 // if its admin, show another link and pass id in param
 // if params dont exist, use session
 //
+$userId = (int)$_GET['id'];
 
-$userId = intval($_GET['id']);
-$hasAvatar = hasUserAvatar($connection, $userId);
+try {
+  $user = UserRepository::getUser($userId);
+  $user->canEditUser();
+} catch (\Exceptions\NotFound $e) {
+  Helper\Session::setErrorMessage('Sorry, that user does not exist.');
+  header("location: /page/welcome.php");
+} catch (\Exceptions\NoPermission $e) {
+  Helper\Session::setErrorMessage('Sorry, you are not allowed to edit this profile.');
+  header("location: /page/welcome.php");
+  exit;
+}
 
+$hasAvatar = $user->getUserAvatar();
 $pageTitle = 'Update Avatar';
 include(BASE . '/page/header.php');?>
 <div class="wrapper page-2column">
   <header class="page-header">
     <h1>Update Avatar</h1>
   </header>
+  <?php include(BASE . '/session/message.php'); ?>
   <aside class="page-sidebar">
     <h2>Current Avatar</h2>
     <img src="<?php echo $hasAvatar;?>"/>

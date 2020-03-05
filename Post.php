@@ -91,9 +91,9 @@ class Post {
     }
 
     // Check if logged in user is admin
-    // if (getIsAdmin($connection, $_SESSION["user_id"])) {
-    //   return true;
-    // }
+    if (UserRepository::getIsAdmin(User::getSessionUserId())) {
+      return true;
+    }
 
     throw new \Exceptions\NoPermission("Not allowed to edit post");
   }

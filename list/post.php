@@ -6,6 +6,8 @@ try {
  $postEditable = false; 
 }
 
+$user = UserRepository::getUserName($post->getUserId());
+
 ?>
 <li>
   <article class="post">
@@ -20,10 +22,9 @@ try {
           <?php echo $post->getFormattedDate($post->getDate()); ?>
         </time>
         by 
-        <?php $userName = getUsername($connection, $post->getUserId()); ?>
         <a title="<?php echo $userName; ?> Profile" 
           href="/user/profile.php?id=<?php echo $post->getUserId(); ?>">
-          <?php echo $userName; ?></a>.
+          <?php echo $user->getName(); ?></a>.
         <?php if ($postEditable) :?>
           <a href="/user/post/edit.php?id=<?php echo $post->getPostId(); ?>">Edit</a>
         <?php endif;?>
