@@ -1,5 +1,4 @@
 <?php 
-
 $sessionMessage = Helper\Session::showMessage();
 ?>
 <?php if($sessionMessage) :

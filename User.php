@@ -10,6 +10,7 @@ class User {
   public $avatar;
   public $isAdmin;
   public $createdAt;
+  public $password;
 
   /**
    * Id 
@@ -66,10 +67,27 @@ class User {
     return $this->createdAt;
   }
 
+  /**
+   * Password
+   */
+  public function setPassword($new_password) { 
+    $this->password = $new_password;  
+  }
+ 
+  public function getPassword() {
+    return $this->password;
+  }
+
+  /**
+   * Get User Id from Session 
+   */
   public static function getSessionUserId() {
     return $_SESSION["user_id"];
   }
 
+  /**
+   * Check if User can edit
+   */
   public function canEditUser() {
 
     // Check if same user is logged in
@@ -86,6 +104,9 @@ class User {
     
   }
 
+  /**
+   * Get User Avatar
+   */
   public function getUserAvatar() {
 
     if ($this->avatar) {
