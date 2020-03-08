@@ -6,13 +6,12 @@
  */
 class Post {
 
-  // Make Private
-  public $title;
-  public $message;
-  public $createdDate;
-  public $userId;
-  public $postId;
-  public $updatedDate;
+  private $title;
+  private $message;
+  private $createdDate;
+  private $userId;
+  private $postId;
+  private $updatedDate;
 
   public function setTitle($new_title) { 
       $this->title = $new_title;  

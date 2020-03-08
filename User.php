@@ -5,13 +5,12 @@
  */
 class User {
 
-  // Make private
-  public $id;
-  public $name;
-  public $avatar;
-  public $isAdmin;
-  public $createdAt;
-  public $password;
+  private $id;
+  private $name;
+  private $avatar;
+  private $isAdmin;
+  private $createdAt;
+  private $password;
 
   /**
    * Id 
