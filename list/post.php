@@ -6,7 +6,7 @@ try {
  $postEditable = false; 
 }
 
-$user = UserRepository::getUserName($post->getUserId());
+$user = UserRepository::getUser($post->getUserId());
 
 ?>
 <li>

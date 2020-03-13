@@ -6,12 +6,12 @@
  */
 class Post {
 
-  public $title;
-  public $message;
-  public $createdDate;
-  public $userId;
-  public $postId;
-  public $updatedDate;
+  private $title;
+  private $message;
+  private $createdDate;
+  private $userId;
+  private $postId;
+  private $updatedDate;
 
   public function setTitle($new_title) { 
       $this->title = $new_title;  
@@ -84,14 +84,16 @@ class Post {
   }
 
   public function isEditable() {
+
+    $activeUser = Helper\Session::getActiveUser();
       
     // Check if user has posted the post
-    if ($_SESSION["user_id"] === $this->getUserId()) {
+    if ($activeUser->getId() === $this->getUserId()) {
       return true;
     }
 
-    // Check if logged in user is admin
-    if (UserRepository::getIsAdmin(User::getSessionUserId())) {
+    // Check if active user is admin
+    if ($activeUser->getIsAdmin()) {
       return true;
     }
 

@@ -3,10 +3,10 @@ $public_access = true;
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // Redirect if already logged in
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+if (Helper\Session::isLoggedIn()) {
   header("location: /page/welcome.php");
   exit;
-}
+} 
 
 $username = $password = '';
 $username_err = $password_err = '';
@@ -44,10 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       session_set_cookie_params($session_lifetime);
       session_start();
 
-      // Store data in session variables
-      $_SESSION["loggedin"] = true;
+      // Store data in session variable
       $_SESSION["user_id"] = $user->getId();
-      $_SESSION["username"] = $user->getName();
       
       // Redirect user to welcome page
       header("location: /page/welcome.php");

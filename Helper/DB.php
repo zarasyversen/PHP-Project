@@ -6,32 +6,7 @@ namespace Helper;
  */
 class DB {
 
-  protected static $connection;
   protected static $dbh;
-
-  /**
-   * MySQL Connection
-   */
-  public static function getConnection() {
-   
-    if (!isset(self::$connection)) {
-      $dbhost = "localhost"; // 127
-      $dbusername = "root";
-      $dbpassword = "root";
-      $dbname = "php_project";
-
-      $connection = mysqli_connect($dbhost, $dbusername, $dbpassword, $dbname);
-
-      if ($connection) {
-        self::$connection = $connection;
-      } else {
-        die('Unable to Connect to Database');
-      }
-
-    } 
-   
-   return self::$connection;
-  }
 
   /**
    * PDO Connection

@@ -35,17 +35,48 @@ class Session {
   // Show Message if it is Set
   //
   public static function showMessage() {
-   if (isset($_SESSION["session_message"])) {
-    
-    // store it in var before you delete it
-    $sessionMessage = $_SESSION['session_message'];
+    if (isset($_SESSION["session_message"])) {
+      // store it in var before you delete it
+      $sessionMessage = $_SESSION['session_message'];
 
-    // remove it
-    unset($_SESSION['session_message']);
+      // remove it
+      unset($_SESSION['session_message']);
 
-    // return message 
-    return $sessionMessage;
-   }
- }
+      // return message
+      return $sessionMessage;
+    }
+  }
+
+  //
+  // Get Session User Id
+  //
+  public static function getSessionUserId() {
+    return $_SESSION["user_id"];
+  }
+
+  //
+  // Create Active User Object
+  //
+  public static function getActiveUser() {
+
+    try {
+      return \UserRepository::getUser(self::getSessionUserId());
+    } catch (\Exceptions\NotFound $e) {
+      self::setErrorMessage('Sorry, that user does not exist.');
+    }
+
+  }
+
+  //
+  // Check User is Logged In
+  //
+  public static function isLoggedIn() {
+
+    if (isset($_SESSION["user_id"])) {
+      return true;
+    }
+
+  }
+
 
 }

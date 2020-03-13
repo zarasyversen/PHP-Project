@@ -3,10 +3,10 @@ $public_access = true;
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // Redirect if already logged in
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+if (Helper\Session::isLoggedIn()) {
   header("location: /page/welcome.php");
   exit;
-}
+} 
 
 //Define Variables
 $username = $password  = $confirm_password = '';

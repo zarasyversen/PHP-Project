@@ -35,49 +35,6 @@ class UserRepository {
   }
 
   /**
-   * Check if User is Admin
-   */
-  public static function getIsAdmin(int $userId) {
-
-    $where = [
-      'id' => $userId
-    ];
-
-    $select = 'is_admin';
-
-    $row = Helper\DB::selectFirst(self::TABLE_NAME, $where, null, 'ASC', $select);
-
-    // Make in to int - should this be set on the user? like username?
-    if ((int)$row['is_admin'] === 1) {
-      return true;
-    }
-
-  }
-
-  /**
-   * Get Username
-   */
-  public static function getUserName(int $userId) {
-
-    $where = [
-      'id' => $userId
-    ];
-
-    $select = 'username';
-
-    $row = Helper\DB::selectFirst(self::TABLE_NAME, $where, null, 'ASC', $select);
-
-
-    if ($row['username'] !== null) {
-      $user = new User();
-      $user->setName($row['username']);
-
-      return $user;
-    }
-
-  }
-
-  /**
    * Upload Avatar
    */
   public static function uploadAvatar(int $userId, $fileName) {

@@ -4,7 +4,7 @@
        <span>>></span>
     </li>
     <li class="menu__item">
-      <a href="/user/profile.php?id=<?php echo User::getSessionUserId() ;?>" class="menu__title">My Profile</a>
+      <a href="/user/profile.php?id=<?php echo Helper\Session::getSessionUserId() ;?>" class="menu__title">My Profile</a>
     </li>
     <li class="menu__item">
       <a href="/page/welcome.php" class="menu__title">All Posts</a>
