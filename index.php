@@ -24,9 +24,9 @@ switch ($requestedPath) {
   case '/profile':
 
     checkIfLoggedIn();
-
     $_GET['id'] = $param;
-    include(BASE . '/user/profile.php');
+    $page = Controller\User::showProfile();
+    include(BASE . $page);
     break;
 
   case '/profile/avatar/create':
