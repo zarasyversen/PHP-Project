@@ -83,4 +83,4 @@ include(BASE . '/page/header.php');?>
         <p>Don't have an account? <a href="/session/register.php">Sign up now</a>.</p>
     </form>
   </div>
-  <?php include(BASE .'/page/footer.php');?>
+<?php include(BASE .'/page/footer.php');?>

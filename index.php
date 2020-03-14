@@ -23,11 +23,10 @@ $param = str_replace('/', '', $match);
 switch ($requestedPath) {
   case '/profile':
 
+    checkIfLoggedIn();
+
     $_GET['id'] = $param;
     include(BASE . '/user/profile.php');
-    exit;
-
-    // include user/profile.php?id;
     break;
 
   case '/profile/avatar/create':

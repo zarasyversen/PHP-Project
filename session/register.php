@@ -89,7 +89,7 @@ include(BASE . '/page/header.php');?>
       <button type="submit" class="btn btn--primary">Submit</button>
       <input type="reset" class="btn" value="Reset">
     </div>
-    <p>Already have an account? <a href="/session/index.php">Login here</a>.</p>
+    <p>Already have an account? <a href="/session/login.php">Login here</a>.</p>
   </form>
 </div>
 <?php include(BASE . '/page/footer.php');?>
