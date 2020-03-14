@@ -82,4 +82,5 @@ if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
   Helper\Session::setErrorMessage('Please select a file to upload.');
 }
 
-header('Location: /user/profile/avatar-update.php?id=' . $userId);
+$url = '/profile/' .$userId. '/avatar/edit';
+header('Location:' . $url);

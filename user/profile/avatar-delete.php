@@ -20,7 +20,6 @@ try {
   } else {
     Helper\Session::setErrorMessage('Sorry. Something went wrong, please try again.');
   }
-
-  header("location: /user/profile.php?id=" . $userId);
-
+  $url = '/profile/' .$userId;
+  header('Location:' . $url);
 }

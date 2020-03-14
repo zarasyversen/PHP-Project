@@ -29,12 +29,12 @@ include(BASE . '/page/header.php');?>
   <?php if ($hasAvatar) :?>
     <img src="<?php echo $hasAvatar;?>"/>
     <?php if ($canEdit) :?>
-      <a href="/user/profile/avatar-update.php?id=<?php echo $user->getId();?>" 
+      <a href="/profile/<?php echo $user->getId();?>/avatar/edit" 
         title="Upload Avatar Image">Edit Avatar</a>
     <?php endif;?>
   <?php elseif ($canEdit) :?>
     <form class="form" 
-          action="/user/profile/avatar-upload.php?id=<?php echo $user->getId();?>" 
+          action="/profile/<?php echo $user->getId();?>/avatar/create" 
           method="post" 
           enctype="multipart/form-data">
       <div class="form__group">

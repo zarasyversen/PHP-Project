@@ -30,15 +30,25 @@ switch ($requestedPath) {
     break;
 
   case '/profile/avatar/create':
-    // include user/profile/avatar-upload.php;
+    checkIfLoggedIn();
+    $_GET['id'] = $param;
+    $page = Controller\User::showCreateAvatar();
+
+    include(BASE . $page);
     break;
 
   case '/profile/avatar/edit':
-    // include user/profile/avatar-update.php;
+    checkIfLoggedIn();
+    $_GET['id'] = $param;
+    $page = Controller\User::showUpdateAvatar();
+    include(BASE . $page);
     break;
 
   case '/profile/avatar/delete':
-    // include user/profile/avatar-delete.php;
+    checkIfLoggedIn();
+    $_GET['id'] = $param;
+    $page = Controller\User::showDeleteAvatar();
+    include(BASE . $page);
     break;
 
   default: 
