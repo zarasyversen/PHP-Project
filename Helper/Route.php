@@ -5,16 +5,11 @@ namespace Helper;
 class Route {
 
   private static $isPublic = false;
+  private static $routes = [];
 
   /*
    * Routes
   **/
-  // private static $array = [
-  //   '/profile' => [
-  //     'public' => $isPublic,
-  //     'controller' => 'Controller\Profile'
-  //   ]
-    // ],
     // '/profile/avatar/create' => [
     //   'public' => $isPublic,
     //   'controller' => 'Controller\Profile\Avatar\Create'
@@ -27,15 +22,25 @@ class Route {
     //   'public' => $isPublic,
     //   'controller' => 'Controller\Profile\Avatar\Delete'
     // ]
-  // ];
+
+  private static function setRoutes() {
+    self::$routes = [
+        '/profile' => [
+          'public' => self::$isPublic,
+          'controller' => 'Controller\Profile'
+        ]
+    ];
+  }
 
   public static function get($requestedUrl) {
-
     $requestedPath = self::getRequestedPath($requestedUrl);
     $getParam = self::getParam($requestedUrl);
 
+    self::setRoutes();
+
     var_dump($requestedPath);
     var_dump($getParam);
+    var_dump(self::$routes);
     die('ha');
 
     // checkIfLoggedIn();
@@ -62,7 +67,7 @@ class Route {
     $match = self::getMatches($requestedUrl);
     
     // Remove param from url to find path
-    $requestedPath = str_replace($match, '', $requestedUrl); 
+    $requestedPath = str_replace($match, '', $requestedUrl);
 
     return $requestedPath;
 
