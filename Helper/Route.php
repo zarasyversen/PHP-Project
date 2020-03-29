@@ -61,8 +61,12 @@ class Route {
       // Call controller
       $page = $controller::view();
 
+      // Show Page
       include(BASE . $page);
+
     } else {
+
+      // Return default page for now
       include(BASE. '/session/login.php');
     }
 

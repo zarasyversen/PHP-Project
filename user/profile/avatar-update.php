@@ -1,11 +1,6 @@
 <?php 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
-//
-// Get user id from session not params
-// if its admin, show another link and pass id in param
-// if params dont exist, use session
-//
 $userId = (int)$_GET['id'];
 
 try {
@@ -34,7 +29,7 @@ include(BASE . '/page/header.php');?>
   </aside>
   <main class="page-main">
     <h2>Update your Avatar</h2>
-    <form class="form" action="/profile/<?php echo $userId;?>/avatar/edit" method="post" enctype="multipart/form-data">
+    <form class="form" action="/profile/<?php echo $userId;?>/avatar/create" method="post" enctype="multipart/form-data">
       <div class="form__group">
         <label for="avatar">Upload New Avatar:</label>
         <input type="file" class="form__input file" name="file" id="avatar">
