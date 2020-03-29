@@ -10,25 +10,25 @@ class Route {
   /*
    * Routes
   **/
-    // '/profile/avatar/create' => [
-    //   'public' => $isPublic,
-    //   'controller' => 'Controller\Profile\Avatar\Create'
-    // ],
-    // '/profile/avatar/edit' => [
-    //   'public' => $isPublic,
-    //   'controller' => 'Controller\Profile\Avatar\Edit'
-    // ],
-    // '/profile/avatar/delete' => [
-    //   'public' => $isPublic,
-    //   'controller' => 'Controller\Profile\Avatar\Delete'
-    // ]
 
   private static function setRoutes() {
     self::$routes = [
-        '/profile' => [
-          'public' => self::$isPublic,
-          'controller' => 'Controller\Profile'
-        ]
+      'profile' => [
+        'public' => self::$isPublic,
+        'controller' => 'Controller\Profile'
+      ],
+      'profile/avatar/create' => [
+        'public' => self::$isPublic,
+        'controller' => 'Controller\Profile\Avatar\Create'
+      ],
+      'profile/avatar/edit' => [
+        'public' => self::$isPublic,
+        'controller' => 'Controller\Profile\Avatar\Edit'
+      ],
+      'profile/avatar/delete' => [
+        'public' => self::$isPublic,
+        'controller' => 'Controller\Profile\Avatar\Delete'
+      ]
     ];
   }
 
@@ -68,6 +68,9 @@ class Route {
     
     // Remove param from url to find path
     $requestedPath = str_replace($match, '', $requestedUrl);
+
+    // Remove first slash
+    $requestedPath = substr($requestedPath, 1);
 
     return $requestedPath;
 
