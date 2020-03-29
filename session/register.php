@@ -1,5 +1,4 @@
 <?php 
-$public_access = true; 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // Redirect if already logged in
@@ -47,10 +46,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
       UserRepository::createUser($username, $password);
       Helper\Session::setSuccessMessage('Successfully created your account, please log in.');
-      header("location: /index.php");
+      header("location: /login");
     } catch (\Exceptions\NotSaved $e){
       Helper\Session::setErrorMessage('Something went wrong, please try again later.');
-      header("location: /session/register.php");
+      header("location: /register");
     } finally {
       exit; 
     }
@@ -60,7 +59,7 @@ $pageTitle = 'Sign Up';
 include(BASE . '/page/header.php');?>
 <div class="wrapper">
   <?php include(BASE . '/session/message.php'); ?>
-  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" 
+  <form action="/register" 
     method="post" class="form">
     <h1>Sign up</h1>
     <p>Please fill in this form to create an account.</p>
@@ -89,7 +88,7 @@ include(BASE . '/page/header.php');?>
       <button type="submit" class="btn btn--primary">Submit</button>
       <input type="reset" class="btn" value="Reset">
     </div>
-    <p>Already have an account? <a href="/session/login.php">Login here</a>.</p>
+    <p>Already have an account? <a href="/login">Login here</a>.</p>
   </form>
 </div>
 <?php include(BASE . '/page/footer.php');?>

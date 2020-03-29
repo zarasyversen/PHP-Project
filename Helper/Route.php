@@ -15,6 +15,22 @@ class Route {
         'public' => true,
         'controller' => 'Controller\Index'
       ],
+      '/login' => [
+        'public' => true,
+        'controller' => 'Controller\Login'
+      ],
+      '/logout' => [
+        'public' => true,
+        'controller' => 'Controller\Logout'
+      ],
+      '/register' => [
+        'public' => true,
+        'controller' => 'Controller\Register'
+      ],
+      '/reset/password' => [
+        'public' => true,
+        'controller' => 'Controller\ResetPassword'
+      ],
       '/profile' => [
         'public' => self::$isPublic,
         'controller' => 'Controller\Profile'

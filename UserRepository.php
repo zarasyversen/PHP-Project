@@ -138,7 +138,7 @@ class UserRepository {
       'password' => $password
     ];
 
-    $where = ['id', User::getSessionUserId()];
+    $where = ['id', Helper\Session::getSessionUserId()];
 
     if (Helper\DB::update(self::TABLE_NAME, $set, $where)) {
       return true;

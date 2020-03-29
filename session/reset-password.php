@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       session_destroy();
       session_start();
       Helper\Session::setSuccessMessage('Successfully changed your password, please log in again.');
-      header("location: /index.php");
+      header("location: /login");
       exit;
     } else {
       Helper\Session::setErrorMessage('Something went wrong, please try again later.');
@@ -44,7 +44,7 @@ include(BASE . '/page/header.php');?>
 <div class="wrapper">
     <h2>Reset Password</h2>
     <p>Please fill out this form to reset your password.</p>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="form" method="post"> 
+    <form action="/reset/password" class="form" method="post"> 
         <div class="form__group<?php echo (!empty($new_password_err)) ? ' has-error' : ''; ?>">
             <label for="new_password">New Password</label>
             <input type="password" name="new_password" id="new_password" class="form__input" value="<?php echo $new_password; ?>">
@@ -54,7 +54,7 @@ include(BASE . '/page/header.php');?>
             <label for="confirm_password">Confirm Password</label>
             <input type="password" name="confirm_password" id="confirm_password" class="form__input">
             <p class="form__error"><?php echo $confirm_password_err; ?></p>
-        </div>s
+        </div>
         <div class="form__group actions">
             <button type="submit" class="btn btn-primary">Submit</button>
             <a href="/page/welcome.php">Cancel</a>

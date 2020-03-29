@@ -1,5 +1,4 @@
 <?php
-$public_access = true;
 require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // Redirect if already logged in
@@ -33,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $user = UserRepository::login($username);
     } catch (\Exceptions\NotFound $e) {
       Helper\Session::setErrorMessage('Sorry, that user does not exist.');
-      header("location: /index.php");
+      header("location: /login");
       exit;
     }
 
@@ -61,7 +60,7 @@ include(BASE . '/page/header.php');?>
     <?php include(BASE . '/session/message.php'); ?>
     <h2>Login</h2>
     <p>Please fill in your credentials to login.</p>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" 
+    <form action="/login"
       method="post" class="form">
         <div class="form__group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
             <label>Username</label>
@@ -80,7 +79,7 @@ include(BASE . '/page/header.php');?>
         <div class="form__group actions">
             <button type="submit" class="btn btn--primary">Login</button>
         </div>
-        <p>Don't have an account? <a href="/session/register.php">Sign up now</a>.</p>
+        <p>Don't have an account? <a href="/register">Sign up now</a>.</p>
     </form>
   </div>
 <?php include(BASE .'/page/footer.php');?>
