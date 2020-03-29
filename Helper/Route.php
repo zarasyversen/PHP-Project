@@ -5,27 +5,29 @@ namespace Helper;
 class Route {
 
   private static $isPublic = false;
-  private static $routes = [];
+  // private static $routes = [];
 
-  /*
-   * Routes
-  **/
+  private static function getRoutes() {
 
-  private static function setRoutes() {
-    self::$routes = [
-      'profile' => [
+    // self::$routes = 
+    return [
+      '/' => [
+        'public' => true,
+        'controller' => 'Controller\Index'
+      ],
+      '/profile' => [
         'public' => self::$isPublic,
         'controller' => 'Controller\Profile'
       ],
-      'profile/avatar/create' => [
+      '/profile/avatar/create' => [
         'public' => self::$isPublic,
         'controller' => 'Controller\Profile\Avatar\Create'
       ],
-      'profile/avatar/edit' => [
+      '/profile/avatar/edit' => [
         'public' => self::$isPublic,
         'controller' => 'Controller\Profile\Avatar\Edit'
       ],
-      'profile/avatar/delete' => [
+      '/profile/avatar/delete' => [
         'public' => self::$isPublic,
         'controller' => 'Controller\Profile\Avatar\Delete'
       ]
@@ -33,23 +35,38 @@ class Route {
   }
 
   public static function get($requestedUrl) {
+
+    // How to set content of static array? 
+    // self::setRoutes();
+    $routes = self::getRoutes();
+
     $requestedPath = self::getRequestedPath($requestedUrl);
-    $getParam = self::getParam($requestedUrl);
+    $param = self::getParam($requestedUrl);
+    
+    // If requested path exists in routes
+    if (array_key_exists($requestedPath, $routes)) {
 
-    self::setRoutes();
+      $page = $routes[$requestedPath];
+      $isPublic = $page['public'];
+      $controller = $page['controller'];
 
-    var_dump($requestedPath);
-    var_dump($getParam);
-    var_dump(self::$routes);
-    die('ha');
+      // Check Login if page is not public
+      if (!$isPublic) {
+        checkIfLoggedIn();
+      }
 
-    // checkIfLoggedIn();
-    // $_GET['id'] = $param;
-    // $page = Controller\User::showProfile();
-    // include(BASE . $page);
+      // Set Param
+      $_GET['id'] = $param;
+
+      // Call controller
+      $page = $controller::view();
+
+      include(BASE . $page);
+    } else {
+      include(BASE. '/session/login.php');
+    }
 
   }
-
 
   private static function getMatches($requestedUrl) {
     // get any slash followed by digits
@@ -68,9 +85,6 @@ class Route {
     
     // Remove param from url to find path
     $requestedPath = str_replace($match, '', $requestedUrl);
-
-    // Remove first slash
-    $requestedPath = substr($requestedPath, 1);
 
     return $requestedPath;
 
