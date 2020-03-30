@@ -1,5 +1,4 @@
-<?php 
-require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
+<?php
 $title = $message = '';
 $title_err = $message_err = $error = '';
 $titleOk = $messageOk = false;
@@ -34,15 +33,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } catch (\Exceptions\NotSaved $e){
       Helper\Session::setErrorMessage('Something went wrong, please try again later.');
     } finally {
-      header("location: /page/welcome.php");
+      header("location: /welcome");
       exit;
     }
 
   }
 }
 ?>
-<!-- is $_SERVER["PHP_SELF"] same as doing new-post.php (see edit) -->
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" 
+<form action="/post/create" 
       method="post" 
       class="form">
   <h2>Post a message</h2>

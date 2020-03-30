@@ -1,5 +1,4 @@
 <?php 
-require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
  
 $new_password = $confirm_password = "";
 $new_password_err = $confirm_password_err = "";
@@ -34,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       exit;
     } else {
       Helper\Session::setErrorMessage('Something went wrong, please try again later.');
-      header("location: /page/welcome.php");
+      header("location: /welcome");
       exit;
     }
   }
@@ -57,7 +56,7 @@ include(BASE . '/page/header.php');?>
         </div>
         <div class="form__group actions">
             <button type="submit" class="btn btn-primary">Submit</button>
-            <a href="/page/welcome.php">Cancel</a>
+            <a href="/welcome">Cancel</a>
         </div>
     </form>
 </div>    

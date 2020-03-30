@@ -1,6 +1,4 @@
 <?php 
-require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
-
 $userId = (int)$_GET['id'];
 
 try {
@@ -8,7 +6,7 @@ try {
   $canEdit = $user->canEditUser();
 } catch (\Exceptions\NotFound $e) {
   Helper\Session::setErrorMessage('Sorry, that user does not exist.');
-  header("location: /page/welcome.php");
+  header("location: /welcome");
 } catch (\Exceptions\NoPermission $e) {
   $canEdit = false; 
 }
@@ -60,7 +58,7 @@ include(BASE . '/page/header.php');?>
         <p>Sorry, no posts available yet. </p>
       <?php endif; ?>
     </section>
-    <a href="/page/welcome.php">Return to all posts</a>
+    <a href="/welcome">Return to all posts</a>
   </main>
 </div>
 <?php include(BASE . '/page/footer.php');?>

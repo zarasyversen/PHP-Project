@@ -1,9 +1,8 @@
 <?php
-require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // Redirect if already logged in
 if (Helper\Session::isLoggedIn()) {
-  header("location: /page/welcome.php");
+  header("location: /welcome");
   exit;
 } 
 
@@ -47,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $_SESSION["user_id"] = $user->getId();
       
       // Redirect user to welcome page
-      header("location: /page/welcome.php");
+      header("location: /welcome");
     } else {
       $password_err = "Sorry, that password is incorrect.";
     }

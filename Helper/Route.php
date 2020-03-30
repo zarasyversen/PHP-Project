@@ -31,6 +31,22 @@ class Route {
         'public' => true,
         'controller' => 'Controller\ResetPassword'
       ],
+      '/welcome' => [
+        'public' => self::$isPublic,
+        'controller' => 'Controller\Welcome'
+      ],
+      '/post/create' => [
+        'public' => self::$isPublic,
+        'controller' => 'Controller\Post\Create'
+      ],
+      '/post/edit' => [
+        'public' => self::$isPublic,
+        'controller' => 'Controller\Post\Edit'
+      ],
+      '/post/delete' => [
+        'public' => self::$isPublic,
+        'controller' => 'Controller\Post\Delete'
+      ],
       '/profile' => [
         'public' => self::$isPublic,
         'controller' => 'Controller\Profile'

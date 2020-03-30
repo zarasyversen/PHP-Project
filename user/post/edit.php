@@ -1,6 +1,4 @@
 <?php
-require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
-
 $title = $message = '';
 $title_err = $message_err = $error = '';
 $titleOk = $messageOk = $confirmDeletePost = false;
@@ -12,13 +10,12 @@ try {
   $post->isEditable();
 } catch (\Exceptions\NotFound $e) {
   Helper\Session::setErrorMessage('Sorry, that post does not exist.');
-  header("location: /welcome.php");
+  header("location: /welcome");
 } catch (\Exceptions\NoPermission $e) {
   Helper\Session::setErrorMessage('Sorry, you are not allowed to edit that post.');
-  header("location: /welcome.php");
+  header("location: /welcome");
   exit;
 }
-
 
 //
 // Save New Edited Post 
@@ -43,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (PostRepository::edit($postId, $title, $message)) {
       Helper\Session::setSuccessMessage('Successfully edited your message.');
-      header("location: /page/welcome.php");
+      header("location: /welcome");
     } else {
       Helper\Session::setErrorMessage('Something went wrong, please try again later.');
     }
@@ -55,7 +52,7 @@ $pageTitle = 'Edit Post';
 include(BASE .'/page/header.php');?>
 <div class="wrapper">
   <h1>Edit your post</h1>
-    <form action="edit.php?id=<?php echo $post->getPostId(); ?>"
+    <form action="/post/<?php echo $post->getPostId(); ?>/edit"
       method="post" 
       class="form">
       <div class="form__group<?php echo (!empty($message_err)) ? ' has-error' : ''; ?>">
@@ -91,7 +88,7 @@ include(BASE .'/page/header.php');?>
 
     <div class="post__actions">
       <button type="button" class="btn btn--primary delete js-delete-post">Delete Post</button>
-      <a href="/page/welcome.php">Cancel</a>
+      <a href="/welcome">Cancel</a>
     </div>
 </div>
 <script>
@@ -101,7 +98,7 @@ include(BASE .'/page/header.php');?>
     var confirmed = confirm('Are you sure you want to delete your post?');
 
     if (confirmed) {
-      window.location.href = "delete.php?id=<?php echo $postId; ?>";
+      window.location.href = "/post/<?php echo $post->getPostId(); ?>/delete";
     } 
   }
 

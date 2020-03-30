@@ -7,7 +7,7 @@
       <a href="/profile/<?php echo Helper\Session::getSessionUserId() ;?>" class="menu__title">My Profile</a>
     </li>
     <li class="menu__item">
-      <a href="/page/welcome.php" class="menu__title">All Posts</a>
+      <a href="/welcome" class="menu__title">All Posts</a>
     </li>
     <li class="menu__item">
       <a href="/reset/password">Reset Password</a>

@@ -1,6 +1,4 @@
 <?php 
-require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
-
 $userId = (int)$_GET['id'];
 
 try {
@@ -8,10 +6,10 @@ try {
   $user->canEditUser();
 } catch (\Exceptions\NotFound $e) {
   Helper\Session::setErrorMessage('Sorry, that user does not exist.');
-  header("location: /page/welcome.php");
+  header("location: /welcome");
 } catch (\Exceptions\NoPermission $e) {
   Helper\Session::setErrorMessage('Sorry, you are not allowed to edit this profile.');
-  header("location: /page/welcome.php");
+  header("location: /welcome");
   exit;
 } finally {
 

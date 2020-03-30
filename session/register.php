@@ -1,9 +1,8 @@
 <?php 
-require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 
 // Redirect if already logged in
 if (Helper\Session::isLoggedIn()) {
-  header("location: /page/welcome.php");
+  header("location: /welcome");
   exit;
 } 
 
