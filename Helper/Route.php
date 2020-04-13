@@ -4,12 +4,14 @@ namespace Helper;
 
 class Route {
 
-  private static $isPublic = false;
-  // private static $routes = [];
+  // loops thorugh the array of routes, 
+  // We need to code that converts "/profile/{id}" into the actual regex
+  // that regex is then going over to find /profile/123 and return the controller
 
+  //
+  // Routes
+  //
   private static function getRoutes() {
-
-    // self::$routes = 
     return [
       '/' => [
         'public' => true,
@@ -32,35 +34,27 @@ class Route {
         'controller' => 'Controller\ResetPassword'
       ],
       '/welcome' => [
-        'public' => self::$isPublic,
         'controller' => 'Controller\Welcome'
       ],
       '/post/create' => [
-        'public' => self::$isPublic,
         'controller' => 'Controller\Post\Create'
       ],
       '/post/edit' => [
-        'public' => self::$isPublic,
         'controller' => 'Controller\Post\Edit'
       ],
       '/post/delete' => [
-        'public' => self::$isPublic,
         'controller' => 'Controller\Post\Delete'
       ],
       '/profile' => [
-        'public' => self::$isPublic,
         'controller' => 'Controller\Profile'
       ],
       '/profile/avatar/create' => [
-        'public' => self::$isPublic,
         'controller' => 'Controller\Profile\Avatar\Create'
       ],
       '/profile/avatar/edit' => [
-        'public' => self::$isPublic,
         'controller' => 'Controller\Profile\Avatar\Edit'
       ],
       '/profile/avatar/delete' => [
-        'public' => self::$isPublic,
         'controller' => 'Controller\Profile\Avatar\Delete'
       ]
     ];
@@ -68,8 +62,6 @@ class Route {
 
   public static function get($requestedUrl) {
 
-    // How to set content of static array? 
-    // self::setRoutes();
     $routes = self::getRoutes();
 
     $requestedPath = self::getRequestedPath($requestedUrl);
@@ -79,7 +71,8 @@ class Route {
     if (array_key_exists($requestedPath, $routes)) {
 
       $page = $routes[$requestedPath];
-      $isPublic = $page['public'];
+
+      $isPublic = isset($page['public']) ? $page['public'] : false; 
       $controller = $page['controller'];
 
       // Check Login if page is not public
