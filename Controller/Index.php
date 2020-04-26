@@ -7,7 +7,7 @@ namespace Controller;
 class Index {
 
   public static function view() {
-    return '/session/login.php';
+    include(BASE . '/session/login.php');
   }
 
 }

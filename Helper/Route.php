@@ -9,7 +9,7 @@ class Route {
   // that regex is then going over to find /profile/123 and return the controller
 
   //
-  // Routes
+  // Get Routes 
   //
   private static function getRoutes() {
     return [
@@ -36,25 +36,25 @@ class Route {
       '/welcome' => [
         'controller' => 'Controller\Welcome'
       ],
-      '/post/create' => [
+      '/post/{id}/create' => [
         'controller' => 'Controller\Post\Create'
       ],
-      '/post/edit' => [
+      '/post/{id}/edit' => [
         'controller' => 'Controller\Post\Edit'
       ],
-      '/post/delete' => [
+      '/post/{id}/delete' => [
         'controller' => 'Controller\Post\Delete'
       ],
-      '/profile' => [
+      '/profile/{id}' => [
         'controller' => 'Controller\Profile'
       ],
-      '/profile/avatar/create' => [
+      '/profile/{id}/avatar/create' => [
         'controller' => 'Controller\Profile\Avatar\Create'
       ],
-      '/profile/avatar/edit' => [
+      '/profile/{id}/avatar/edit' => [
         'controller' => 'Controller\Profile\Avatar\Edit'
       ],
-      '/profile/avatar/delete' => [
+      '/profile/{id}/avatar/delete' => [
         'controller' => 'Controller\Profile\Avatar\Delete'
       ]
     ];
@@ -64,69 +64,86 @@ class Route {
 
     $routes = self::getRoutes();
 
-    $requestedPath = self::getRequestedPath($requestedUrl);
-    $param = self::getParam($requestedUrl);
-    
-    // If requested path exists in routes
-    if (array_key_exists($requestedPath, $routes)) {
+    foreach ($routes as $route => $data) {
+      $regex = self::getRegex($route);
 
-      $page = $routes[$requestedPath];
+      if (self::matchRoute($regex, $requestedUrl)) {
 
-      $isPublic = isset($page['public']) ? $page['public'] : false; 
-      $controller = $page['controller'];
+        // Get Id out of params - I forgot how to do this, this regex does not work with multiple {}
+        // am I suppose to get any key that matches {} in route? like {id} = ['id'] => '22'
+        // or how will I pick the right items out of the array of matches
+        preg_match($regex, $requestedUrl, $matches);
+        $urlParams = array_slice($matches, -2, 1);// cheat
 
-      // Check Login if page is not public
-      if (!$isPublic) {
-        checkIfLoggedIn();
+        $isPublic = isset($data['public']) ? $data['public'] : false; 
+        $controllerName = $data['controller'];
+        $controllerMethod = 'view';
+
+
+        $methodParams = self::getFuncArgNames($controllerName, $controllerMethod);
+        $pageParams = self::getParams($methodParams, $urlParams);
+
+        // Check Login if page is not public
+        if (!$isPublic) {
+          checkIfLoggedIn();
+        }
+
+        call_user_func_array($controllerName.'::'.$controllerMethod, $pageParams);
+
+
+        // Call controller
+        // $page = $controller::view();
+
+        // Show Page
+        // include(BASE . $page);
+
       }
-
-      // Set Param
-      $_GET['id'] = $param;
-
-      // Call controller
-      $page = $controller::view();
-
-      // Show Page
-      include(BASE . $page);
-
-    } else {
-
-      // Return default page for now
-      include(BASE. '/session/login.php');
     }
 
   }
 
-  private static function getMatches($requestedUrl) {
-    // get any slash followed by digits
-    $regex = '(\/\d+)'; 
-
-    // find param (any match for '/123')
-    preg_match($regex, $requestedUrl, $matches);
-
-    // Make param to string - return $match
-    return implode('', $matches);
+  //
+  // Get Route Regex : Stolen from Laravel
+  //
+  private static function getRegex($route) {
+    $route = preg_replace('/\{(.*)\}/', '(?P<$1>[^/]++)', $route);
+    return '#^' . $route . '$#sDu';
   }
 
-  private static function getRequestedPath($requestedUrl) {
-
-    $match = self::getMatches($requestedUrl);
-    
-    // Remove param from url to find path
-    $requestedPath = str_replace($match, '', $requestedUrl);
-
-    return $requestedPath;
-
+  //
+  // Check if RequestedUrl matches against a route
+  //
+  private static function matchRoute($regex, $requestedUrl) {
+    return (preg_match($regex, $requestedUrl) === 1);
   }
 
-  private static function getParam($requestedUrl) {
+  //
+  // Get Function Arguments from method in controller
+  //
+  private static function getFuncArgNames($controller, $method) {
+    $reflection = new \ReflectionClass($controller);
+    $function = $reflection->getMethod($method);
+    $result = [];
 
-    $match = self::getMatches($requestedUrl);
-    
-    // get param but remove slash
-    $param = str_replace('/', '', $match);
+    foreach ($function->getParameters() as $param) {
+        $result[] = $param->name;   
+    }
 
-    return $param;
+    return $result;
+  }
+
+  //
+  // Match Controller Method Params against UrlParams
+  // Return array of correct params
+  //
+  private static function getParams($methodParams, $urlParams) {
+    $params = [];
+
+    foreach ($methodParams as $param) {
+      $params[$param] = $urlParams[$param] ?? '';
+    }
+
+    return $params;
   }
 
 }

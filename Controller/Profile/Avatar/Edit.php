@@ -4,7 +4,7 @@ namespace Controller\Profile\Avatar;
 class Edit {
 
   public static function view() {
-    return '/user/profile/avatar-update.php';
+    include(BASE . '/user/profile/avatar-update.php');
   }
 
 }
