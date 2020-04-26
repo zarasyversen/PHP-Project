@@ -2,6 +2,7 @@
 namespace Controller;
 
 use UserRepository;
+use Helper\Session as Session;
 
 /**
  * Profile Controller
@@ -17,7 +18,7 @@ class Profile {
       $user = UserRepository::getUser($id);
       $canEdit = $user->canEditUser();
     } catch (\Exceptions\NotFound $e) {
-      Helper\Session::setErrorMessage('Sorry, that user does not exist.');
+      Session::setErrorMessage('Sorry, that user does not exist.');
       header("location: /welcome");
       exit;
     } catch (\Exceptions\NoPermission $e) {
