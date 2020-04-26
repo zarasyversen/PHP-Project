@@ -5,7 +5,7 @@ session_start();
 // Destroy the session.
 session_destroy();
  
-// Redirect to index page
-header("location: /index.php");
+// Redirect to login page
+header("location: /login");
 exit;
 ?>

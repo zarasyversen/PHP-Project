@@ -1,6 +1,4 @@
 <?php 
-require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
-
 $activeUser = Helper\Session::getActiveUser();
 
 $pageTitle = 'Welcome';

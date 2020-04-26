@@ -1,5 +1,4 @@
 <?php 
-require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
 $posts = new PostRepository();
 $postList = $posts->getAllPosts();
 ?>

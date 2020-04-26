@@ -1,11 +1,4 @@
 <?php 
-require_once($_SERVER["DOCUMENT_ROOT"] . "/config.php");
-
-//
-// Get user id from session not params
-// if its admin, show another link and pass id in param
-// if params dont exist, use session
-//
 $userId = (int)$_GET['id'];
 
 try {
@@ -13,10 +6,10 @@ try {
   $user->canEditUser();
 } catch (\Exceptions\NotFound $e) {
   Helper\Session::setErrorMessage('Sorry, that user does not exist.');
-  header("location: /page/welcome.php");
+  header("location: /welcome");
 } catch (\Exceptions\NoPermission $e) {
   Helper\Session::setErrorMessage('Sorry, you are not allowed to edit this profile.');
-  header("location: /page/welcome.php");
+  header("location: /welcome");
   exit;
 }
 
@@ -34,7 +27,7 @@ include(BASE . '/page/header.php');?>
   </aside>
   <main class="page-main">
     <h2>Update your Avatar</h2>
-    <form class="form" action="/user/profile/avatar-upload.php?id=<?php echo $userId;?>" method="post" enctype="multipart/form-data">
+    <form class="form" action="/profile/<?php echo $userId;?>/avatar/create" method="post" enctype="multipart/form-data">
       <div class="form__group">
         <label for="avatar">Upload New Avatar:</label>
         <input type="file" class="form__input file" name="file" id="avatar">
@@ -42,7 +35,7 @@ include(BASE . '/page/header.php');?>
       <button type="submit" class="btn btn--primary" name="submit">Upload</button>
     </form>
     <button type="button" class="btn btn--primary delete js-delete-avatar">Delete Avatar</button>
-    <a href="/profile.php?id=<?php echo $userId;?>">Cancel</a>
+    <a href="/profile/<?php echo $userId;?>">Cancel</a>
   </main>
 </div>
 <script>
@@ -52,7 +45,7 @@ include(BASE . '/page/header.php');?>
     var confirmed = confirm('Are you sure you want to delete your avatar?');
 
     if(confirmed){
-      window.location.href = "avatar-delete.php?id=<?php echo $userId; ?>";
+      window.location.href = "/profile/<?php echo $userId;?>/avatar/delete";
     } 
   }
 

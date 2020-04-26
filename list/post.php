@@ -22,11 +22,11 @@ $user = UserRepository::getUser($post->getUserId());
           <?php echo $post->getFormattedDate($post->getDate()); ?>
         </time>
         by 
-        <a title="<?php echo $userName; ?> Profile" 
-          href="/user/profile.php?id=<?php echo $post->getUserId(); ?>">
+        <a title="<?php echo $user->getName(); ?> Profile" 
+          href="/profile/<?php echo $post->getUserId(); ?>">
           <?php echo $user->getName(); ?></a>.
         <?php if ($postEditable) :?>
-          <a href="/user/post/edit.php?id=<?php echo $post->getPostId(); ?>">Edit</a>
+          <a href="/post/<?php echo $post->getPostId(); ?>/edit">Edit</a>
         <?php endif;?>
       </p>
     </footer>

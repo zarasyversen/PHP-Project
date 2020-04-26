@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/assets/main.css">
 </head>
 <body>
-   <?php if(!isset($public_access)) :?>
+   <?php if (Helper\Session::isLoggedIn()) :?>
     <header class="main-header">
         <?php include(BASE . '/page/navigation.php');?>
     </header>
