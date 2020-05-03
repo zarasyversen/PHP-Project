@@ -32,7 +32,7 @@ class Route {
       '/welcome' => [
         'controller' => 'Controller\Welcome'
       ],
-      '/post/{id}/create' => [
+      '/post/create' => [
         'controller' => 'Controller\Post\Create'
       ],
       '/post/{id}/edit' => [

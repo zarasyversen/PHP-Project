@@ -36,7 +36,7 @@ class PostRepository {
     }
 
     // This is creating a new instance of this exception
-    throw new \Exceptions\NotFound("Post $postId does not exist");
+    throw new \Exceptions\NotFound("Sorry, that post does not exist.");
   }
 
   /**
@@ -158,7 +158,7 @@ class PostRepository {
       return true;
     }
 
-    throw new \Exceptions\NotSaved("Unable to save post");
+    throw new \Exceptions\NotSaved("Unable to save your post");
 
   }
 
