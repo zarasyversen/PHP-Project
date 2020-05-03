@@ -7,24 +7,20 @@ use Helper\Session as Session;
 /**
  * Profile Controller
  */
-class Profile {
+class Profile extends \Controller\Base {
 
-  public static function view($id) {
-
-    // var_dump("My Id Is " . $id);
-    // die('hej');
+  public function view($id) {
 
     try {
       $user = UserRepository::getUser($id);
       $canEdit = $user->canEditUser();
-    } catch (\Exceptions\NotFound $e) {
-      Session::setErrorMessage('Sorry, that user does not exist.');
-      header("location: /welcome");
-      exit;
     } catch (\Exceptions\NoPermission $e) {
       $canEdit = false;
     }
 
+    //
+    // Unable to do this, it does not have the same variable scope.
+    // $this->includeFile('/user/profile.php', ['user' => $user, 'canEdit' => $canEdit]);
     include(BASE . '/user/profile.php');
   }
 

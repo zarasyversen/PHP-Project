@@ -4,10 +4,6 @@ namespace Helper;
 
 class Route {
 
-  // loops thorugh the array of routes, 
-  // We need to code that converts "/profile/{id}" into the actual regex
-  // that regex is then going over to find /profile/123 and return the controller
-
   //
   // Get Routes 
   //
@@ -69,12 +65,8 @@ class Route {
 
       if (self::matchRoute($regex, $requestedUrl)) {
 
-        // Get Id out of params - I forgot how to do this, this regex does not work with multiple {}
-        // am I suppose to get any key that matches {} in route? like {id} = ['id'] => '22'
-        // or how will I pick the right items out of the array of matches
-        preg_match($regex, $requestedUrl, $matches);
-        $urlParams = array_slice($matches, -2, 1);// cheat
-
+        $urlParams = self::getUrlParams($regex, $requestedUrl); 
+ 
         $isPublic = isset($data['public']) ? $data['public'] : false; 
         $controllerName = $data['controller'];
         $controllerMethod = 'view';
@@ -88,14 +80,25 @@ class Route {
           checkIfLoggedIn();
         }
 
-        call_user_func_array($controllerName.'::'.$controllerMethod, $pageParams);
-
-
-        // Call controller
-        // $page = $controller::view();
-
-        // Show Page
-        // include(BASE . $page);
+        $controller = new $controllerName;
+        try {
+          call_user_func_array(
+            array($controller, $controllerMethod),
+            $pageParams
+          );
+        } catch(\Exceptions\NotFound $e) {
+          Session::setErrorMessage($e->getMessage());
+          header("location: /welcome");
+          exit;
+        } catch (\Exceptions\NoPermission $e) {
+          Session::setErrorMessage($e->getMessage());
+          header("location: /welcome");
+          exit;
+        } catch(\Exception $e) {
+          Session::setErrorMessage($e->getMessage());
+          header("location: /welcome");
+          exit;
+        }
 
       }
     }
@@ -115,6 +118,13 @@ class Route {
   //
   private static function matchRoute($regex, $requestedUrl) {
     return (preg_match($regex, $requestedUrl) === 1);
+  }
+
+  // Get Id out of params - this regex does not work with multiple {}
+  // ['id'] => '22'
+  private static function getUrlParams($regex, $requestedUrl) {
+      preg_match($regex, $requestedUrl, $matches);
+      return $matches;
   }
 
   //
