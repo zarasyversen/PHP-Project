@@ -4,7 +4,14 @@ namespace Controller;
 class Logout {
 
   public static function view() {
-    include(BASE . '/session/logout.php');
+    // Initialize the session
+    session_start();
+     
+    // Destroy the session.
+    session_destroy();
+     
+    // Redirect to login page
+    header("location: /login");
   }
 
 }
