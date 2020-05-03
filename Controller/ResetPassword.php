@@ -48,7 +48,6 @@ class ResetPassword {
     }
 
     $pageTitle = 'Reset Password';
-
     include(BASE . '/session/reset-password.php');
   }
 
