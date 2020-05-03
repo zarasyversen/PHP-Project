@@ -4,10 +4,10 @@ namespace Helper;
 
 class Route {
 
-  //
-  // Get Routes 
-  //
-  private static function getRoutes() {
+  /**
+   * Routes
+   */
+  private static function routes() {
     return [
       '/' => [
         'public' => true,
@@ -56,48 +56,74 @@ class Route {
     ];
   }
 
+  /**
+   * Get Route
+   * Get/Set Params, Pass to controller
+   */
   public static function get($requestedUrl) {
 
-    $routes = self::getRoutes();
+    // Get our Routes Array
+    $routes = self::routes();
 
     foreach ($routes as $route => $data) {
-      $regex = self::getRegex($route);
 
+      /**
+       * Check if the requestedUrl matches against a route in our array.
+       */
+      $regex = self::getRegex($route);
       if (self::matchRoute($regex, $requestedUrl)) {
 
-        $urlParams = self::getUrlParams($regex, $requestedUrl); 
- 
+        /**
+         * Get The Route Data
+         */
         $isPublic = isset($data['public']) ? $data['public'] : false; 
         $controllerName = $data['controller'];
         $controllerMethod = 'view';
-
-
-        $methodParams = self::getFuncArgNames($controllerName, $controllerMethod);
-        $pageParams = self::getParams($methodParams, $urlParams);
 
         // Check Login if page is not public
         if (!$isPublic) {
           checkIfLoggedIn();
         }
 
+        // Params from requested Url
+        $urlParams = self::getUrlParams($regex, $requestedUrl); 
+
+        // Params required for our controller
+        $controllerParams = self::getFuncArgNames($controllerName, $controllerMethod);
+
+        // Params for this view
+        $viewParams = self::getViewParams($urlParams, $controllerParams);
+
+        /**
+         * Create a new instance of the controller,
+         * Call controllerMethod and pass the viewParams
+         */
         $controller = new $controllerName;
+
         try {
           call_user_func_array(
             array($controller, $controllerMethod),
-            $pageParams
+            $viewParams
           );
+
         } catch(\Exceptions\NotFound $e) {
+
           Session::setErrorMessage($e->getMessage());
           header("location: /welcome");
           exit;
+
         } catch (\Exceptions\NoPermission $e) {
+
           Session::setErrorMessage($e->getMessage());
           header("location: /welcome");
           exit;
+
         } catch(\Exception $e) {
+
           Session::setErrorMessage($e->getMessage());
           header("location: /welcome");
           exit;
+
         }
 
       }
@@ -105,31 +131,36 @@ class Route {
 
   }
 
-  //
-  // Get Route Regex : Stolen from Laravel
-  //
+  /**
+   * Get Route Regex : Stolen from Laravel
+   * Returns String
+   */
   private static function getRegex($route) {
     $route = preg_replace('/\{(.*)\}/', '(?P<$1>[^/]++)', $route);
     return '#^' . $route . '$#sDu';
   }
 
-  //
-  // Check if RequestedUrl matches against a route
-  //
+  /**
+   * Check if RequestedUrl matches against a route
+   * Returns Bool
+   */
   private static function matchRoute($regex, $requestedUrl) {
     return (preg_match($regex, $requestedUrl) === 1);
   }
 
-  // Get Id out of params - this regex does not work with multiple {}
-  // ['id'] => '22'
+  /**
+   * Get the params passed in the requestedUrl
+   * Returns Array []
+   */
   private static function getUrlParams($regex, $requestedUrl) {
       preg_match($regex, $requestedUrl, $matches);
       return $matches;
   }
 
-  //
-  // Get Function Arguments from method in controller
-  //
+  /**
+   * Get Function Argument Names from specified method in controller
+   * Returns Array []
+   */
   private static function getFuncArgNames($controller, $method) {
     $reflection = new \ReflectionClass($controller);
     $function = $reflection->getMethod($method);
@@ -142,14 +173,14 @@ class Route {
     return $result;
   }
 
-  //
-  // Match Controller Method Params against UrlParams
-  // Return array of correct params
-  //
-  private static function getParams($methodParams, $urlParams) {
+  /**
+   * Match urlParams against controllerParams
+   * Returns Array []
+   */
+  private static function getViewParams($urlParams, $controllerParams) {
     $params = [];
 
-    foreach ($methodParams as $param) {
+    foreach ($controllerParams as $param) {
       $params[$param] = $urlParams[$param] ?? '';
     }
 
