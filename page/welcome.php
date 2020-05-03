@@ -1,7 +1,4 @@
 <?php 
-$activeUser = Helper\Session::getActiveUser();
-
-$pageTitle = 'Welcome';
 include(BASE . '/page/header.php');?>
 <div class="wrapper">
   <div class="page-header">
