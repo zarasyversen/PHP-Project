@@ -14,7 +14,7 @@ class Route {
     return [
       '/' => [
         'public' => true,
-        'controller' => 'Controller\Index'
+        'controller' => 'Controller\Login'
       ],
       '/login' => [
         'public' => true,

@@ -3,13 +3,19 @@ namespace Controller;
 
 use Helper\Session as Session;
 
-class Welcome {
+class Welcome extends \Controller\Base {
 
-  public static function view() {
+  public function view() {
     $activeUser = Session::getActiveUser();
 
     $pageTitle = 'Welcome';
-    include(BASE . '/page/welcome.php');
+    $this->displayTemplate(
+      '/page/welcome',
+      [
+        'pageTitle' => $pageTitle,
+        'activeUser' => $activeUser
+      ]
+    );
   }
 
 }

@@ -15,7 +15,8 @@ class Edit {
     $post->isEditable();
 
     /**
-     * Save New Edited Post 
+     * Save New Edited Post
+     * Service Manager is glue
      */
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $title = trim($_POST["title"]);

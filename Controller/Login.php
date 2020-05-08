@@ -4,9 +4,9 @@ namespace Controller;
 use UserRepository;
 use Helper\Session as Session;
 
-class Login {
+class Login extends \Controller\Base {
 
-  public static function view() {
+  public function view() {
 
     // Redirect if already logged in
     if (Session::isLoggedIn()) {
@@ -62,7 +62,17 @@ class Login {
     }
 
     $pageTitle = 'Welcome, please log in';
-    include(BASE . '/session/login.php');
+    $this->displayTemplate(
+      '/session/login', 
+      [
+        'pageTitle' => $pageTitle,
+        'username' => $username,
+        'password' => $password,
+        'username_err' => $username_err,
+        'password_err' => $password_err,
+
+      ]
+    );
   }
 
 }

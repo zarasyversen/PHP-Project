@@ -6,7 +6,7 @@ include(BASE . '/page/header.php');?>
     <form action="/reset/password" class="form" method="post"> 
         <div class="form__group<?php echo (!empty($new_password_err)) ? ' has-error' : ''; ?>">
             <label for="new_password">New Password</label>
-            <input type="password" name="new_password" id="new_password" class="form__input" value="<?php echo $new_password; ?>">
+            <input type="password" name="new_password" id="new_password" class="form__input" value="">
             <p class="form__error"><?php echo $new_password_err; ?></p>
         </div>
         <div class="form__group<?php echo (!empty($confirm_password_err)) ? ' has-error' : ''; ?>">

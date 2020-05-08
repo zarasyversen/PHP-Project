@@ -6,7 +6,7 @@ namespace Controller;
  */
 class Base {
 
-  protected function displayTemplate($templatePath, $data) {
+  protected function displayTemplate($templatePath, $data = []) {
 
     foreach ($data as $key => $value) {
       //variable variables

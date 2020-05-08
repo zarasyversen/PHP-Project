@@ -3,7 +3,7 @@ namespace Controller;
 
 class Logout {
 
-  public static function view() {
+  public function view() {
     // Initialize the session
     session_start();
      

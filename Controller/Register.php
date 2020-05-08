@@ -4,9 +4,9 @@ namespace Controller;
 use UserRepository;
 use Helper\Session as Session;
 
-class Register {
+class Register extends \Controller\Base {
 
-  public static function view() {
+  public function view() {
 
     // Redirect if already logged in
     if (Session::isLoggedIn()) {
@@ -64,7 +64,16 @@ class Register {
     }
 
     $pageTitle = 'Sign Up';
-    include(BASE . '/session/register.php');
+    $this->displayTemplate(
+      '/session/register',
+      [
+        'pageTitle' => $pageTitle,
+        'username' => $username,
+        'username_err' => $username_err,
+        'password_err' => $password_err,
+        'confirm_password_err' => $confirm_password_err
+      ]
+    );
   }
 
 }

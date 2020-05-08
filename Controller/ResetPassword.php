@@ -4,9 +4,9 @@ namespace Controller;
 use UserRepository;
 use Helper\Session as Session;
 
-class ResetPassword {
+class ResetPassword extends \Controller\Base {
 
-  public static function view() {
+  public function view() {
 
     $new_password = $confirm_password = "";
     $new_password_err = $confirm_password_err = "";
@@ -48,7 +48,14 @@ class ResetPassword {
     }
 
     $pageTitle = 'Reset Password';
-    include(BASE . '/session/reset-password.php');
+    $this->displayTemplate(
+      '/session/reset-password',
+      [
+        'pageTitle' => $pageTitle,
+        'new_password_err' => $new_password_err,
+        'confirm_password_err' => $confirm_password_err
+      ]
+    );
   }
 
 }
