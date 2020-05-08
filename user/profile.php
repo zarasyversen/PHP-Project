@@ -35,7 +35,7 @@ include(BASE . '/page/header.php');?>
     <section class="profile__posts">
       <h2>Posts by <?php echo $user->getName() ?></h2>
       <?php 
-      $posts = new PostRepository();
+      $posts = new Repository\PostRepository();
       if ($postList = $posts->getAllUserPosts($user->getId())): ?>
         <ul>
           <?php foreach($postList as $post):?>

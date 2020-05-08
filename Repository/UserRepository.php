@@ -1,5 +1,11 @@
 <?php 
 
+namespace Repository;
+
+use Model\User;
+use Helper\DB;
+use Helper\Session;
+
 /**
  * UserRepository Class
  * DB Queries to create User
@@ -18,7 +24,7 @@ class UserRepository {
       'id' => $userId
     ];
   
-    $thisUser = Helper\DB::selectFirst(self::TABLE_NAME, $where);
+    $thisUser = DB::selectFirst(self::TABLE_NAME, $where);
 
     if ($thisUser) {
       $user = new User();
@@ -45,7 +51,7 @@ class UserRepository {
 
     $where = ['id', $userId];
 
-    if (Helper\DB::update(self::TABLE_NAME, $set, $where)) {
+    if (DB::update(self::TABLE_NAME, $set, $where)) {
       return true;
     }
 
@@ -64,7 +70,7 @@ class UserRepository {
 
     $where = ['id', $userId];
 
-    if (Helper\DB::update(self::TABLE_NAME, $set, $where)) {
+    if (DB::update(self::TABLE_NAME, $set, $where)) {
       return true;
     }
 
@@ -82,7 +88,7 @@ class UserRepository {
 
     $select = 'id';
 
-    $row = Helper\DB::selectFirst(self::TABLE_NAME, $where, null, 'ASC', $select);
+    $row = DB::selectFirst(self::TABLE_NAME, $where, null, 'ASC', $select);
 
     if ($row['id'] !== null) {
       return true;
@@ -98,7 +104,7 @@ class UserRepository {
       'password' => password_hash($password, PASSWORD_DEFAULT)
     ];
 
-    if (Helper\DB::insert(self::TABLE_NAME, $insert)) {
+    if (DB::insert(self::TABLE_NAME, $insert)) {
       return true;
     }
 
@@ -116,7 +122,7 @@ class UserRepository {
 
     $select = 'id, username, password';
 
-    $thisUser = Helper\DB::selectFirst(self::TABLE_NAME, $where, null, 'ASC', $select);
+    $thisUser = DB::selectFirst(self::TABLE_NAME, $where, null, 'ASC', $select);
 
     if ($thisUser) {
       $user = new User();
@@ -138,9 +144,9 @@ class UserRepository {
       'password' => $password
     ];
 
-    $where = ['id', Helper\Session::getSessionUserId()];
+    $where = ['id', Session::getSessionUserId()];
 
-    if (Helper\DB::update(self::TABLE_NAME, $set, $where)) {
+    if (DB::update(self::TABLE_NAME, $set, $where)) {
       return true;
     }
 

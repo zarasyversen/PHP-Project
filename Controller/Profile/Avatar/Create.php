@@ -1,7 +1,7 @@
 <?php 
 namespace Controller\Profile\Avatar;
 
-use UserRepository;
+use Repository\UserRepository;
 use Helper\Session as Session;
 
 class Create {

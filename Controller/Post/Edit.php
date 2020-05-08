@@ -1,7 +1,7 @@
 <?php 
 namespace Controller\Post;
 
-use PostRepository;
+use Repository\PostRepository;
 use Helper\Session as Session;
 
 class Edit extends \Controller\Base {

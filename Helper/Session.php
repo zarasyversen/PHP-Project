@@ -2,6 +2,8 @@
 
 namespace Helper;
 
+use Repository\UserRepository;
+
 class Session {
 
   //
@@ -60,7 +62,7 @@ class Session {
   public static function getActiveUser() {
 
     try {
-      return \UserRepository::getUser(self::getSessionUserId());
+      return UserRepository::getUser(self::getSessionUserId());
     } catch (\Exceptions\NotFound $e) {
       self::setErrorMessage('Sorry, that user does not exist.');
     }

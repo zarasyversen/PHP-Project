@@ -1,8 +1,8 @@
 <?php 
 namespace Controller\Post;
 
-use Post;
-use PostRepository;
+use Model\Post;
+use Repository\PostRepository;
 use Helper\Session as Session;
 
 class Create  extends \Controller\Base {

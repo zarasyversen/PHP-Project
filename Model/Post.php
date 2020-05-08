@@ -1,5 +1,10 @@
 <?php 
 
+namespace Model;
+
+use Helper\Session;
+use Helper\Markdown;
+
 /**
  * Post Class
  * Only Get & Set 
@@ -67,7 +72,7 @@ class Post {
   }
 
   public function getFormattedDate($date) {
-    return date_format(new DateTime($date), 'g:ia \o\n l jS F Y');
+    return date_format(new \DateTime($date), 'g:ia \o\n l jS F Y');
   }
 
   public function getDateLabel() {
@@ -80,12 +85,12 @@ class Post {
   }
 
   public function getFormattedContent() {
-    return Helper\Markdown::render($this->getMessage());
+    return Markdown::render($this->getMessage());
   }
 
   public function isEditable() {
 
-    $activeUser = Helper\Session::getActiveUser();
+    $activeUser = Session::getActiveUser();
       
     // Check if user has posted the post
     if ($activeUser->getId() === $this->getUserId()) {

@@ -1,5 +1,5 @@
 <?php 
-$posts = new PostRepository();
+$posts = new Repository\PostRepository();
 $postList = $posts->getAllPosts();
 ?>
 <?php if($postList): ?>

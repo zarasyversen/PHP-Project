@@ -1,7 +1,12 @@
 <?php 
 
+namespace Model;
+
+use Helper\Session;
+
 /**
  * User Class
+ * Only Get & Set 
  */
 class User {
 
@@ -83,7 +88,7 @@ class User {
    */
   public function canEditUser() {
 
-    $activeUser = Helper\Session::getActiveUser();
+    $activeUser = Session::getActiveUser();
 
     // Check if same user is logged in
     if ($activeUser->getId() === $this->id) {

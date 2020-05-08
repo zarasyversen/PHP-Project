@@ -1,5 +1,10 @@
 <?php 
 
+namespace Repository;
+
+use Model\Post;
+use Helper\DB;
+
 /**
  * PostRepository Class
  * DB Queries to create Post 
@@ -20,7 +25,7 @@ class PostRepository {
       'id' => $postId
     ];
   
-    $returnedPost = Helper\DB::selectFirst(self::TABLE_NAME, $where);
+    $returnedPost = DB::selectFirst(self::TABLE_NAME, $where);
 
     if ($returnedPost) {
 
@@ -48,7 +53,7 @@ class PostRepository {
     $posts = [];
     $order = 'created_at';
 
-    $returnedPosts = Helper\DB::select(self::TABLE_NAME, null, $order, self::DESC_ORDER);
+    $returnedPosts = DB::select(self::TABLE_NAME, null, $order, self::DESC_ORDER);
 
     if (is_array($returnedPosts)) {
 
@@ -84,7 +89,7 @@ class PostRepository {
     $order = 'created_at';
     $posts = [];
 
-    $returnedPosts = Helper\DB::select(self::TABLE_NAME, $where, $order, self::DESC_ORDER);
+    $returnedPosts = DB::select(self::TABLE_NAME, $where, $order, self::DESC_ORDER);
 
     if (is_array($returnedPosts)) {
 
@@ -122,7 +127,7 @@ class PostRepository {
 
     $where = ['id', $postId];
 
-    if (Helper\DB::update(self::TABLE_NAME, $set, $where)) {
+    if (DB::update(self::TABLE_NAME, $set, $where)) {
       return true;
     }
 
@@ -136,7 +141,7 @@ class PostRepository {
 
     $where = ['id', $postId];
 
-    if (Helper\DB::delete(self::TABLE_NAME, $where)) {
+    if (DB::delete(self::TABLE_NAME, $where)) {
       return true;
     }
     
@@ -154,7 +159,7 @@ class PostRepository {
       'message' => $post->getMessage()
     ];
 
-    if (Helper\DB::insert(self::TABLE_NAME, $insert)) {
+    if (DB::insert(self::TABLE_NAME, $insert)) {
       return true;
     }
 

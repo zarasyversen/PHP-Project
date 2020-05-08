@@ -1,7 +1,7 @@
 <?php 
 namespace Controller;
 
-use UserRepository;
+use Repository\UserRepository;
 use Helper\Session as Session;
 
 class Register extends \Controller\Base {
