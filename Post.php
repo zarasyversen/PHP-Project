@@ -97,7 +97,7 @@ class Post {
       return true;
     }
 
-    throw new \Exceptions\NoPermission("Not allowed to edit post");
+    throw new \Exceptions\NoPermission("Sorry, you are not allowed to edit that post.");
   }
 
 

@@ -1,10 +1,21 @@
 <?php 
 namespace Controller;
 
-class Welcome {
+use Helper\Session as Session;
 
-  public static function view() {
-    return '/page/welcome.php';
+class Welcome extends \Controller\Base {
+
+  public function view() {
+    $activeUser = Session::getActiveUser();
+
+    $pageTitle = 'Welcome';
+    $this->displayTemplate(
+      '/page/welcome',
+      [
+        'pageTitle' => $pageTitle,
+        'activeUser' => $activeUser
+      ]
+    );
   }
 
 }

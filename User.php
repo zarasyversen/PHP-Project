@@ -95,7 +95,7 @@ class User {
       return true;
     }
 
-    throw new \Exceptions\NoPermission("Not allowed to edit user");
+    throw new \Exceptions\NoPermission("Sorry, you are not allowed to edit this profile");
     
   }
 

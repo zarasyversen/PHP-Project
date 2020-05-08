@@ -31,7 +31,7 @@ class UserRepository {
       return $user;
     }
 
-    throw new \Exceptions\NotFound("User $userId does not exist");
+    throw new \Exceptions\NotFound("Sorry, that user does not exist");
   }
 
   /**
@@ -126,7 +126,7 @@ class UserRepository {
       return $user;
     }
 
-    throw new \Exceptions\NotFound("User $userName does not exist");
+    throw new \Exceptions\NotFound("Sorry, that user does not exist");
   }
 
   /**

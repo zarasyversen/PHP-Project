@@ -1,18 +1,5 @@
-<?php 
-$userId = (int)$_GET['id'];
-
-try {
-  $user = UserRepository::getUser($userId);
-  $user->canEditUser();
-} catch (\Exceptions\NotFound $e) {
-  Helper\Session::setErrorMessage('Sorry, that user does not exist.');
-  header("location: /welcome");
-} catch (\Exceptions\NoPermission $e) {
-  Helper\Session::setErrorMessage('Sorry, you are not allowed to edit this profile.');
-  header("location: /welcome");
-  exit;
-}
-
+<?php
+$userId = $user->getId();
 $hasAvatar = $user->getUserAvatar();
 $pageTitle = 'Update Avatar';
 include(BASE . '/page/header.php');?>

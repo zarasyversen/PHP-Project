@@ -1,10 +1,20 @@
 <?php 
 namespace Controller\Profile\Avatar;
 
-class Edit {
+use UserRepository;
+use Helper\Session as Session;
 
-  public static function view() {
-    return '/user/profile/avatar-update.php';
+/**
+ * Profile Controller
+ */
+class Edit extends \Controller\Base {
+
+  public function view($id) {
+  
+    $user = UserRepository::getUser($id);
+    $user->canEditUser();
+
+    $this->displayTemplate('/user/profile/avatar-update', ['user' => $user]);
   }
 
 }

@@ -1,16 +1,4 @@
 <?php 
-$userId = (int)$_GET['id'];
-
-try {
-  $user = UserRepository::getUser($userId);
-  $canEdit = $user->canEditUser();
-} catch (\Exceptions\NotFound $e) {
-  Helper\Session::setErrorMessage('Sorry, that user does not exist.');
-  header("location: /welcome");
-} catch (\Exceptions\NoPermission $e) {
-  $canEdit = false; 
-}
-
 $hasAvatar = $user->getUserAvatar();
 $pageTitle = $user->getName();
 include(BASE . '/page/header.php');?>
