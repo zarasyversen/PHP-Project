@@ -5,13 +5,13 @@ use Post;
 use PostRepository;
 use Helper\Session as Session;
 
-class Create {
+class Create  extends \Controller\Base {
 
-  public static function view() {
+  public function view() {
 
     $user = Session::getActiveUser();
     $title = $message = '';
-    $title_err = $message_err = $error = '';
+    $title_err = $message_err = '';
     $titleOk = $messageOk = false;
 
     // Process data when form is submitted
@@ -21,14 +21,32 @@ class Create {
 
       if (empty($title)) {
         $title_err = "Please enter a title";
-        include(BASE . '/user/post/post.php');
+        $this->displayTemplate(
+          '/user/post/post', 
+          [
+            'user' => $user,
+            'title' => $title,
+            'message' => $message,
+            'title_err' => $title_err,
+            'message_err' => $message_err
+          ]
+        );
       } else {
         $titleOk = true;
       }
 
       if (empty($message)) {
         $message_err = "Please enter a message";
-        include(BASE . '/user/post/post.php');
+        $this->displayTemplate(
+          '/user/post/post', 
+          [
+            'user' => $user,
+            'title' => $title,
+            'message' => $message,
+            'title_err' => $title_err,
+            'message_err' => $message_err
+          ]
+        );
       } else {
         $messageOk = true;
       }
@@ -54,7 +72,7 @@ class Create {
 
     }
 
-    include(BASE . '/user/post/new-post.php');
+    $this->displayTemplate('/user/post/new-post');
 
   }
 

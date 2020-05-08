@@ -4,12 +4,12 @@ namespace Controller\Post;
 use PostRepository;
 use Helper\Session as Session;
 
-class Edit {
+class Edit extends \Controller\Base {
 
-  public static function view($id) {
+  public function view($id) {
 
-    $title_err = $message_err = $error = '';
-    $titleOk = $messageOk = $confirmDeletePost = false;
+    $title_err = $message_err = '';
+    $titleOk = $messageOk = false;
 
     $post = PostRepository::getPost($id);
     $post->isEditable();
@@ -48,8 +48,15 @@ class Edit {
     }
 
     $pageTitle = 'Edit Post'; 
-
-    include(BASE . '/user/post/edit.php');
+    $this->displayTemplate(
+      '/user/post/edit', 
+      [
+        'pageTitle' => $pageTitle,
+        'post' => $post,
+        'title_err' => $title_err,
+        'message_err' => $message_err
+      ]
+    );
   }
 
 }

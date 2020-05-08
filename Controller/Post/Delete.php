@@ -6,7 +6,7 @@ use Helper\Session as Session;
 
 class Delete {
 
-  public static function view($id) {
+  public function view($id) {
 
     $post = PostRepository::getPost($id);
     $post->isEditable();
