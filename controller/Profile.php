@@ -18,10 +18,7 @@ class Profile extends \Controller\Base {
       $canEdit = false;
     }
 
-    //
-    // Unable to do this, it does not have the same variable scope.
-    // $this->includeFile('/user/profile.php', ['user' => $user, 'canEdit' => $canEdit]);
-    include(BASE . '/user/profile.php');
+    $this->displayTemplate('/user/profile', ['user' => $user, 'canEdit' => $canEdit]);
   }
 
 }

@@ -4,14 +4,17 @@ namespace Controller\Profile\Avatar;
 use UserRepository;
 use Helper\Session as Session;
 
-class Edit {
+/**
+ * Profile Controller
+ */
+class Edit extends \Controller\Base {
 
-  public static function view($id) {
+  public function view($id) {
   
     $user = UserRepository::getUser($id);
     $user->canEditUser();
 
-    include(BASE . '/user/profile/avatar-update.php');
+    $this->displayTemplate('/user/profile/avatar-update', ['user' => $user]);
   }
 
 }

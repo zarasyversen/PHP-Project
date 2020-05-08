@@ -6,12 +6,10 @@ use Helper\Session as Session;
 
 class Create {
 
-  public static function view($id) {
+  public function view($id) {
 
-    try {
-      $user = UserRepository::getUser($id);
-      $user->canEditUser();
-    }
+    $user = UserRepository::getUser($id);
+    $user->canEditUser();
 
     $timestamp = time();
     $targetDir = BASE . "/images/user/" . $id . "/avatar/";

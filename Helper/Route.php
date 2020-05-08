@@ -2,6 +2,9 @@
 
 namespace Helper;
 
+use \Exceptions\NotFound;
+use \Exceptions\NoPermission;
+
 class Route {
 
   /**
@@ -106,24 +109,11 @@ class Route {
             $viewParams
           );
 
-        } catch(\Exceptions\NotFound $e) {
-
+  
+        } catch(NotFound | NoPermission | \Exception $e) {
           Session::setErrorMessage($e->getMessage());
           header("location: /welcome");
           exit;
-
-        } catch (\Exceptions\NoPermission $e) {
-
-          Session::setErrorMessage($e->getMessage());
-          header("location: /welcome");
-          exit;
-
-        } catch(\Exception $e) {
-
-          Session::setErrorMessage($e->getMessage());
-          header("location: /welcome");
-          exit;
-
         }
 
       }
