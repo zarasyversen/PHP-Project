@@ -13,48 +13,52 @@ class Route {
   private static function routes() {
     return [
       '/' => [
-        'public' => true,
         'controller' => 'Controller\Login'
       ],
       '/login' => [
-        'public' => true,
         'controller' => 'Controller\Login'
       ],
       '/logout' => [
-        'public' => true,
         'controller' => 'Controller\Logout'
       ],
       '/register' => [
-        'public' => true,
         'controller' => 'Controller\Register'
       ],
       '/reset/password' => [
-        'public' => true,
-        'controller' => 'Controller\ResetPassword'
+        'controller' => 'Controller\ResetPassword',
+        'middleware' => 'Middleware\WebAuth'
       ],
       '/welcome' => [
-        'controller' => 'Controller\Welcome'
+        'controller' => 'Controller\Welcome',
+        'middleware' => 'Middleware\WebAuth'
       ],
       '/post/create' => [
-        'controller' => 'Controller\Post\Create'
+        'controller' => 'Controller\Post\Create',
+        'middleware' => 'Middleware\WebAuth'
       ],
       '/post/{id}/edit' => [
-        'controller' => 'Controller\Post\Edit'
+        'controller' => 'Controller\Post\Edit',
+        'middleware' => 'Middleware\WebAuth'
       ],
       '/post/{id}/delete' => [
-        'controller' => 'Controller\Post\Delete'
+        'controller' => 'Controller\Post\Delete',
+        'middleware' => 'Middleware\WebAuth'
       ],
       '/profile/{id}' => [
-        'controller' => 'Controller\Profile'
+        'controller' => 'Controller\Profile',
+        'middleware' => 'Middleware\WebAuth'
       ],
       '/profile/{id}/avatar/create' => [
-        'controller' => 'Controller\Profile\Avatar\Create'
+        'controller' => 'Controller\Profile\Avatar\Create',
+        'middleware' => 'Middleware\WebAuth'
       ],
       '/profile/{id}/avatar/edit' => [
-        'controller' => 'Controller\Profile\Avatar\Edit'
+        'controller' => 'Controller\Profile\Avatar\Edit',
+        'middleware' => 'Middleware\WebAuth'
       ],
       '/profile/{id}/avatar/delete' => [
-        'controller' => 'Controller\Profile\Avatar\Delete'
+        'controller' => 'Controller\Profile\Avatar\Delete',
+        'middleware' => 'Middleware\WebAuth'
       ]
     ];
   }
@@ -77,16 +81,20 @@ class Route {
       if (self::matchRoute($regex, $requestedUrl)) {
 
         /**
+         * Middleware
+         */
+        $hasAuth = isset($data['middleware']); 
+
+        if ($hasAuth) {
+          $auth = new $data['middleware'];
+          $auth->execute();
+        }
+
+        /**
          * Get The Route Data
          */
-        $isPublic = isset($data['public']) ? $data['public'] : false; 
         $controllerName = $data['controller'];
         $controllerMethod = 'view';
-
-        // Check Login if page is not public
-        if (!$isPublic) {
-          checkIfLoggedIn();
-        }
 
         // Params from requested Url
         $urlParams = self::getUrlParams($regex, $requestedUrl); 
