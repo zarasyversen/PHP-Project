@@ -13,7 +13,7 @@ include(BASE . '/view/page/header.php');?>
     <p>This user is an admin.</p>
   <?php endif;?>
   <?php if ($hasAvatar) :?>
-    <img src="<?php echo $hasAvatar;?>"/>
+    <img src="<?php echo $hasAvatar;?>" alt=""/>
     <?php if ($canEdit) :?>
       <a href="/profile/<?php echo $user->getId();?>/avatar/edit" 
         title="Upload Avatar Image">Edit Avatar</a>

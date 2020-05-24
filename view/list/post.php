@@ -3,7 +3,9 @@
     <header class="post__header">
       <h2 class="post__title"><?php echo $post->getTitle(); ?></h2>
     </header>
-    <p class="post__message"><?php echo $post->getFormattedContent() ?></p>
+    <div class="post__message">
+      <?php echo $post->getFormattedContent() ?>
+    </div>
     <footer class="post__footer">
       <p class="post__details">
         <?php echo $post->getDateLabel();?>

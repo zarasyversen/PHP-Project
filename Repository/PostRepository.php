@@ -40,7 +40,6 @@ class PostRepository {
       return $post;
     }
 
-    // This is creating a new instance of this exception
     throw new \Exceptions\NotFound("Sorry, that post does not exist.");
   }
 
