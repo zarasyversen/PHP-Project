@@ -83,11 +83,11 @@ class Route {
         /**
          * Middleware
          */
-        $hasAuth = isset($data['middleware']); 
+        $hasMiddleware = isset($data['middleware']); 
 
-        if ($hasAuth) {
-          $auth = new $data['middleware'];
-          $auth->execute();
+        if ($hasMiddleware) {
+          $middleware = new $data['middleware'];
+          $middleware->execute();
         }
 
         /**

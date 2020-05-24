@@ -1,7 +1,7 @@
 <?php
 namespace Middleware;
 
-interface AuthInterface {
+interface MiddleWareInterface {
   
   public function execute();
 

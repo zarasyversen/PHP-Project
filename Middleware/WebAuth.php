@@ -1,14 +1,20 @@
 <?php
-
 namespace Middleware;
 
-use Middleware\AuthInterface;
+use Middleware\MiddleWareInterface;
 use Helper\Session;
 
-class WebAuth implements AuthInterface {
+class WebAuth implements MiddleWareInterface {
 
   public function execute() {
-    Session::checkIfLoggedIn();
+
+    // Redirect if not logged in
+    if (!Session::isLoggedIn()) {
+      Session::setErrorMessage('Please log in for access');
+      header("location: /login");
+      exit;
+    }
+
   }
 
 }

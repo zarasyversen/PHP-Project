@@ -79,17 +79,5 @@ class Session {
     }
 
   }
-
-  //
-  // Redirect if not logged in
-  //
-  public static function checkIfLoggedIn() {
-    if (!self::isLoggedIn()) {
-      self::setErrorMessage('Please log in for access');
-      header("location: /login");
-      exit;
-    } 
-  }
-
-
+  
 }
