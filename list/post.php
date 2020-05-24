@@ -1,12 +1,11 @@
 <?php
 
+/* This needs to stay in foreach post ..? */
 try {
- $postEditable = $post->isEditable();
+  $postEditable = $post->isEditable();
 } catch (\Exceptions\NoPermission $e) {
- $postEditable = false; 
+  $postEditable = false; 
 }
-
-$user = Repository\UserRepository::getUser($post->getUserId());
 
 ?>
 <li>
@@ -22,9 +21,9 @@ $user = Repository\UserRepository::getUser($post->getUserId());
           <?php echo $post->getFormattedDate($post->getDate()); ?>
         </time>
         by 
-        <a title="<?php echo $user->getName(); ?> Profile" 
+        <a title="<?php echo $post->getUserName($post->getUserId()); ?> Profile" 
           href="/profile/<?php echo $post->getUserId(); ?>">
-          <?php echo $user->getName(); ?></a>.
+          <?php echo $post->getUserName($post->getUserId()); ?></a>.
         <?php if ($postEditable) :?>
           <a href="/post/<?php echo $post->getPostId(); ?>/edit">Edit</a>
         <?php endif;?>

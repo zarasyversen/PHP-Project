@@ -6,7 +6,10 @@ include(BASE . '/page/header.php');?>
   </div>
   <?php include(BASE . '/session/message.php'); ?>
   <?php include(BASE . '/user/post/new-post.php'); ?>
-  <?php include(BASE . '/list/posts.php'); ?>
+  <section class="posts">
+    <h2>Posts</h2>
+    <?php include(BASE . '/list/posts.php'); ?>
+  </section>
 </div>  
 
 <?php include(BASE . '/page/footer.php');?>

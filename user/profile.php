@@ -8,7 +8,7 @@ include(BASE . '/page/header.php');?>
   </header>
   <?php include(BASE . '/session/message.php'); ?>
   <aside class="page-sidebar">
-  <p>Profile created: <?php echo $user->getCreatedAt()?></p>
+  <p>Profile created: <?php echo $user->getFormattedDate($user->getCreatedAt())?></p>
   <?php if ($user->getIsAdmin()) :?>
     <p>This user is an admin.</p>
   <?php endif;?>
@@ -34,17 +34,7 @@ include(BASE . '/page/header.php');?>
   <main class="page-main">
     <section class="profile__posts">
       <h2>Posts by <?php echo $user->getName() ?></h2>
-      <?php 
-      $posts = new Repository\PostRepository();
-      if ($postList = $posts->getAllUserPosts($user->getId())): ?>
-        <ul>
-          <?php foreach($postList as $post):?>
-            <?php include(BASE .'/list/post.php');?>
-          <?php endforeach; ?>
-        </ul>
-      <?php else : ?>
-        <p>Sorry, no posts available yet. </p>
-      <?php endif; ?>
+      <?php include(BASE . '/list/posts.php'); ?>
     </section>
     <a href="/welcome">Return to all posts</a>
   </main>

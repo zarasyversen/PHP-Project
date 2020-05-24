@@ -1,19 +1,9 @@
-<?php 
-$posts = new Repository\PostRepository();
-$postList = $posts->getAllPosts();
-?>
-<?php if($postList): ?>
-  <section class="posts">
-    <h2>Posts</h2>
+<?php if ($postList): ?>
     <ul>
-      <?php foreach($postList as $post):?>
+      <?php foreach ($postList as $post): ?>
         <?php include(BASE .'/list/post.php');?>
       <?php endforeach; ?>
     </ul>
-  </section>
 <?php else : ?>
-   <section class="posts">
-    <h2>Posts</h2>
     <p>Sorry, no posts available yet. </p>
-  </section>
 <?php endif; ?>

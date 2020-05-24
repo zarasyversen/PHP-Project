@@ -116,4 +116,10 @@ class User {
 
   }
 
+  /**
+   * Format Date
+   */
+  public function getFormattedDate($date) {
+    return date_format(new \DateTime($date), 'jS F Y');
+  }
 }

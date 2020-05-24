@@ -4,6 +4,7 @@ namespace Model;
 
 use Helper\Session;
 use Helper\Markdown;
+use Repository\UserRepository;
 
 /**
  * Post Class
@@ -18,46 +19,64 @@ class Post {
   private $postId;
   private $updatedDate;
 
+  /**
+   * Title
+   */
   public function setTitle($new_title) { 
-      $this->title = $new_title;  
+    $this->title = $new_title;  
   }
  
   public function getTitle() {
-      return $this->title;
+    return $this->title;
   }
 
+  /**
+   * Message
+   */
   public function setMessage($new_message) { 
-      $this->message = $new_message;  
+    $this->message = $new_message;  
   }
  
   public function getMessage() {
-      return $this->message;
+    return $this->message;
   }
 
+  /**
+   * Created Date
+   */
   public function setCreatedDate($new_date) { 
-      $this->createdDate = $new_date;  
+    $this->createdDate = $new_date;  
   }
  
   public function getCreatedDate() {
-      return $this->createdDate;
+    return $this->createdDate;
   }
 
+  /**
+   * Updated Date
+   */
   public function setUpdatedDate($new_date) { 
-      $this->updatedDate = $new_date;  
+    $this->updatedDate = $new_date;  
   }
  
   public function getUpdatedDate() {
-      return $this->updatedDate;
+    return $this->updatedDate;
   }
 
+  /**
+   * User Id
+   */
   public function setUserId($new_user_id) { 
-      $this->userId = $new_user_id;  
+    $this->userId = $new_user_id;  
   }
  
   public function getUserId() {
-      return $this->userId;
+    return $this->userId;
   }
 
+  /**
+   * Post Id
+   */
   public function setPostId($new_post_id) { 
       $this->postId = $new_post_id;  
   }
@@ -66,15 +85,24 @@ class Post {
       return $this->postId;
   }
   
+  /**
+   * Get Post Date
+   */
   public function getDate() {
     $date = $this->getUpdatedDate() ? $this->getUpdatedDate() : $this->getCreatedDate();
     return date($date);
   }
 
+  /**
+   * Format Date
+   */
   public function getFormattedDate($date) {
     return date_format(new \DateTime($date), 'g:ia \o\n l jS F Y');
   }
 
+  /**
+   * Set Date Label
+   */
   public function getDateLabel() {
 
     if ($this->getUpdatedDate()) {
@@ -84,10 +112,16 @@ class Post {
     return 'Posted';
   }
 
+  /**
+   * Get formatted Markdown
+   */
   public function getFormattedContent() {
     return Markdown::render($this->getMessage());
   }
 
+  /**
+   * Check if post is editable by user
+   */
   public function isEditable() {
 
     $activeUser = Session::getActiveUser();
@@ -104,6 +138,11 @@ class Post {
 
     throw new \Exceptions\NoPermission("Sorry, you are not allowed to edit that post.");
   }
-
-
+ 
+  /**
+   * Get UserName
+   */
+  public function getUserName($userId) {
+    return UserRepository::getUser($userId)->getName();
+  }
 }
