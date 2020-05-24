@@ -1,13 +1,3 @@
-<?php
-
-/* This needs to stay in foreach post ..? */
-try {
-  $postEditable = $post->isEditable();
-} catch (\Exceptions\NoPermission $e) {
-  $postEditable = false; 
-}
-
-?>
 <li>
   <article class="post">
     <header class="post__header">
@@ -24,7 +14,7 @@ try {
         <a title="<?php echo $post->getUserName($post->getUserId()); ?> Profile" 
           href="/profile/<?php echo $post->getUserId(); ?>">
           <?php echo $post->getUserName($post->getUserId()); ?></a>.
-        <?php if ($postEditable) :?>
+        <?php if ($post->canUserEdit()) :?>
           <a href="/post/<?php echo $post->getPostId(); ?>/edit">Edit</a>
         <?php endif;?>
       </p>

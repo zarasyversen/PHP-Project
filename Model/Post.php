@@ -145,4 +145,18 @@ class Post {
   public function getUserName($userId) {
     return UserRepository::getUser($userId)->getName();
   }
+
+  /**
+   * Check if Current User can edit post
+   * This is because I can't do $post->isEditable in post.php as it throws exception
+   */
+  public function canUserEdit() {
+
+    try {
+      return $this->isEditable();
+    } catch (\Exceptions\NoPermission $e) {
+      return false; 
+    }
+
+  }
 }
