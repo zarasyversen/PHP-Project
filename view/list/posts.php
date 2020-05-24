@@ -1,7 +1,7 @@
 <?php if ($postList): ?>
     <ul>
       <?php foreach ($postList as $post): ?>
-        <?php include(BASE .'/list/post.php');?>
+        <?php include(BASE .'/view/list/post.php');?>
       <?php endforeach; ?>
     </ul>
 <?php else : ?>

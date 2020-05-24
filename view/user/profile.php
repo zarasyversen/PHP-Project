@@ -1,12 +1,12 @@
 <?php 
 $hasAvatar = $user->getUserAvatar();
 $pageTitle = $user->getName();
-include(BASE . '/page/header.php');?>
+include(BASE . '/view/page/header.php');?>
 <div class="wrapper page-2column">
   <header class="page-header">
     <h1><?php echo $user->getName() ?></h1>
   </header>
-  <?php include(BASE . '/session/message.php'); ?>
+  <?php include(BASE . '/view/session/message.php'); ?>
   <aside class="page-sidebar">
   <p>Profile created: <?php echo $user->getFormattedDate($user->getCreatedAt())?></p>
   <?php if ($user->getIsAdmin()) :?>
@@ -34,9 +34,9 @@ include(BASE . '/page/header.php');?>
   <main class="page-main">
     <section class="profile__posts">
       <h2>Posts by <?php echo $user->getName() ?></h2>
-      <?php include(BASE . '/list/posts.php'); ?>
+      <?php include(BASE . '/view/list/posts.php'); ?>
     </section>
     <a href="/welcome">Return to all posts</a>
   </main>
 </div>
-<?php include(BASE . '/page/footer.php');?>
+<?php include(BASE . '/view/page/footer.php');?>

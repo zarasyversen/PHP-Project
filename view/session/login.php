@@ -1,8 +1,8 @@
 <?php
-include(BASE . '/page/header.php');?>
+include(BASE . '/view/page/header.php');?>
   <div class="wrapper">
     <h1>Welcome to our site.</h1>
-    <?php include(BASE . '/session/message.php'); ?>
+    <?php include(BASE . '/view/session/message.php'); ?>
     <h2>Login</h2>
     <p>Please fill in your credentials to login.</p>
     <form action="/login"
@@ -27,4 +27,4 @@ include(BASE . '/page/header.php');?>
         <p>Don't have an account? <a href="/register">Sign up now</a>.</p>
     </form>
   </div>
-<?php include(BASE .'/page/footer.php');?>
+<?php include(BASE .'/view/page/footer.php');?>

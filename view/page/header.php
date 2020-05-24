@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="/assets/main.css">
 </head>
 <body>
-   <?php if (Helper\Session::isLoggedIn()) :?>
+  <?php if (Helper\Session::isLoggedIn()) :?>
     <header class="main-header">
-        <?php include(BASE . '/page/navigation.php');?>
+        <?php include(BASE . '/view/page/navigation.php');?>
     </header>
   <?php endif; ?>
