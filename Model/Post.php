@@ -18,6 +18,7 @@ class Post {
   private $userId;
   private $postId;
   private $updatedDate;
+  private $author;
 
   /**
    * Title
@@ -140,10 +141,16 @@ class Post {
   }
  
   /**
-   * Get UserName
+   * Get Post Author
    */
-  public function getUserName($userId) {
-    return UserRepository::getUser($userId)->getName();
+  public function getAuthor() {
+
+    if (!$this->author) {
+      $this->author = UserRepository::getUserById($this->getUserId());
+    }
+
+    return $this->author;
+
   }
 
   /**

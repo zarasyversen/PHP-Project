@@ -62,7 +62,7 @@ class Session {
   public static function getActiveUser() {
 
     try {
-      return UserRepository::getUser(self::getSessionUserId());
+      return UserRepository::getUserById(self::getSessionUserId());
     } catch (\Exceptions\NotFound $e) {
       self::setErrorMessage('Sorry, that user does not exist.');
     }

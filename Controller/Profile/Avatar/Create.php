@@ -8,7 +8,7 @@ class Create {
 
   public function view($id) {
 
-    $user = UserRepository::getUser($id);
+    $user = UserRepository::getUserById($id);
     $user->canEditUser();
 
     $timestamp = time();

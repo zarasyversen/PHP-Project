@@ -13,9 +13,9 @@
           <?php echo $post->getFormattedDate($post->getDate()); ?>
         </time>
         by 
-        <a title="<?php echo $post->getUserName($post->getUserId()); ?> Profile" 
+        <a title="<?php echo $post->getAuthor()->getName(); ?> Profile" 
           href="/profile/<?php echo $post->getUserId(); ?>">
-          <?php echo $post->getUserName($post->getUserId()); ?></a>.
+          <?php echo $post->getAuthor()->getName(); ?></a>.
         <?php if ($post->canUserEdit()) :?>
           <a href="/post/<?php echo $post->getPostId(); ?>/edit">Edit</a>
         <?php endif;?>

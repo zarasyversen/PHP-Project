@@ -8,7 +8,7 @@ class Delete {
 
   public function view($id) {
 
-    $user = UserRepository::getUser($id);
+    $user = UserRepository::getUserById($id);
     $user->canEditUser();
    
     if (UserRepository::deleteAvatar($id)) {

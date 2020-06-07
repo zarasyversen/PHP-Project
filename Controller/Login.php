@@ -36,7 +36,7 @@ class Login extends \Controller\Base {
       if ($passwordOk && $usernameOk) {
 
         try {
-          $user = UserRepository::login($username);
+          $user = UserRepository::getUserByName($username);
         } catch (\Exceptions\NotFound $e) {
           Session::setErrorMessage('Sorry, that user does not exist.');
           header("location: /login");

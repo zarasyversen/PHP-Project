@@ -19,16 +19,11 @@ class PostRepository {
    * Get Single Post
    * Returns Object {}
    */
-  public static function getPost(int $postId) : Post {
-
-    $where = [
-      'id' => $postId
-    ];
-  
-    $returnedPost = DB::selectFirst(self::TABLE_NAME, $where);
+  public static function getPost(int $postId) : Post
+  {
+    $returnedPost = DB::selectFirst('*', self::TABLE_NAME, ['id' => $postId]);
 
     if ($returnedPost) {
-
       $post = new Post();
       $post->setTitle($returnedPost['title']);
       $post->setMessage($returnedPost['message']);
@@ -44,15 +39,13 @@ class PostRepository {
   }
 
   /**
-   * Get All Posts 
+   * Get Post Collection
    * Returns Array []
    */
-  public function getAllPosts() {
-
+  private function getPosts($where = null)
+  {
     $posts = [];
-    $order = 'created_at';
-
-    $returnedPosts = DB::select(self::TABLE_NAME, null, $order, self::DESC_ORDER);
+    $returnedPosts = DB::select('*', self::TABLE_NAME, $where, 'created_at', self::DESC_ORDER);
 
     if (is_array($returnedPosts)) {
 
@@ -74,59 +67,38 @@ class PostRepository {
     }
 
     return [];
+  }
+
+  /**
+   * Get All Posts 
+   * Returns Array []
+   */
+  public function getAllPosts()
+  {
+    return $this->getPosts();
   }
 
   /**
    * Get All Posts from specific User
    * Returns Array []
    */
-  public function getAllUserPosts(int $userId) {
-
-    $where = [
-      'user_id' => $userId
-    ]; 
-    $order = 'created_at';
-    $posts = [];
-
-    $returnedPosts = DB::select(self::TABLE_NAME, $where, $order, self::DESC_ORDER);
-
-    if (is_array($returnedPosts)) {
-
-      foreach ($returnedPosts as $row) {
-
-        $post = new Post(); 
-        $post->setTitle($row['title']);
-        $post->setMessage($row['message']);
-        $post->setCreatedDate($row['created_at']);
-        $post->setUpdatedDate($row['updated_at']);
-        $post->setUserId((int)$row['user_id']);
-        $post->setPostId((int)$row['id']);
-
-        $posts[] = $post;
-      }
-
-      return $posts;
-
-    }
-
-    return [];
-
+  public function getAllUserPosts(int $userId)
+  {
+    return $this->getPosts(['user_id' => $userId]);
   }
 
   /**
    * Edit Post
    */
-  public static function edit(int $postId, $title, $message) {
-
+  public static function edit(int $postId, $title, $message)
+  {
     $set = [
       'title' => $title,
       'message' => $message,
       'updated_at' => date('Y-m-d H:i:s')
     ];
 
-    $where = ['id', $postId];
-
-    if (DB::update(self::TABLE_NAME, $set, $where)) {
+    if (DB::update(self::TABLE_NAME, $set, ['id', $postId])) {
       return true;
     }
 
@@ -136,11 +108,9 @@ class PostRepository {
   /**
    * Delete Post
    */
-  public static function delete(int $postId)  {
-
-    $where = ['id', $postId];
-
-    if (DB::delete(self::TABLE_NAME, $where)) {
+  public static function delete(int $postId)
+  {
+    if (DB::delete(self::TABLE_NAME, ['id', $postId])) {
       return true;
     }
     
@@ -150,8 +120,8 @@ class PostRepository {
   /**
    * Save Post
    */
-  public static function save($post) {
-
+  public static function save($post)
+  {
     $insert = [
       'user_id' => $post->getUserId(),
       'title' => $post->getTitle(),
@@ -163,7 +133,6 @@ class PostRepository {
     }
 
     throw new \Exceptions\NotSaved("Unable to save your post");
-
   }
 
 }

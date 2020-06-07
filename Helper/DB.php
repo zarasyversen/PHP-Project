@@ -50,7 +50,7 @@ class DB {
       $stmt->execute();
       return true;
     } catch(\PDOException $e) {
-        echo $e;
+      echo $e;
     }
 
   }
@@ -143,9 +143,9 @@ class DB {
   /**
    * Select Query : All Items
    */
-  public static function select($tableName, $where = null, $order = null, $direction = 'ASC', $select = '*') {
+  public static function select($select = '*', $tableName, $where = null, $order = null, $direction = 'ASC') {
     
-    $stmt = self::buildSelectQuery($tableName, $where, $order, $direction, $select);
+    $stmt = self::buildSelectQuery($select, $tableName, $where, $order, $direction);
 
     $allItems = $stmt->fetchAll();
 
@@ -157,9 +157,9 @@ class DB {
   /**
    * Select Query : First Item
    */
-  public static function selectFirst($tableName, $where = null, $order = null, $direction = 'ASC', $select = '*') {
+  public static function selectFirst($select = '*', $tableName, $where = null, $order = null, $direction = 'ASC') {
 
-    $stmt = self::buildSelectQuery($tableName, $where, $order, $direction, $select);
+    $stmt = self::buildSelectQuery($select, $tableName, $where, $order, $direction);
 
     $firstItem = $stmt->fetch();
 
@@ -171,8 +171,9 @@ class DB {
 
   /**
    * Select Query : Build SQL
+   * Make params in order of select query, $select $tablename $where etc. 
    */
-  private static function buildSelectQuery($tableName, $where = null, $order = null, $direction = 'ASC', $select = '*') {
+  private static function buildSelectQuery($select = '*', $tableName, $where = null, $order = null, $direction = 'ASC') {
 
     $dbh = self::getPdo();
 
