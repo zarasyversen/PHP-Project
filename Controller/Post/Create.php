@@ -34,7 +34,6 @@ class Create  extends \Controller\Base {
             'postList' => $postList
           ]
         );
-        exit;
       } else {
         $titleOk = true;
       }
@@ -52,7 +51,6 @@ class Create  extends \Controller\Base {
             'postList' => $postList
           ]
         );
-        exit;
       } else {
         $messageOk = true;
       }
