@@ -6,7 +6,8 @@ use Repository\PostRepository;
 
 class Welcome extends \Controller\Base {
 
-  public function view() {
+  public function view()
+  {
     $activeUser = Session::getActiveUser();
 
     $posts = new PostRepository();
@@ -22,5 +23,4 @@ class Welcome extends \Controller\Base {
       ]
     );
   }
-
 }

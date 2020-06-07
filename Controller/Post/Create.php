@@ -7,8 +7,8 @@ use Helper\Session as Session;
 
 class Create  extends \Controller\Base {
 
-  public function view() {
-
+  public function view()
+  {
     $user = Session::getActiveUser();
     $title = $message = '';
     $title_err = $message_err = '';
@@ -73,7 +73,5 @@ class Create  extends \Controller\Base {
     }
 
     $this->displayTemplate('/user/post/new-post');
-
   }
-
 }

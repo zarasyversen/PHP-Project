@@ -6,8 +6,8 @@ use Helper\Session as Session;
 
 class Delete {
 
-  public function view($id) {
-
+  public function view($id)
+  {
     $user = UserRepository::getUserById($id);
     $user->canEditUser();
    
@@ -19,7 +19,5 @@ class Delete {
 
     $url = '/profile/' .$id;
     header('Location:' . $url);
-
   }
-
 }

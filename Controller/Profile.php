@@ -10,8 +10,8 @@ use Helper\Session as Session;
  */
 class Profile extends \Controller\Base {
 
-  public function view($id) {
-
+  public function view($id)
+  {
     try {
       $user = UserRepository::getUserById($id);
       $posts = new PostRepository();
@@ -30,5 +30,4 @@ class Profile extends \Controller\Base {
       ]
     );
   }
-
 }

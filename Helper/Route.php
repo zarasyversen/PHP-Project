@@ -10,7 +10,8 @@ class Route {
   /**
    * Routes
    */
-  private static function routes() {
+  private static function routes()
+  {
     return [
       '/' => [
         'controller' => 'Controller\Login'
@@ -67,8 +68,8 @@ class Route {
    * Get Route
    * Get/Set Params, Pass to controller
    */
-  public static function get($requestedUrl) {
-
+  public static function get($requestedUrl)
+  {
     // Get our Routes Array
     $routes = self::routes();
 
@@ -126,14 +127,14 @@ class Route {
 
       }
     }
-
   }
 
   /**
-   * Get Route Regex : Stolen from Laravel
+   * Get Route Regex : From Laravel
    * Returns String
    */
-  private static function getRegex($route) {
+  private static function getRegex($route)
+  {
     $route = preg_replace('/\{(.*)\}/', '(?P<$1>[^/]++)', $route);
     return '#^' . $route . '$#sDu';
   }
@@ -142,7 +143,8 @@ class Route {
    * Check if RequestedUrl matches against a route
    * Returns Bool
    */
-  private static function matchRoute($regex, $requestedUrl) {
+  private static function matchRoute($regex, $requestedUrl)
+  {
     return (preg_match($regex, $requestedUrl) === 1);
   }
 
@@ -150,16 +152,18 @@ class Route {
    * Get the params passed in the requestedUrl
    * Returns Array []
    */
-  private static function getUrlParams($regex, $requestedUrl) {
-      preg_match($regex, $requestedUrl, $matches);
-      return $matches;
+  private static function getUrlParams($regex, $requestedUrl)
+  {
+    preg_match($regex, $requestedUrl, $matches);
+    return $matches;
   }
 
   /**
    * Get Function Argument Names from specified method in controller
    * Returns Array []
    */
-  private static function getFuncArgNames($controller, $method) {
+  private static function getFuncArgNames($controller, $method)
+  {
     $reflection = new \ReflectionClass($controller);
     $function = $reflection->getMethod($method);
     $result = [];
@@ -175,7 +179,8 @@ class Route {
    * Match urlParams against controllerParams
    * Returns Array []
    */
-  private static function getViewParams($urlParams, $controllerParams) {
+  private static function getViewParams($urlParams, $controllerParams)
+  {
     $params = [];
 
     foreach ($controllerParams as $param) {
@@ -184,5 +189,4 @@ class Route {
 
     return $params;
   }
-
 }

@@ -11,8 +11,8 @@ class DB {
   /**
    * PDO Connection
    */
-  private static function getPdo() {
-
+  private static function getPdo()
+  {
     if (!isset(self::$dbh)) {
       $dsn = 'mysql:dbname=php_project;host=127.0.0.1';
       $user = 'root';
@@ -34,8 +34,8 @@ class DB {
   /**
    * Delete Query
    */
-  public static function delete($tableName, $where) {
-
+  public static function delete($tableName, $where)
+  {
     $dbh = self::getPdo();
     list($column, $columnValue) = $where;
 
@@ -52,14 +52,13 @@ class DB {
     } catch(\PDOException $e) {
       echo $e;
     }
-
   }
 
   /**
    * Update Query
    */
-  public static function update($tableName, $set, $where) {
-
+  public static function update($tableName, $set, $where)
+  {
     $dbh = self::getPdo();
     //
     // Prepare Data to use in SQL
@@ -97,14 +96,13 @@ class DB {
     } catch(\PDOException $e) {
         echo $e;
     } 
-
   }
 
   /**
    * Insert Query
    */
-  public static function insert($tableName, $insert) {
-
+  public static function insert($tableName, $insert)
+  {
     $dbh = self::getPdo();
 
     $insertKeys = [];
@@ -143,8 +141,8 @@ class DB {
   /**
    * Select Query : All Items
    */
-  public static function select($select = '*', $tableName, $where = null, $order = null, $direction = 'ASC') {
-    
+  public static function select($select = '*', $tableName, $where = null, $order = null, $direction = 'ASC')
+  {
     $stmt = self::buildSelectQuery($select, $tableName, $where, $order, $direction);
 
     $allItems = $stmt->fetchAll();
@@ -157,24 +155,23 @@ class DB {
   /**
    * Select Query : First Item
    */
-  public static function selectFirst($select = '*', $tableName, $where = null, $order = null, $direction = 'ASC') {
-
+  public static function selectFirst($select = '*', $tableName, $where = null, $order = null, $direction = 'ASC')
+  {
     $stmt = self::buildSelectQuery($select, $tableName, $where, $order, $direction);
 
     $firstItem = $stmt->fetch();
 
     if ($firstItem !== null) {
       return $firstItem;
-    } 
-    
+    }
   }
 
   /**
    * Select Query : Build SQL
    * Make params in order of select query, $select $tablename $where etc. 
    */
-  private static function buildSelectQuery($select = '*', $tableName, $where = null, $order = null, $direction = 'ASC') {
-
+  private static function buildSelectQuery($select = '*', $tableName, $where = null, $order = null, $direction = 'ASC')
+  {
     $dbh = self::getPdo();
 
     /**
@@ -217,7 +214,5 @@ class DB {
     } catch(\PDOException $e) {
         echo $e;
     }
-   
   }
-
 }

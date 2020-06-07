@@ -6,8 +6,8 @@ use Helper\Session as Session;
 
 class Edit extends \Controller\Base {
 
-  public function view($id) {
-
+  public function view($id)
+  {
     $title_err = $message_err = '';
     $titleOk = $messageOk = false;
 
@@ -58,5 +58,4 @@ class Edit extends \Controller\Base {
       ]
     );
   }
-
 }

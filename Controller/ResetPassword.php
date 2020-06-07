@@ -6,8 +6,8 @@ use Helper\Session as Session;
 
 class ResetPassword extends \Controller\Base {
 
-  public function view() {
-
+  public function view()
+  {
     $new_password = $confirm_password = "";
     $new_password_err = $confirm_password_err = "";
     $newPasswordOk = false;
@@ -57,5 +57,4 @@ class ResetPassword extends \Controller\Base {
       ]
     );
   }
-
 }

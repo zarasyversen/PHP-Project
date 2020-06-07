@@ -6,8 +6,8 @@ use Helper\Session as Session;
 
 class Delete {
 
-  public function view($id) {
-
+  public function view($id)
+  {
     $post = PostRepository::getPost($id);
     $post->isEditable();
   
@@ -18,8 +18,5 @@ class Delete {
     }
 
     header("location: /welcome");
-    
   }
-
 }
-

@@ -1,7 +1,8 @@
 <?php
 namespace Middleware;
 
-interface MiddleWareInterface {
+interface MiddleWareInterface
+{
   
   public function execute();
 

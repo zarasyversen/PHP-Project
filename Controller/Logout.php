@@ -3,7 +3,8 @@ namespace Controller;
 
 class Logout {
 
-  public function view() {
+  public function view()
+  {
     // Initialize the session
     session_start();
      
@@ -13,5 +14,4 @@ class Logout {
     // Redirect to login page
     header("location: /login");
   }
-
 }

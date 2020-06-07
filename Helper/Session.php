@@ -9,7 +9,8 @@ class Session {
   //
   // Set All Messages
   //
-  private static function setMessage($type, $message) {
+  private static function setMessage($type, $message)
+  {
     $sessionMessage = [
       'type' => $type, 
       'msg' => $message
@@ -20,7 +21,8 @@ class Session {
   //
   // Set Success Message
   //
-  public static function setSuccessMessage($message) {
+  public static function setSuccessMessage($message)
+  {
     $type = 'success';
     self::setMessage($type, $message);
   }
@@ -28,7 +30,8 @@ class Session {
   //
   // Set Error Message
   //
-  public static function setErrorMessage($message) {
+  public static function setErrorMessage($message)
+  {
     $type = 'error';
     self::setMessage($type, $message);
   }
@@ -36,7 +39,8 @@ class Session {
   //
   // Show Message if it is Set
   //
-  public static function showMessage() {
+  public static function showMessage()
+  {
     if (isset($_SESSION["session_message"])) {
       // store it in var before you delete it
       $sessionMessage = $_SESSION['session_message'];
@@ -52,32 +56,30 @@ class Session {
   //
   // Get Session User Id
   //
-  public static function getSessionUserId() {
+  public static function getSessionUserId()
+  {
     return $_SESSION["user_id"];
   }
 
   //
   // Create Active User Object
   //
-  public static function getActiveUser() {
-
+  public static function getActiveUser()
+  {
     try {
       return UserRepository::getUserById(self::getSessionUserId());
     } catch (\Exceptions\NotFound $e) {
       self::setErrorMessage('Sorry, that user does not exist.');
     }
-
   }
 
   //
   // Check User is Logged In
   //
-  public static function isLoggedIn() {
-
+  public static function isLoggedIn()
+  {
     if (isset($_SESSION["user_id"])) {
       return true;
     }
-
   }
-  
 }
