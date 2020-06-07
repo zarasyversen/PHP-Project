@@ -1,5 +1,5 @@
 <?php
-$userId = $user->getId();
+$userName = strtolower($user->getName());
 $hasAvatar = $user->getUserAvatar();
 $pageTitle = 'Update Avatar';
 include(BASE . '/view/page/header.php');?>
@@ -14,7 +14,7 @@ include(BASE . '/view/page/header.php');?>
   </aside>
   <main class="page-main">
     <h2>Update your Avatar</h2>
-    <form class="form" action="/profile/<?php echo $userId;?>/avatar/create" method="post" enctype="multipart/form-data">
+    <form class="form" action="/profile/<?php echo $userName;?>/avatar/create" method="post" enctype="multipart/form-data">
       <div class="form__group">
         <label for="avatar">Upload New Avatar:</label>
         <input type="file" class="form__input file" name="file" id="avatar">
@@ -22,7 +22,7 @@ include(BASE . '/view/page/header.php');?>
       <button type="submit" class="btn btn--primary" name="submit">Upload</button>
     </form>
     <button type="button" class="btn btn--primary delete js-delete-avatar">Delete Avatar</button>
-    <a href="/profile/<?php echo $userId;?>">Cancel</a>
+    <a href="/profile/<?php echo $userName;?>">Cancel</a>
   </main>
 </div>
 <script>
@@ -32,7 +32,7 @@ include(BASE . '/view/page/header.php');?>
     var confirmed = confirm('Are you sure you want to delete your avatar?');
 
     if(confirmed){
-      window.location.href = "/profile/<?php echo $userId;?>/avatar/delete";
+      window.location.href = "/profile/<?php echo $userName;?>/avatar/delete";
     } 
   }
 

@@ -15,12 +15,12 @@ include(BASE . '/view/page/header.php');?>
   <?php if ($hasAvatar) :?>
     <img src="<?php echo $hasAvatar;?>" alt=""/>
     <?php if ($canEdit) :?>
-      <a href="/profile/<?php echo $user->getId();?>/avatar/edit" 
+      <a href="/profile/<?php echo strtolower($user->getName());?>/avatar/edit"
         title="Upload Avatar Image">Edit Avatar</a>
     <?php endif;?>
   <?php elseif ($canEdit) :?>
     <form class="form" 
-          action="/profile/<?php echo $user->getId();?>/avatar/create" 
+          action="/profile/<?php echo strtolower($user->getName());?>/avatar/create"
           method="post" 
           enctype="multipart/form-data">
       <div class="form__group">

@@ -14,7 +14,7 @@
         </time>
         by 
         <a title="<?php echo $post->getAuthor()->getName(); ?> Profile" 
-          href="/profile/<?php echo $post->getUserId(); ?>">
+          href="/profile/<?php echo strtolower($post->getAuthor()->getName()); ?>">
           <?php echo $post->getAuthor()->getName(); ?></a>.
         <?php if ($post->canUserEdit()) :?>
           <a href="/post/<?php echo $post->getPostId(); ?>/edit">Edit</a>
