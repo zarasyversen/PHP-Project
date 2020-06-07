@@ -13,6 +13,8 @@ class Create  extends \Controller\Base {
     $title = $message = '';
     $title_err = $message_err = '';
     $titleOk = $messageOk = false;
+    $posts = new PostRepository();
+    $postList = $posts->getAllPosts();
 
     // Process data when form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -28,9 +30,11 @@ class Create  extends \Controller\Base {
             'title' => $title,
             'message' => $message,
             'title_err' => $title_err,
-            'message_err' => $message_err
+            'message_err' => $message_err,
+            'postList' => $postList
           ]
         );
+        exit;
       } else {
         $titleOk = true;
       }
@@ -44,9 +48,11 @@ class Create  extends \Controller\Base {
             'title' => $title,
             'message' => $message,
             'title_err' => $title_err,
-            'message_err' => $message_err
+            'message_err' => $message_err,
+            'postList' => $postList
           ]
         );
+        exit;
       } else {
         $messageOk = true;
       }
