@@ -134,5 +134,4 @@ class PostRepository {
 
     throw new \Exceptions\NotSaved("Unable to save your post");
   }
-
 }

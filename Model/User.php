@@ -20,74 +20,86 @@ class User {
   /**
    * Id 
    */
-  public function setId($new_id) { 
+  public function setId($new_id)
+  { 
     $this->id = $new_id;  
   }
  
-  public function getId() {
+  public function getId()
+  {
     return $this->id;
   }
 
   /**
    * Name
    */
-  public function setName($new_name) { 
+  public function setName($new_name)
+  { 
     $this->name = $new_name;  
   }
  
-  public function getName() {
+  public function getName()
+  {
     return $this->name;
   }
 
   /**
    * Avatar
    */
-  public function setAvatar($new_avatar) { 
+  public function setAvatar($new_avatar)
+  { 
     $this->avatar = $new_avatar;  
   }
  
-  public function getAvatar() {
+  public function getAvatar()
+  {
     return $this->avatar;
   }
 
   /**
    * Is Admin 
    */
-  public function setIsAdmin($new_admin) { 
+  public function setIsAdmin($new_admin)
+  { 
     $this->isAdmin = $new_admin;  
   }
  
-  public function getIsAdmin() {
+  public function getIsAdmin()
+  {
     return $this->isAdmin;
   }
 
   /**
    * Created At
    */
-  public function setCreatedAt($new_created_at) { 
+  public function setCreatedAt($new_created_at)
+  { 
     $this->createdAt = $new_created_at;  
   }
  
-  public function getCreatedAt() {
+  public function getCreatedAt()
+  {
     return $this->createdAt;
   }
 
   /**
    * Password
    */
-  public function setPassword($new_password) { 
+  public function setPassword($new_password)
+  { 
     $this->password = $new_password;  
   }
  
-  public function getPassword() {
+  public function getPassword()
+  {
     return $this->password;
   }
 
   /**
    * Check if User can edit
    */
-  public function canEditUser() {
-
+  public function canEditUser()
+  {
     $activeUser = Session::getActiveUser();
 
     // Check if same user is logged in
@@ -101,25 +113,24 @@ class User {
     }
 
     throw new \Exceptions\NoPermission("Sorry, you are not allowed to edit this profile");
-    
   }
 
   /**
    * Get User Avatar
    */
-  public function getUserAvatar() {
-
+  public function getUserAvatar()
+  {
     if ($this->avatar) {
       $filePath = '/images/user/' . $this->id . '/avatar/';
       return $filePath . $this->avatar;
     }
-
   }
 
   /**
    * Format Date
    */
-  public function getFormattedDate($date) {
+  public function getFormattedDate($date)
+  {
     return date_format(new \DateTime($date), 'jS F Y');
   }
 }
