@@ -168,7 +168,6 @@ class DB {
 
   /**
    * Select Query : Build SQL
-   * Make params in order of select query, $select $tablename $where etc. 
    */
   private static function buildSelectQuery($select = '*', $tableName, $where = null, $order = null, $direction = 'ASC')
   {
