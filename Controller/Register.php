@@ -6,8 +6,8 @@ use Helper\Session as Session;
 
 class Register extends \Controller\Base {
 
-  public function view() {
-
+  public function view()
+  {
     // Redirect if already logged in
     if (Session::isLoggedIn()) {
       header("location: /welcome");
@@ -75,5 +75,4 @@ class Register extends \Controller\Base {
       ]
     );
   }
-
 }

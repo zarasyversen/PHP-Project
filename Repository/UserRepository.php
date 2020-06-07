@@ -18,13 +18,9 @@ class UserRepository {
    * Get User
    * Returns Object {}
    */
-  public static function getUser(int $userId) : User {
-
-    $where = [
-      'id' => $userId
-    ];
-  
-    $thisUser = DB::selectFirst(self::TABLE_NAME, $where);
+  private static function getUser($where) : User
+  {
+    $thisUser = DB::selectFirst('*', self::TABLE_NAME, $where);
 
     if ($thisUser) {
       $user = new User();
@@ -32,6 +28,7 @@ class UserRepository {
       $user->setName($thisUser['username']);
       $user->setIsAdmin($thisUser['is_admin']);
       $user->setCreatedAt($thisUser['created_at']);
+      $user->setPassword($thisUser['password']);
       $user->setAvatar($thisUser['avatar']);
       
       return $user;
@@ -41,17 +38,29 @@ class UserRepository {
   }
 
   /**
+   * Get User By Id
+   * Returns User
+   */
+  public static function getUserById(int $userId)
+  {
+    return self::getUser(['id' => $userId]);
+  }
+
+  /**
+   * Get User By Name
+   * Returns User
+   */
+  public static function getUserByName($userName)
+  {
+    return self::getUser(['username' => $userName]);
+  }
+
+  /**
    * Upload Avatar
    */
-  public static function uploadAvatar(int $userId, $fileName) {
-
-    $set = [
-      'avatar' => $fileName
-    ];
-
-    $where = ['id', $userId];
-
-    if (DB::update(self::TABLE_NAME, $set, $where)) {
+  public static function uploadAvatar(int $userId, $fileName)
+  {
+    if (DB::update(self::TABLE_NAME, ['avatar' => $fileName], ['id', $userId])) {
       return true;
     }
 
@@ -62,15 +71,9 @@ class UserRepository {
   /**
    * Delete Avatar
    */
-  public static function deleteAvatar(int $userId) {
-
-    $set = [
-      'avatar' => NULL
-    ];
-
-    $where = ['id', $userId];
-
-    if (DB::update(self::TABLE_NAME, $set, $where)) {
+  public static function deleteAvatar(int $userId)
+  {
+    if (DB::update(self::TABLE_NAME, ['avatar' => NULL], ['id', $userId])) {
       return true;
     }
 
@@ -80,15 +83,9 @@ class UserRepository {
   /**
    * Check if User already exists
    */
-  public static function doesUserExist($userName) {
-
-    $where = [
-      'username' => $userName
-    ];
-
-    $select = 'id';
-
-    $row = DB::selectFirst(self::TABLE_NAME, $where, null, 'ASC', $select);
+  public static function doesUserExist($userName)
+  {
+    $row = DB::selectFirst('id', self::TABLE_NAME, ['username' => $userName], null, 'ASC');
 
     if ($row['id'] !== null) {
       return true;
@@ -98,7 +95,8 @@ class UserRepository {
   /**
    * Create User
    */
-  public static function createUser($userName, $password) {
+  public static function createUser($userName, $password)
+  {
     $insert = [
       'username' => $userName,
       'password' => password_hash($password, PASSWORD_DEFAULT)
@@ -109,48 +107,17 @@ class UserRepository {
     }
 
     throw new \Exceptions\NotSaved("Unable to create user");
-
-  }
-
-  /**
-   * Login User
-   */
-  public static function login($userName) {
-    $where = [
-      'username' => $userName
-    ];
-
-    $select = 'id, username, password';
-
-    $thisUser = DB::selectFirst(self::TABLE_NAME, $where, null, 'ASC', $select);
-
-    if ($thisUser) {
-      $user = new User();
-      $user->setId((int)$thisUser['id']);  
-      $user->setName($thisUser['username']);
-      $user->setPassword($thisUser['password']);
-      return $user;
-    }
-
-    throw new \Exceptions\NotFound("Sorry, that user does not exist");
   }
 
   /**
    * Reset Password
    */
-  public static function resetPassword($password) {
-
-    $set = [
-      'password' => $password
-    ];
-
-    $where = ['id', Session::getSessionUserId()];
-
-    if (DB::update(self::TABLE_NAME, $set, $where)) {
+  public static function resetPassword($password)
+  {
+    if (DB::update(self::TABLE_NAME, ['password' => $password], ['id', Session::getSessionUserId()])) {
       return true;
     }
 
     return false;
   }
-
 }

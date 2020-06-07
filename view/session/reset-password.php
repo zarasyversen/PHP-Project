@@ -1,5 +1,5 @@
 <?php
-include(BASE . '/page/header.php');?>
+include(BASE . '/view/page/header.php');?>
 <div class="wrapper">
     <h2>Reset Password</h2>
     <p>Please fill out this form to reset your password.</p>
@@ -20,4 +20,4 @@ include(BASE . '/page/header.php');?>
         </div>
     </form>
 </div>    
-<?php include(BASE . '/page/footer.php');?>
+<?php include(BASE . '/view/page/footer.php');?>

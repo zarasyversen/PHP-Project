@@ -2,12 +2,12 @@
 $userId = $user->getId();
 $hasAvatar = $user->getUserAvatar();
 $pageTitle = 'Update Avatar';
-include(BASE . '/page/header.php');?>
+include(BASE . '/view/page/header.php');?>
 <div class="wrapper page-2column">
   <header class="page-header">
     <h1>Update Avatar</h1>
   </header>
-  <?php include(BASE . '/session/message.php'); ?>
+  <?php include(BASE . '/view/session/message.php'); ?>
   <aside class="page-sidebar">
     <h2>Current Avatar</h2>
     <img src="<?php echo $hasAvatar;?>"/>

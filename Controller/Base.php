@@ -6,14 +6,14 @@ namespace Controller;
  */
 class Base {
 
-  protected function displayTemplate($templatePath, $data = []) {
+  protected function displayTemplate($templatePath, $data = [])
+  {
 
+    // create variable variables $$
     foreach ($data as $key => $value) {
-      //variable variables
       $$key = $value; 
     }
 
-    include(BASE . $templatePath .'.php');
+    include(BASE . '/view/' . $templatePath . '.php');
   }
-
 }

@@ -6,9 +6,9 @@ use Helper\Session as Session;
 
 class Create {
 
-  public function view($id) {
-
-    $user = UserRepository::getUser($id);
+  public function view($id)
+  {
+    $user = UserRepository::getUserById($id);
     $user->canEditUser();
 
     $timestamp = time();
@@ -80,7 +80,5 @@ class Create {
 
     $url = '/profile/' .$id;
     header('Location:' . $url);
-    
   }
-
 }

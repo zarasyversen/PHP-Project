@@ -4,6 +4,7 @@ namespace Model;
 
 use Helper\Session;
 use Helper\Markdown;
+use Repository\UserRepository;
 
 /**
  * Post Class
@@ -17,66 +18,108 @@ class Post {
   private $userId;
   private $postId;
   private $updatedDate;
+  private $author;
 
-  public function setTitle($new_title) { 
-      $this->title = $new_title;  
+  /**
+   * Title
+   */
+  public function setTitle($new_title)
+  { 
+    $this->title = $new_title;  
   }
  
-  public function getTitle() {
-      return $this->title;
+  public function getTitle()
+  {
+    return $this->title;
   }
 
-  public function setMessage($new_message) { 
-      $this->message = $new_message;  
+  /**
+   * Message
+   */
+  public function setMessage($new_message)
+  { 
+    $this->message = $new_message;  
   }
  
-  public function getMessage() {
-      return $this->message;
+  public function getMessage()
+  {
+    return $this->message;
   }
 
-  public function setCreatedDate($new_date) { 
-      $this->createdDate = $new_date;  
+  /**
+   * Created Date
+   */
+  public function setCreatedDate($new_date)
+  { 
+    $this->createdDate = $new_date;  
   }
  
-  public function getCreatedDate() {
-      return $this->createdDate;
+  public function getCreatedDate()
+  {
+    return $this->createdDate;
   }
 
-  public function setUpdatedDate($new_date) { 
-      $this->updatedDate = $new_date;  
+  /**
+   * Updated Date
+   */
+  public function setUpdatedDate($new_date)
+  { 
+    $this->updatedDate = $new_date;  
   }
  
-  public function getUpdatedDate() {
-      return $this->updatedDate;
+  public function getUpdatedDate()
+  {
+    return $this->updatedDate;
   }
 
-  public function setUserId($new_user_id) { 
-      $this->userId = $new_user_id;  
+  /**
+   * User Id
+   */
+  public function setUserId($new_user_id)
+  { 
+    $this->userId = $new_user_id;  
   }
  
-  public function getUserId() {
-      return $this->userId;
+  public function getUserId()
+  {
+    return $this->userId;
   }
 
-  public function setPostId($new_post_id) { 
+  /**
+   * Post Id
+   */
+  public function setPostId($new_post_id)
+  { 
       $this->postId = $new_post_id;  
   }
  
-  public function getPostId() {
+  public function getPostId()
+  {
       return $this->postId;
   }
   
-  public function getDate() {
+  /**
+   * Get Post Date
+   */
+  public function getDate()
+  {
     $date = $this->getUpdatedDate() ? $this->getUpdatedDate() : $this->getCreatedDate();
     return date($date);
   }
 
-  public function getFormattedDate($date) {
+  /**
+   * Format Date
+   */
+  public function getFormattedDate($date)
+  {
     return date_format(new \DateTime($date), 'g:ia \o\n l jS F Y');
   }
 
-  public function getDateLabel() {
-
+  /**
+   * Set Date Label
+   */
+  public function getDateLabel()
+  {
     if ($this->getUpdatedDate()) {
       return 'Updated';
     }
@@ -84,12 +127,19 @@ class Post {
     return 'Posted';
   }
 
-  public function getFormattedContent() {
+  /**
+   * Get formatted Markdown
+   */
+  public function getFormattedContent()
+  {
     return Markdown::render($this->getMessage());
   }
 
-  public function isEditable() {
-
+  /**
+   * Check if post is editable by user
+   */
+  public function isEditable()
+  {
     $activeUser = Session::getActiveUser();
       
     // Check if user has posted the post
@@ -104,6 +154,28 @@ class Post {
 
     throw new \Exceptions\NoPermission("Sorry, you are not allowed to edit that post.");
   }
+ 
+  /**
+   * Get Post Author
+   */
+  public function getAuthor()
+  {
+    if (!$this->author) {
+      $this->author = UserRepository::getUserById($this->getUserId());
+    }
 
+    return $this->author;
+  }
 
+  /**
+   * Check if Current User can edit post
+   */
+  public function canUserEdit()
+  {
+    try {
+      return $this->isEditable();
+    } catch (\Exceptions\NoPermission $e) {
+      return false; 
+    }
+  }
 }

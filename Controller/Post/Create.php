@@ -7,12 +7,14 @@ use Helper\Session as Session;
 
 class Create  extends \Controller\Base {
 
-  public function view() {
-
+  public function view()
+  {
     $user = Session::getActiveUser();
     $title = $message = '';
     $title_err = $message_err = '';
     $titleOk = $messageOk = false;
+    $posts = new PostRepository();
+    $postList = $posts->getAllPosts();
 
     // Process data when form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -28,7 +30,8 @@ class Create  extends \Controller\Base {
             'title' => $title,
             'message' => $message,
             'title_err' => $title_err,
-            'message_err' => $message_err
+            'message_err' => $message_err,
+            'postList' => $postList
           ]
         );
       } else {
@@ -44,7 +47,8 @@ class Create  extends \Controller\Base {
             'title' => $title,
             'message' => $message,
             'title_err' => $title_err,
-            'message_err' => $message_err
+            'message_err' => $message_err,
+            'postList' => $postList
           ]
         );
       } else {
@@ -73,7 +77,5 @@ class Create  extends \Controller\Base {
     }
 
     $this->displayTemplate('/user/post/new-post');
-
   }
-
 }

@@ -1,7 +1,8 @@
 <?php 
-include(BASE . '/page/header.php');?>
+include(BASE . '/view/page/header.php');
+?>
 <div class="wrapper">
-  <?php include(BASE . '/session/message.php'); ?>
+  <?php include(BASE . '/view/session/message.php'); ?>
   <form action="/register" 
     method="post" class="form">
     <h1>Sign up</h1>
@@ -34,4 +35,4 @@ include(BASE . '/page/header.php');?>
     <p>Already have an account? <a href="/login">Login here</a>.</p>
   </form>
 </div>
-<?php include(BASE . '/page/footer.php');?>
+<?php include(BASE . '/view/page/footer.php');?>

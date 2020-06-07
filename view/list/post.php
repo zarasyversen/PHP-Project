@@ -1,20 +1,11 @@
-<?php
-
-try {
- $postEditable = $post->isEditable();
-} catch (\Exceptions\NoPermission $e) {
- $postEditable = false; 
-}
-
-$user = Repository\UserRepository::getUser($post->getUserId());
-
-?>
 <li>
   <article class="post">
     <header class="post__header">
       <h2 class="post__title"><?php echo $post->getTitle(); ?></h2>
     </header>
-    <p class="post__message"><?php echo $post->getFormattedContent() ?></p>
+    <div class="post__message">
+      <?php echo $post->getFormattedContent() ?>
+    </div>
     <footer class="post__footer">
       <p class="post__details">
         <?php echo $post->getDateLabel();?>
@@ -22,10 +13,10 @@ $user = Repository\UserRepository::getUser($post->getUserId());
           <?php echo $post->getFormattedDate($post->getDate()); ?>
         </time>
         by 
-        <a title="<?php echo $user->getName(); ?> Profile" 
+        <a title="<?php echo $post->getAuthor()->getName(); ?> Profile" 
           href="/profile/<?php echo $post->getUserId(); ?>">
-          <?php echo $user->getName(); ?></a>.
-        <?php if ($postEditable) :?>
+          <?php echo $post->getAuthor()->getName(); ?></a>.
+        <?php if ($post->canUserEdit()) :?>
           <a href="/post/<?php echo $post->getPostId(); ?>/edit">Edit</a>
         <?php endif;?>
       </p>

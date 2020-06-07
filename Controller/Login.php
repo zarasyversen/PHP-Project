@@ -6,7 +6,8 @@ use Helper\Session as Session;
 
 class Login extends \Controller\Base {
 
-  public function view() {
+  public function view()
+  {
 
     // Redirect if already logged in
     if (Session::isLoggedIn()) {
@@ -36,7 +37,7 @@ class Login extends \Controller\Base {
       if ($passwordOk && $usernameOk) {
 
         try {
-          $user = UserRepository::login($username);
+          $user = UserRepository::getUserByName($username);
         } catch (\Exceptions\NotFound $e) {
           Session::setErrorMessage('Sorry, that user does not exist.');
           header("location: /login");
@@ -74,5 +75,4 @@ class Login extends \Controller\Base {
       ]
     );
   }
-
 }

@@ -6,9 +6,9 @@ use Helper\Session as Session;
 
 class Delete {
 
-  public function view($id) {
-
-    $user = UserRepository::getUser($id);
+  public function view($id)
+  {
+    $user = UserRepository::getUserById($id);
     $user->canEditUser();
    
     if (UserRepository::deleteAvatar($id)) {
@@ -19,7 +19,5 @@ class Delete {
 
     $url = '/profile/' .$id;
     header('Location:' . $url);
-
   }
-
 }

@@ -1,5 +1,5 @@
 <?php
-include(BASE .'/page/header.php');?>
+include(BASE .'/view/page/header.php');?>
 <div class="wrapper">
   <h1>Edit your post</h1>
     <form action="/post/<?php echo $post->getPostId(); ?>/edit"

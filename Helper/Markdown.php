@@ -7,21 +7,24 @@ class Markdown {
   //
   // _hej_
   //
-  public static function empatiseText($string) {
+  public static function empatiseText($string)
+  {
     return preg_replace('/\_([^\*]+)\_/i', '<em>$1</em>', $string);
   }
 
   //
   // *hej*
   //
-  public static function boldText($string) {
+  public static function boldText($string)
+  {
     return preg_replace('/\*([^\*]+)\*/', '<strong>$1</strong>', $string);
   }
 
   //
   // # Hej -> ###### Hej
   //
-  public static function heading($string) {
+  public static function heading($string)
+  {
     preg_match_all('/^(#{1,6})\s(.+)/m', $string, $matches);
     list($markdown, $hashes, $heading) = $matches;
 
@@ -42,7 +45,8 @@ class Markdown {
   //
   // [Link Title](Link Url)
   //
-  public static function links($string) {
+  public static function links($string)
+  {
     $regex = '/\[([\w\s\d]+)\]\((.+)\)/';
     preg_match_all($regex, $string, $matches);
 
@@ -63,8 +67,8 @@ class Markdown {
   //
   // Render Markdown
   //
-  public static function render($string) {
-
+  public static function render($string)
+  {
     $functions = array(
       'links',
       'heading',
@@ -79,4 +83,3 @@ class Markdown {
     return $string;
   }
 }
-
