@@ -13,8 +13,7 @@ class Create  extends \Controller\Base {
     $title = $message = '';
     $title_err = $message_err = '';
     $titleOk = $messageOk = false;
-    $posts = new PostRepository();
-    $postList = $posts->getAllPosts();
+    $postList = PostRepository::getAllPosts();
 
     // Process data when form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {

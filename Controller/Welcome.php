@@ -9,9 +9,7 @@ class Welcome extends \Controller\Base {
   public function view()
   {
     $activeUser = Session::getActiveUser();
-
-    $posts = new PostRepository();
-    $postList = $posts->getAllPosts();
+    $postList = PostRepository::getAllPosts();
 
     $pageTitle = 'Welcome';
     $this->displayTemplate(

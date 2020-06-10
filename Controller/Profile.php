@@ -14,8 +14,7 @@ class Profile extends \Controller\Base {
   {
     try {
       $user = UserRepository::getUserById($id);
-      $posts = new PostRepository();
-      $postList = $posts->getAllUserPosts($user->getId());
+      $postList = PostRepository::getAllUserPosts($user->getId());
       $canEdit = $user->canEditUser();
     } catch (\Exceptions\NoPermission $e) {
       $canEdit = false;

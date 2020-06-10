@@ -42,7 +42,7 @@ class PostRepository {
    * Get Post Collection
    * Returns Array []
    */
-  private function getPosts($where = null)
+  private static function getPosts($where = null)
   {
     $posts = [];
     $returnedPosts = DB::select('*', self::TABLE_NAME, $where, 'created_at', self::DESC_ORDER);
@@ -73,18 +73,18 @@ class PostRepository {
    * Get All Posts 
    * Returns Array []
    */
-  public function getAllPosts()
+  public static function getAllPosts()
   {
-    return $this->getPosts();
+    return self::getPosts();
   }
 
   /**
    * Get All Posts from specific User
    * Returns Array []
    */
-  public function getAllUserPosts(int $userId)
+  public static function getAllUserPosts(int $userId)
   {
-    return $this->getPosts(['user_id' => $userId]);
+    return self::getPosts(['user_id' => $userId]);
   }
 
   /**
