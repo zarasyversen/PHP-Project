@@ -6,18 +6,18 @@ use Helper\Session as Session;
 
 class Delete {
 
-  public function view($id)
+  public function view($name)
   {
-    $user = UserRepository::getUserById($id);
+    $user = UserRepository::getUserById($name);
     $user->canEditUser();
    
-    if (UserRepository::deleteAvatar($id)) {
+    if (UserRepository::deleteAvatar($user->getId())) {
       Session::setSuccessMessage('Successfully deleted your avatar.');
     } else {
       Session::setErrorMessage('Sorry. Something went wrong, please try again.');
     }
 
-    $url = '/profile/' .$id;
+    $url = '/profile/' .$name;
     header('Location:' . $url);
   }
 }

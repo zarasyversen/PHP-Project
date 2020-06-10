@@ -6,10 +6,11 @@ use Helper\Session as Session;
 
 class Create {
 
-  public function view($id)
+  public function view($name)
   {
-    $user = UserRepository::getUserById($id);
+    $user = UserRepository::getUserByName($name);
     $user->canEditUser();
+    $id = $user->getId();
 
     $timestamp = time();
     $targetDir = BASE . "/images/user/" . $id . "/avatar/";
@@ -78,7 +79,7 @@ class Create {
       Session::setErrorMessage('Please select a file to upload.');
     }
 
-    $url = '/profile/' .$id;
+    $url = '/profile/' .$name;
     header('Location:' . $url);
   }
 }

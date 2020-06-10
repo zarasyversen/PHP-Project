@@ -9,9 +9,9 @@ use Helper\Session as Session;
  */
 class Edit extends \Controller\Base {
 
-  public function view($id)
+  public function view($name)
   {
-    $user = UserRepository::getUserById($id);
+    $user = UserRepository::getUserByName($name);
     $user->canEditUser();
 
     $this->displayTemplate('/user/profile/avatar-update', ['user' => $user]);
