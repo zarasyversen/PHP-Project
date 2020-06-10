@@ -45,19 +45,19 @@ class Route {
         'controller' => 'Controller\Post\Delete',
         'middleware' => 'Middleware\WebAuth'
       ],
-      '/profile/{id}' => [
+      '/profile/{name}' => [
         'controller' => 'Controller\Profile',
         'middleware' => 'Middleware\WebAuth'
       ],
-      '/profile/{id}/avatar/create' => [
+      '/profile/{name}/avatar/create' => [
         'controller' => 'Controller\Profile\Avatar\Create',
         'middleware' => 'Middleware\WebAuth'
       ],
-      '/profile/{id}/avatar/edit' => [
+      '/profile/{name}/avatar/edit' => [
         'controller' => 'Controller\Profile\Avatar\Edit',
         'middleware' => 'Middleware\WebAuth'
       ],
-      '/profile/{id}/avatar/delete' => [
+      '/profile/{name}/avatar/delete' => [
         'controller' => 'Controller\Profile\Avatar\Delete',
         'middleware' => 'Middleware\WebAuth'
       ]

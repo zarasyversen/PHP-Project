@@ -10,10 +10,10 @@ use Helper\Session as Session;
  */
 class Profile extends \Controller\Base {
 
-  public function view($id)
+  public function view($name)
   {
     try {
-      $user = UserRepository::getUserById($id);
+      $user = UserRepository::getUserByName($name);
       $posts = new PostRepository();
       $postList = $posts->getAllUserPosts($user->getId());
       $canEdit = $user->canEditUser();
