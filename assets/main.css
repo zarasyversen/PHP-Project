@@ -276,3 +276,22 @@ a:focus {
   border: 0;
   border-radius: 50%;
 }
+
+.page-404 {
+  text-align: center;
+}
+
+.page-404__svg {
+  width: 100%;
+  margin-top: var(--padding-base);
+}
+
+.page-404__svg-path {
+  animation: dash 10s linear forwards;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
