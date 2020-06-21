@@ -117,16 +117,17 @@ class Route {
             array($controller, $controllerMethod),
             $viewParams
           );
-
-  
+          return;
         } catch(NotFound | NoPermission | \Exception $e) {
           Session::setErrorMessage($e->getMessage());
           header("location: /welcome");
-          exit;
+          return;
         }
-
       }
+
     }
+
+    throw new \Exceptions\NotFound("Sorry, Page not found");
   }
 
   /**
