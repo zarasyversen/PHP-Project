@@ -8,14 +8,22 @@ use Helper\Session;
  * User Class
  * Only Get & Set 
  */
-class User {
+class User extends \Model\Base {
 
-  private $id;
-  private $name;
-  private $avatar;
-  private $isAdmin;
-  private $createdAt;
+  public $id;
+  public $name;
+  public $avatar;
+  public $isAdmin;
+  public $createdAt;
   private $password;
+
+  public $visible = [
+    'id',
+    'name',
+    'avatar' => 'getUserAvatar',
+    'isAdmin',
+    'createdAt'
+  ];
 
   /**
    * Id 
@@ -29,6 +37,7 @@ class User {
   {
     return $this->id;
   }
+
 
   /**
    * Name

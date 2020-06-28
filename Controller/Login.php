@@ -40,6 +40,7 @@ class Login extends \Controller\Base {
           $user = UserRepository::getUserByName($username);
         } catch (\Exceptions\NotFound $e) {
           Session::setErrorMessage('Sorry, that user does not exist.');
+          return $this->redirect("/login");
           header("location: /login");
           exit;
         }

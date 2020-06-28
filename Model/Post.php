@@ -20,6 +20,14 @@ class Post {
   private $updatedDate;
   private $author;
 
+  // public $visible = [
+  //   'id',
+  //   'name',
+  //   'avatar' => 'getUserAvatar',
+  //   'is_admin',
+  //   'created_at'
+  // ];
+
   /**
    * Title
    */
