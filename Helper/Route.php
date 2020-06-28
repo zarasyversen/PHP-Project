@@ -125,7 +125,6 @@ class Route {
           );
 
           if ($json) {
-          //var_dump($controller->getData());
             echo json_encode($controller->getData());
           } else {
             $controller->renderHtml();

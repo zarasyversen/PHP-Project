@@ -8,7 +8,7 @@ use Helper\Session;
  * User Class
  * Only Get & Set 
  */
-class User extends \Model\Base {
+class User extends \Model\Base{
 
   public $id;
   public $name;
@@ -22,7 +22,7 @@ class User extends \Model\Base {
     'name',
     'avatar' => 'getUserAvatar',
     'isAdmin',
-    'createdAt'
+    'createdAt' =>'getFormattedDate'
   ];
 
   /**
@@ -138,8 +138,8 @@ class User extends \Model\Base {
   /**
    * Format Date
    */
-  public function getFormattedDate($date)
+  public function getFormattedDate()
   {
-    return date_format(new \DateTime($date), 'jS F Y');
+    return date_format(new \DateTime($this->createdAt), 'jS F Y');
   }
 }
