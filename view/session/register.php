@@ -7,25 +7,25 @@ include(BASE . '/view/page/header.php');
     method="post" class="form">
     <h1>Sign up</h1>
     <p>Please fill in this form to create an account.</p>
-    <div class="form__group<?php echo (!empty($username_err)) ? ' has-error' : ''; ?>">
+    <div class="form__group<?php echo $missingUsername ? ' has-error' : ''; ?>">
       <label for="username">Username</label>
       <input type="text" name="username" id="username" class="form__input" value="<?php echo $username;?>">
       <p class="form__error">
-        <?php echo $username_err;?>
+        <?php echo $missingUsername;?>
       </p>
     </div>
-    <div class="form__group<?php echo (!empty($password_err)) ? ' has-error' : ''; ?>">
+    <div class="form__group<?php echo $missingPassword ? ' has-error' : ''; ?>">
       <label for="password">Password</label>
       <input type="password" name="password" id="password" class="form__input" value="">
       <p class="form__error">
-        <?php echo $password_err;?>
+        <?php echo $missingPassword;?>
       </p>
     </div>
-    <div class="form__group<?php echo (!empty($confirm_password_err)) ? ' has-error' : ''; ?>">
+    <div class="form__group<?php echo $confirmPassword ? ' has-error' : ''; ?>">
       <label for="confirm_password">Confirm Password</label>
       <input type="password" name="confirm_password" id="confirm_password" class="form__input" value="">
       <p class="form__error">
-        <?php echo $confirm_password_err;?>
+        <?php echo $confirmPassword ;?>
       </p>
     </div>
     <div class="form__group actions">

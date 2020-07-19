@@ -41,9 +41,9 @@ class Login extends \Controller\Base {
           Session::setErrorMessage('Sorry, that user does not exist.');
 
           // this does not persist in the sessions.... so when it redirects its lost.
-          $this->setData(['sessionMessage' =>'Sorry, that user does not exist.']);
+          $this->setData(['error' =>'Sorry, that user does not exist.']);
 
-          
+
           return $this->redirect("/login");
         }
 
