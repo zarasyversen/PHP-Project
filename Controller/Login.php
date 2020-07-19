@@ -13,11 +13,15 @@ class Login extends \Controller\Base {
     if (Session::isLoggedIn()) {
       header("location: /welcome");
       exit;
-    } 
-
+    }
     $username = $password = '';
-    $username_err = $password_err = '';
     $passwordOk = $usernameOk = false;
+
+    $this->setData([
+      'missingUsername' => false, 
+      'missingPassword' => false,
+      'wrongPassword' => false
+    ]);
 
     // Process data when form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -26,23 +30,21 @@ class Login extends \Controller\Base {
       $password = trim($_POST["password"]);
 
       if (empty($username)) {
-        $username_err = "Please enter your username";
+        $this->setData('missingUsername', 1);
       } elseif (empty($password)) {
-        $password_err = "Please enter your password";
+        $this->setData('missingPassword', 1);
       } else {
-        $passwordOk = true;
-        $usernameOk = true;
-      }
-
-      if ($passwordOk && $usernameOk) {
-
+     
         try {
           $user = UserRepository::getUserByName($username);
         } catch (\Exceptions\NotFound $e) {
           Session::setErrorMessage('Sorry, that user does not exist.');
+
+          // this does not persist in the sessions.... so when it redirects its lost.
+          $this->setData(['sessionMessage' =>'Sorry, that user does not exist.']);
+
+          
           return $this->redirect("/login");
-          header("location: /login");
-          exit;
         }
 
         if (password_verify($password, $user->getPassword())) {
@@ -58,22 +60,19 @@ class Login extends \Controller\Base {
           // Redirect user to welcome page
           header("location: /welcome");
         } else {
-          $password_err = "Sorry, that password is incorrect.";
+          $this->setData('wrongPassword', 1);
         }
       }
     }
 
     $pageTitle = 'Welcome, please log in';
-    $this->displayTemplate(
-      '/session/login', 
-      [
-        'pageTitle' => $pageTitle,
-        'username' => $username,
-        'password' => $password,
-        'username_err' => $username_err,
-        'password_err' => $password_err,
 
-      ]
-    );
+    $this->setData([
+      'pageTitle' => $pageTitle,
+      'username' => $username,
+      'password' => $password
+    ]);
+    $this->setTemplate('session/login');
+    
   }
 }

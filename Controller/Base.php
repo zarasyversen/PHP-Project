@@ -7,29 +7,37 @@ namespace Controller;
 abstract class Base {
 
   private $template;
-  private $data;
+  private $data = [];
   private $redirectTo;
+
+  public function setData($data, $value = '') {
+
+    // if data is an array, merge in to existing array
+    if (is_array($data)) {
+      $this->data = array_merge($this->data, $data);
+    } else {
+      // set single key and value in the array
+      $this->data[$data] = $value;
+    }
+  }
+
+  public function getData() {
+    return $this->data;
+  }
 
   public function setTemplate($template)  {
     $this->template = $template;
   }
 
-  public function setData($data) {
-    $this->data = $data;
-  }
-
   protected function displayTemplate($templatePath, $data = [])
   {
+
     // create variable variables $$
     foreach ($data as $key => $value) {
       $$key = $value; 
     }
 
     include(BASE . '/view/' . $templatePath . '.php');
-  }
-
-  public function redirect($url) {
-    $this->redirectTo = $url;
   }
 
   public function renderHtml() {
@@ -41,15 +49,9 @@ abstract class Base {
     return $this->displayTemplate($this->template, $this->data);
   }
 
-  public function getData() {
-
-    // var_dump($this->data);
-
-
-    if ($this->redirectTo) {
-      return;
-    }
-
-    return $this->data;
+  public function redirect($url) {
+    $this->redirectTo = $url;
   }
+
+  
 }
