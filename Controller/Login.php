@@ -8,12 +8,11 @@ class Login extends \Controller\Base {
 
   public function view()
   {
-
     // Redirect if already logged in
     if (Session::isLoggedIn()) {
-      header("location: /welcome");
-      exit;
+      return $this->redirect("/welcome");
     }
+
     $username = $password = '';
     $passwordOk = $usernameOk = false;
 
@@ -30,20 +29,15 @@ class Login extends \Controller\Base {
       $password = trim($_POST["password"]);
 
       if (empty($username)) {
-        $this->setData('missingUsername', 1);
+        $this->setData('missingUsername', 'Please enter your username');
       } elseif (empty($password)) {
-        $this->setData('missingPassword', 1);
+        $this->setData('missingPassword', 'Please enter your password');
       } else {
      
         try {
           $user = UserRepository::getUserByName($username);
         } catch (\Exceptions\NotFound $e) {
-          Session::setErrorMessage('Sorry, that user does not exist.');
-
-          // this does not persist in the sessions.... so when it redirects its lost.
-          $this->setData(['error' =>'Sorry, that user does not exist.']);
-
-
+          $this->setData(['session_error' =>'Sorry, that user does not exist.']);
           return $this->redirect("/login");
         }
 
@@ -58,9 +52,9 @@ class Login extends \Controller\Base {
           $_SESSION["user_id"] = $user->getId();
           
           // Redirect user to welcome page
-          header("location: /welcome");
+          return $this->redirect("/welcome");
         } else {
-          $this->setData('wrongPassword', 1);
+          $this->setData('missingPassword', 'Sorry, that password is incorrect.');
         }
       }
     }

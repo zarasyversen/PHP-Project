@@ -1,6 +1,8 @@
 <?php 
 namespace Controller;
 
+use Helper\Session as Session;
+
 /**
  * Base Controller
  */
@@ -31,7 +33,6 @@ abstract class Base {
 
   protected function displayTemplate($templatePath, $data = [])
   {
-
     // create variable variables $$
     foreach ($data as $key => $value) {
       $$key = $value; 
@@ -41,6 +42,15 @@ abstract class Base {
   }
 
   public function renderHtml() {
+
+    if (array_key_exists('session_error', $this->data)){
+      Session::setErrorMessage($this->data['session_error']);
+    }
+
+    if (array_key_exists('session_success', $this->data)){
+      Session::setSuccessMessage($this->data['session_success']);
+    }
+
     if ($this->redirectTo) {
       header("Location:" . $this->redirectTo);
       return;

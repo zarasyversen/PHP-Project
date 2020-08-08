@@ -10,13 +10,11 @@ class Register extends \Controller\Base {
   {
     // Redirect if already logged in
     if (Session::isLoggedIn()) {
-      header("location: /welcome");
-      exit;
+     return $this->redirect("/welcome");
     }
 
     //Define Variables
     $username = $password  = $confirm_password = '';
-    $userOk = $passwordOk = false;
 
      $this->setData([
       'missingUsername' => false, 
@@ -35,7 +33,7 @@ class Register extends \Controller\Base {
       if (empty($username)) {
         $this->setData('missingUsername', "Please enter a username");
       } elseif (UserRepository::doesUserExist($username)) {
-         $this->setData('missingUsername', "This username is already taken, try again.");
+        $this->setData('missingUsername', "This username is already taken, try again.");
       } elseif (empty($password)) {
         $this->setData('missingPassword', "Please enter a password");
       } elseif (empty($confirm_password)) {
@@ -48,15 +46,11 @@ class Register extends \Controller\Base {
 
         try {
           UserRepository::createUser($username, $password);
-          $this->setData(['success' => 'Successfully created your account, please log in.']);
-          Session::setSuccessMessage('Successfully created your account, please log in.');
-          header("location: /login");
+          $this->setData(['session_success' => 'Successfully created your account, please log in.']);
+          return $this->redirect("/login");
         } catch (\Exceptions\NotSaved $e){
-          $this->setData(['error' => 'Successfully created your account, please log in.']);
-          Session::setErrorMessage('Something went wrong, please try again later.');
-          header("location: /register");
-        } finally {
-          exit; 
+          $this->setData(['session_error' => 'Something went wrong, please try again later.']);
+          return $this->redirect("/register");
         }
       }
     }

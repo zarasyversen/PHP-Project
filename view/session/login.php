@@ -11,16 +11,16 @@ include(BASE . '/view/page/header.php');?>
             <label>Username</label>
             <input type="text" name="username" class="form__input" value="<?php echo $username; ?>">
             <?php if ($missingUsername) : ?>
-                <p class="form__error">Please enter your username</p>
+                <p class="form__error"><?php echo $missingUsername;?></p>
             <?php endif;?> 
         </div>    
         <div class="form__group <?php echo $missingPassword ? 'has-error' : ''; ?>">
             <label>Password</label>
             <input type="password" name="password" class="form__input">
              <?php if ($missingPassword) : ?>
-                <p class="form__error">Please enter your password</p>
+                <p class="form__error"><?php echo $missingPassword;?></p>
             <?php elseif ($wrongPassword) :?>
-                <p class="form__error">Sorry, that password is incorrect.</p>
+                <p class="form__error"></p>
             <?php endif;?>
         </div>
         <div class="form__group actions">
