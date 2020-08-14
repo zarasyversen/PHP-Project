@@ -12,13 +12,11 @@ class Welcome extends \Controller\Base {
     $postList = PostRepository::getAllPosts();
 
     $pageTitle = 'Welcome';
-    $this->displayTemplate(
-      '/page/welcome',
-      [
-        'pageTitle' => $pageTitle,
-        'activeUser' => $activeUser,
-        'postList' => $postList
-      ]
-    );
+    $this->setData([
+      'pageTitle' => $pageTitle,
+      'activeUser' => $activeUser,
+      'postList' => $postList
+    ]);
+    $this->setTemplate('/page/welcome');
   }
 }

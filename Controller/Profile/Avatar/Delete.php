@@ -2,22 +2,21 @@
 namespace Controller\Profile\Avatar;
 
 use Repository\UserRepository;
-use Helper\Session as Session;
 
-class Delete {
+class Delete extends \Controller\Base {
 
   public function view($name)
   {
-    $user = UserRepository::getUserById($name);
+    $user = UserRepository::getUserByName($name);
     $user->canEditUser();
    
     if (UserRepository::deleteAvatar($user->getId())) {
-      Session::setSuccessMessage('Successfully deleted your avatar.');
+      $this->setData(['session_success' =>'Successfully deleted your avatar.']);
     } else {
-      Session::setErrorMessage('Sorry. Something went wrong, please try again.');
+      $this->setData(['session_error' =>'Sorry. Something went wrong, please try again']);
     }
 
     $url = '/profile/' .$name;
-    header('Location:' . $url);
+    return $this->redirect($url);
   }
 }
