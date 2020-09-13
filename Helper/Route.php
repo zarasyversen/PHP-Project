@@ -125,6 +125,7 @@ class Route {
           );
 
           if ($json) {
+            header("content-type: application/json");
             echo json_encode($controller->getData());
           } else {
             $controller->renderHtml();
