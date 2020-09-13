@@ -1,6 +1,6 @@
 # PHP-Project - Learning Project
 
-This is a project I have worked on in my spare time with my mentor. 
+This is a project I have worked on in my spare time, with guidance from my mentor. 
 
 ## Phase 1:
 - SQL (Queries, creating tables, date entries)
