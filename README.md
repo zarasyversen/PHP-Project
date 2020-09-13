@@ -1,6 +1,6 @@
 # PHP-Project - Learning Project
 
-This is a project I have worked on in my spare time with my mentor. It has been an amazing learning experience. I am now building the FE application in React, [visit the repo](https://github.com/zarasyversen/react-forum).
+This is a project I have worked on in my spare time with my mentor. 
 
 ## Phase 1:
 - SQL (Queries, creating tables, date entries)
@@ -24,4 +24,4 @@ You can see the repo at that stage here: [Phase 1](https://github.com/zarasyvers
 - Middleware & Interfaces 
 - API
 
-This is where I am at now ,isn't it a beaut compared to phase 1! [See repo](https://github.com/zarasyversen/PHP-Project/tree/master).
+It has been an amazing learning experience. I am now building the FE application in React, [visit the repo](https://github.com/zarasyversen/react-forum).
