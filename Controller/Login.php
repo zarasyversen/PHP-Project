@@ -8,16 +8,19 @@ class Login extends \Controller\Base {
 
   public function view()
   {
-
     // Redirect if already logged in
     if (Session::isLoggedIn()) {
-      header("location: /welcome");
-      exit;
-    } 
+      return $this->redirect("/welcome");
+    }
 
     $username = $password = '';
-    $username_err = $password_err = '';
     $passwordOk = $usernameOk = false;
+
+    $this->setData([
+      'missingUsername' => false, 
+      'missingPassword' => false,
+      'wrongPassword' => false
+    ]);
 
     // Process data when form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -26,22 +29,16 @@ class Login extends \Controller\Base {
       $password = trim($_POST["password"]);
 
       if (empty($username)) {
-        $username_err = "Please enter your username";
+        $this->setData('missingUsername', 'Please enter your username');
       } elseif (empty($password)) {
-        $password_err = "Please enter your password";
+        $this->setData('missingPassword', 'Please enter your password');
       } else {
-        $passwordOk = true;
-        $usernameOk = true;
-      }
-
-      if ($passwordOk && $usernameOk) {
-
+     
         try {
           $user = UserRepository::getUserByName($username);
         } catch (\Exceptions\NotFound $e) {
-          Session::setErrorMessage('Sorry, that user does not exist.');
-          header("location: /login");
-          exit;
+          $this->setData(['session_error' =>'Sorry, that user does not exist.']);
+          return $this->redirect("/login");
         }
 
         if (password_verify($password, $user->getPassword())) {
@@ -55,24 +52,21 @@ class Login extends \Controller\Base {
           $_SESSION["user_id"] = $user->getId();
           
           // Redirect user to welcome page
-          header("location: /welcome");
+          return $this->redirect("/welcome");
         } else {
-          $password_err = "Sorry, that password is incorrect.";
+          $this->setData('missingPassword', 'Sorry, that password is incorrect.');
         }
       }
     }
 
     $pageTitle = 'Welcome, please log in';
-    $this->displayTemplate(
-      '/session/login', 
-      [
-        'pageTitle' => $pageTitle,
-        'username' => $username,
-        'password' => $password,
-        'username_err' => $username_err,
-        'password_err' => $password_err,
 
-      ]
-    );
+    $this->setData([
+      'pageTitle' => $pageTitle,
+      'username' => $username,
+      'password' => $password
+    ]);
+    $this->setTemplate('session/login');
+    
   }
 }

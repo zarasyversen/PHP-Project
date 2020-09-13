@@ -10,15 +10,24 @@ use Repository\UserRepository;
  * Post Class
  * Only Get & Set 
  */
-class Post {
+class Post extends \Model\Base {
 
-  private $title;
-  private $message;
-  private $createdDate;
   private $userId;
-  private $postId;
-  private $updatedDate;
-  private $author;
+  public $postId;
+  public $title;
+  public $message;
+  public $createdDate;
+  public $updatedDate;
+  public $author;
+
+  public $visible = [
+    'postId',
+    'title',
+    'message',
+    'createdDate',
+    'updatedDate',
+    'author' => 'getAuthor',
+  ];
 
   /**
    * Title

@@ -7,19 +7,21 @@ include(BASE . '/view/page/header.php');?>
     <p>Please fill in your credentials to login.</p>
     <form action="/login"
       method="post" class="form">
-        <div class="form__group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+        <div class="form__group <?php echo $missingUsername ? 'has-error' : ''; ?>">
             <label>Username</label>
             <input type="text" name="username" class="form__input" value="<?php echo $username; ?>">
-            <p class="form__error">
-              <?php echo $username_err; ?>
-            </p>
+            <?php if ($missingUsername) : ?>
+                <p class="form__error"><?php echo $missingUsername;?></p>
+            <?php endif;?> 
         </div>    
-        <div class="form__group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+        <div class="form__group <?php echo $missingPassword ? 'has-error' : ''; ?>">
             <label>Password</label>
             <input type="password" name="password" class="form__input">
-            <p class="form__error">
-              <?php echo $password_err;?>
-            </p>
+             <?php if ($missingPassword) : ?>
+                <p class="form__error"><?php echo $missingPassword;?></p>
+            <?php elseif ($wrongPassword) :?>
+                <p class="form__error"></p>
+            <?php endif;?>
         </div>
         <div class="form__group actions">
             <button type="submit" class="btn btn--primary">Login</button>

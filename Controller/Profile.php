@@ -20,13 +20,11 @@ class Profile extends \Controller\Base {
       $canEdit = false;
     }
 
-    $this->displayTemplate(
-      '/user/profile',
-      [
+    $this->setTemplate('/user/profile');
+    $this->setData([
         'user' => $user,
         'canEdit' => $canEdit,
         'postList' => $postList
-      ]
-    );
+      ]);
   }
 }

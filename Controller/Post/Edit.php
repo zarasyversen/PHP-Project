@@ -2,7 +2,6 @@
 namespace Controller\Post;
 
 use Repository\PostRepository;
-use Helper\Session as Session;
 
 class Edit extends \Controller\Base {
 
@@ -24,38 +23,25 @@ class Edit extends \Controller\Base {
 
       if (empty($title)) {
         $title_err = "Please enter a title";
-      } else {
-        $titleOk = true;
-      }
-
-      if (empty($message)) {
+      } elseif (empty($message)) {
         $message_err = "Please enter a message";
       } else {
-        $messageOk = true;
-      }
-
-      if ($titleOk && $messageOk) {
-
         if (PostRepository::edit($id, $title, $message)) {
-          Session::setSuccessMessage('Successfully edited your message.');
-          header("location: /welcome");
+          $this->setData(['session_success' =>'Successfully edited your message.']);
+          return $this->redirect("/welcome");
         } else {
-          Session::setErrorMessage('Something went wrong, please try again later.');
+          $this->setData(['session_error' =>'Something went wrong, please try again later.']);
         }
-
       }
-
     }
 
-    $pageTitle = 'Edit Post'; 
-    $this->displayTemplate(
-      '/user/post/edit', 
-      [
-        'pageTitle' => $pageTitle,
-        'post' => $post,
-        'title_err' => $title_err,
-        'message_err' => $message_err
-      ]
-    );
+    $pageTitle = 'Edit Post';
+    $this->setData([
+      'pageTitle' => $pageTitle,
+      'post' => $post,
+      'title_err' => $title_err,
+      'message_err' => $message_err
+    ]);
+    $this->setTemplate('/user/post/edit');
   }
 }

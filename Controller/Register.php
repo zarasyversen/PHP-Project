@@ -10,14 +10,17 @@ class Register extends \Controller\Base {
   {
     // Redirect if already logged in
     if (Session::isLoggedIn()) {
-      header("location: /welcome");
-      exit;
+     return $this->redirect("/welcome");
     }
 
     //Define Variables
     $username = $password  = $confirm_password = '';
-    $username_err = $password_err = $confirm_password_err = '';
-    $userOk = $passwordOk = false;
+
+     $this->setData([
+      'missingUsername' => false, 
+      'missingPassword' => false,
+      'confirmPassword' => false
+    ]);
 
     //Process Data when form is posted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -28,51 +31,35 @@ class Register extends \Controller\Base {
 
       // Validate Username
       if (empty($username)) {
-        $username_err = "Please enter a username";
+        $this->setData('missingUsername', "Please enter a username");
       } elseif (UserRepository::doesUserExist($username)) {
-        $username_err = "This username is already taken, try again.";
-      } else {
-        $userOk = true; 
-      }
-
-      // Validate Passwords
-      if (empty($password)) {
-        $password_err = "Please enter a password";
+        $this->setData('missingUsername', "This username is already taken, try again.");
+      } elseif (empty($password)) {
+        $this->setData('missingPassword', "Please enter a password");
       } elseif (empty($confirm_password)) {
-         $confirm_password_err = "Please confirm your password";
+        $this->setData('confirmPassword', "Please confirm your password");
       } elseif (strlen($password) < 6) {
-        $password_err = "Password must be longer than 6 characters";
+        $this->setData('missingPassword', "Password must be longer than 6 characters");
       } elseif ($password != $confirm_password) {
-        $confirm_password_err = "Passwords did not match.";
+        $this->setData('confirmPassword', "Passwords did not match.");
       } else {
-        $passwordOk = true;
-      }
 
-      // If Username & Password are true, create user
-      if ($userOk && $passwordOk) {
         try {
           UserRepository::createUser($username, $password);
-          Session::setSuccessMessage('Successfully created your account, please log in.');
-          header("location: /login");
+          $this->setData(['session_success' => 'Successfully created your account, please log in.']);
+          return $this->redirect("/login");
         } catch (\Exceptions\NotSaved $e){
-          Session::setErrorMessage('Something went wrong, please try again later.');
-          header("location: /register");
-        } finally {
-          exit; 
+          $this->setData(['session_error' => 'Something went wrong, please try again later.']);
+          return $this->redirect("/register");
         }
       }
     }
 
     $pageTitle = 'Sign Up';
-    $this->displayTemplate(
-      '/session/register',
-      [
-        'pageTitle' => $pageTitle,
-        'username' => $username,
-        'username_err' => $username_err,
-        'password_err' => $password_err,
-        'confirm_password_err' => $confirm_password_err
-      ]
-    );
+    $this->setData([
+      'pageTitle' => $pageTitle,
+      'username' => $username,
+    ]);
+    $this->setTemplate('session/register');
   }
 }

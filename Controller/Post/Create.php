@@ -5,7 +5,7 @@ use Model\Post;
 use Repository\PostRepository;
 use Helper\Session as Session;
 
-class Create  extends \Controller\Base {
+class Create extends \Controller\Base {
 
   public function view()
   {
@@ -15,6 +15,8 @@ class Create  extends \Controller\Base {
     $titleOk = $messageOk = false;
     $postList = PostRepository::getAllPosts();
 
+    $this->setTemplate('/user/post/new-post');
+
     // Process data when form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $title = trim($_POST["title"]);
@@ -22,40 +24,27 @@ class Create  extends \Controller\Base {
 
       if (empty($title)) {
         $title_err = "Please enter a title";
-        $this->displayTemplate(
-          '/user/post/post', 
-          [
-            'user' => $user,
-            'title' => $title,
-            'message' => $message,
-            'title_err' => $title_err,
-            'message_err' => $message_err,
-            'postList' => $postList
-          ]
-        );
-      } else {
-        $titleOk = true;
-      }
-
-      if (empty($message)) {
+        $this->setTemplate('/user/post/post');
+        $this->setData([
+          'user' => $user,
+          'title' => $title,
+          'message' => $message,
+          'title_err' => $title_err,
+          'message_err' => $message_err,
+          'postList' => $postList
+        ]);
+      } elseif (empty($message)) {
         $message_err = "Please enter a message";
-        $this->displayTemplate(
-          '/user/post/post', 
-          [
-            'user' => $user,
-            'title' => $title,
-            'message' => $message,
-            'title_err' => $title_err,
-            'message_err' => $message_err,
-            'postList' => $postList
-          ]
-        );
+        $this->setTemplate('/user/post/post');
+        $this->setData([
+          'user' => $user,
+          'title' => $title,
+          'message' => $message,
+          'title_err' => $title_err,
+          'message_err' => $message_err,
+          'postList' => $postList
+        ]);
       } else {
-        $messageOk = true;
-      }
-
-      if ($titleOk && $messageOk) {
-
         $post = new Post(); 
         $post->setTitle($title);
         $post->setMessage($message);
@@ -63,18 +52,13 @@ class Create  extends \Controller\Base {
 
         try {
           PostRepository::save($post);
-          Session::setSuccessMessage('Successfully posted your message');
+          $this->setData(['session_success' =>'Successfully posted your message']);
         } catch (\Exceptions\NotSaved $e){
-          Session::setErrorMessage('Something went wrong, please try again later.');
+          $this->setData(['session_error' =>'Something went wrong, please try again later.']);
         } finally {
-          header("location: /welcome");
-          exit;
+          return $this->redirect("/welcome");
         }
-
       }
-
-    }
-
-    $this->displayTemplate('/user/post/new-post');
+    } 
   }
 }

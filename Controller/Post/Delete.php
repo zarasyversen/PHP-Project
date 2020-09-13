@@ -2,9 +2,8 @@
 namespace Controller\Post;
 
 use Repository\PostRepository;
-use Helper\Session as Session;
 
-class Delete {
+class Delete extends \Controller\Base {
 
   public function view($id)
   {
@@ -12,11 +11,11 @@ class Delete {
     $post->isEditable();
   
     if (PostRepository::delete($id)) {
-      Session::setSuccessMessage('Successfully deleted your message.');
+      $this->setData(['session_success' =>'Successfully deleted your message.']);
     } else {
-      Session::setErrorMessage('Sorry. Something went wrong, please try again.');
+      $this->setData(['session_error' =>'Sorry. Something went wrong, please try again.']);
     }
 
-    header("location: /welcome");
+    return $this->redirect("/welcome");
   }
 }

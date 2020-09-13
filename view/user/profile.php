@@ -8,7 +8,7 @@ include(BASE . '/view/page/header.php');?>
   </header>
   <?php include(BASE . '/view/session/message.php'); ?>
   <aside class="page-sidebar">
-  <p>Profile created: <?php echo $user->getFormattedDate($user->getCreatedAt())?></p>
+  <p>Profile created: <?php echo $user->getFormattedDate()?></p>
   <?php if ($user->getIsAdmin()) :?>
     <p>This user is an admin.</p>
   <?php endif;?>

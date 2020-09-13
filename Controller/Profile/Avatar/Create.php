@@ -2,9 +2,8 @@
 namespace Controller\Profile\Avatar;
 
 use Repository\UserRepository;
-use Helper\Session as Session;
 
-class Create {
+class Create extends \Controller\Base {
 
   public function view($name)
   {
@@ -47,39 +46,39 @@ class Create {
             // Create Folder for User if it does not exist
             //
             if (!is_dir($targetDir)) {
-              mkdir($targetDir, 0744, true); // TEST
+              mkdir($targetDir, 0744, true);
             }
 
             // Upload file to directory
             if (move_uploaded_file($fileTmp, $targetFilePath)) {
 
               if (UserRepository::uploadAvatar($id, $fileName)) {
-                Session::setSuccessMessage('Successfully uploaded your image.');
+                $this->setData(['session_success' =>'Successfully uploaded your image.']);
               } else {
-                Session::setErrorMessage('File upload failed, please try again.');
+                $this->setData(['session_error' =>'File upload failed, please try again.']);
               }
 
             } else {
-              Session::setErrorMessage('Sorry, there was an error uploading your file.');
+              $this->setData(['session_error' =>'Sorry, there was an error uploading your file.']);
             }
 
           } else {
-            Session::setErrorMessage('Sorry, Maximum Width is 200px');
+            $this->setData(['session_error' =>'Sorry, Maximum Width is 200px']);
           }
 
         } else {
-         Session::setErrorMessage('Sorry, Maximum file size is 80kb.');
+         $this->setData(['session_error' =>'Sorry, Maximum file size is 80kb.']);
         }
 
       } else {
-        Session::setErrorMessage('Sorry, only JPG, JPEG, PNG & GIF files are allowed to upload.');
+        $this->setData(['session_error' =>'Sorry, only JPG, JPEG, PNG & GIF files are allowed to upload.']);
       }
 
     } else {
-      Session::setErrorMessage('Please select a file to upload.');
+      $this->setData(['session_error' =>'Please select a file to upload.']);
     }
 
     $url = '/profile/' .$name;
-    header('Location:' . $url);
+    return $this->redirect($url);
   }
 }

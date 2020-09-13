@@ -4,15 +4,19 @@ include(BASE . '/view/page/header.php');?>
     <h2>Reset Password</h2>
     <p>Please fill out this form to reset your password.</p>
     <form action="/reset/password" class="form" method="post"> 
-        <div class="form__group<?php echo (!empty($new_password_err)) ? ' has-error' : ''; ?>">
+        <div class="form__group<?php echo $newPasswordError ? ' has-error' : ''; ?>">
             <label for="new_password">New Password</label>
             <input type="password" name="new_password" id="new_password" class="form__input" value="">
-            <p class="form__error"><?php echo $new_password_err; ?></p>
+            <?php if ($newPasswordError) : ?>
+                <p class="form__error"><?php echo $newPasswordError; ?></p>
+            <?php endif;?> 
         </div>
-        <div class="form__group<?php echo (!empty($confirm_password_err)) ? ' has-error' : ''; ?>">
+        <div class="form__group<?php echo $confirmPasswordError ? ' has-error' : ''; ?>">
             <label for="confirm_password">Confirm Password</label>
             <input type="password" name="confirm_password" id="confirm_password" class="form__input">
-            <p class="form__error"><?php echo $confirm_password_err; ?></p>
+            <?php if ($confirmPasswordError) : ?>
+                <p class="form__error"><?php echo $confirmPasswordError; ?></p>
+            <?php endif;?> 
         </div>
         <div class="form__group actions">
             <button type="submit" class="btn btn-primary">Submit</button>

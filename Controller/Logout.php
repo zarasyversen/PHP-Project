@@ -1,7 +1,7 @@
 <?php 
 namespace Controller;
 
-class Logout {
+class Logout extends \Controller\Base {
 
   public function view()
   {
@@ -12,6 +12,6 @@ class Logout {
     session_destroy();
      
     // Redirect to login page
-    header("location: /login");
+    return $this->redirect("/login");
   }
 }

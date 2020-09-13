@@ -45,6 +45,9 @@ class Route {
         'controller' => 'Controller\Post\Delete',
         'middleware' => 'Middleware\WebAuth'
       ],
+      '/api/profile/{name}' => [
+        'controller' => 'Controller\Profile'
+      ],
       '/profile/{name}' => [
         'controller' => 'Controller\Profile',
         'middleware' => 'Middleware\WebAuth'
@@ -106,6 +109,9 @@ class Route {
         // Params for this view
         $viewParams = self::getViewParams($urlParams, $controllerParams);
 
+        // Check if API request, will return json
+        $json = preg_match('/(api)/', $requestedUrl);
+
         /**
          * Create a new instance of the controller,
          * Call controllerMethod and pass the viewParams
@@ -117,6 +123,13 @@ class Route {
             array($controller, $controllerMethod),
             $viewParams
           );
+
+          if ($json) {
+            echo json_encode($controller->getData());
+          } else {
+            $controller->renderHtml();
+          }
+
           return;
         } catch(NotFound | NoPermission | \Exception $e) {
           Session::setErrorMessage($e->getMessage());
@@ -190,4 +203,5 @@ class Route {
 
     return $params;
   }
+
 }
