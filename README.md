@@ -17,8 +17,8 @@ You can see the repo at that stage here: [Phase 1](https://github.com/zarasyvers
 ## Phase 2: 
 - Business Logic and Object Oriented Programming
 - Autoloader 
-- Models and Repositories. 
-- Expections 
+- Models and Repositories
+- Exceptions, try/catch
 - Routing
 - Controllers
 - Middleware & Interfaces 
