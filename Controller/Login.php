@@ -18,8 +18,7 @@ class Login extends \Controller\Base {
 
     $this->setData([
       'missingUsername' => false, 
-      'missingPassword' => false,
-      'wrongPassword' => false
+      'missingPassword' => false
     ]);
 
     // Process data when form is submitted
