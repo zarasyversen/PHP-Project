@@ -46,13 +46,16 @@ class Login extends \Controller\Base {
           // Password verified - start a session
           $session_lifetime = 86400; //1 day lifetime
           session_set_cookie_params($session_lifetime);
-          session_start();
+
+          if(!isset($_SESSION)) {
+            session_start();
+          }
 
           // Store data in session variable
           $_SESSION["user_id"] = $user->getId();
           
           // Redirect user to welcome page
-          return $this->redirect("/welcome");
+          $this->redirect("/welcome");
         } else {
           $this->setData('missingPassword', 'Sorry, that password is incorrect.');
         }
