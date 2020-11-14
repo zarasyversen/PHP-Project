@@ -4,6 +4,6 @@ namespace Middleware;
 interface MiddleWareInterface
 {
   
-  public function execute();
+  public function execute($url);
 
 }

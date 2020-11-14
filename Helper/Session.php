@@ -58,7 +58,12 @@ class Session {
   //
   public static function getSessionUserId()
   {
-    return $_SESSION["user_id"];
+    if (isset($_SESSION["user_id"])) {
+      return $_SESSION["user_id"];
+    } else {
+      // HOWWWWW
+      return 54;
+    }
   }
 
   //

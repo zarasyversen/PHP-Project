@@ -42,16 +42,7 @@ class Login extends \Controller\Base {
 
         if (password_verify($password, $user->getPassword())) {
 
-          // Password verified - start a session
-          $session_lifetime = 86400; //1 day lifetime
-          session_set_cookie_params($session_lifetime);
-
-          if(!isset($_SESSION)) {
-            session_start();
-          }
-
-          // Store data in session variable
-          $_SESSION["user_id"] = $user->getId();
+          $userToken = UserRepository::setUserToken($user->getId());
           
           // Redirect user to welcome page
           $this->redirect("/welcome");
@@ -66,7 +57,8 @@ class Login extends \Controller\Base {
     $this->setData([
       'pageTitle' => $pageTitle,
       'username' => $username,
-      'password' => $password
+      'password' => $password,
+      'token' => $userToken
     ]);
     $this->setTemplate('session/login');
     

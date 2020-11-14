@@ -28,11 +28,18 @@ class Route {
       '/register' => [
         'controller' => 'Controller\Register'
       ],
+      '/api/register' => [
+        'controller' => 'Controller\Register'
+      ],
       '/reset/password' => [
         'controller' => 'Controller\ResetPassword',
         'middleware' => 'Middleware\WebAuth'
       ],
       '/welcome' => [
+        'controller' => 'Controller\Welcome',
+        'middleware' => 'Middleware\WebAuth'
+      ],
+      '/api/welcome' => [
         'controller' => 'Controller\Welcome',
         'middleware' => 'Middleware\WebAuth'
       ],
@@ -94,7 +101,7 @@ class Route {
 
         if ($hasMiddleware) {
           $middleware = new $data['middleware'];
-          $middleware->execute();
+          $middleware->execute($requestedUrl);
         }
 
         /**
