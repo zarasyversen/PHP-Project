@@ -15,6 +15,7 @@ class Login extends \Controller\Base {
 
     $username = $password = '';
     $passwordOk = $usernameOk = false;
+    $userToken = false;
 
     $this->setData([
       'missingUsername' => false, 
