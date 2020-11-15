@@ -44,6 +44,9 @@ class Login extends \Controller\Base {
         if (password_verify($password, $user->getPassword())) {
 
           $userToken = UserRepository::setUserToken($user->getId());
+
+          /// I cant get set this 
+          // $_SESSION["user_id"] = $user->getId();
           
           // Redirect user to welcome page
           $this->redirect("/welcome");

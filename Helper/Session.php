@@ -60,9 +60,6 @@ class Session {
   {
     if (isset($_SESSION["user_id"])) {
       return $_SESSION["user_id"];
-    } else {
-      // HOWWWWW
-      return 54;
     }
   }
 
@@ -72,6 +69,8 @@ class Session {
   public static function getActiveUser()
   {
     try {
+      var_dump(self::getSessionUserId());
+      exit;
       return UserRepository::getUserById(self::getSessionUserId());
     } catch (\Exceptions\NotFound $e) {
       self::setErrorMessage('Sorry, that user does not exist.');
