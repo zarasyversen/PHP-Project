@@ -123,10 +123,7 @@ class UserRepository {
 
   public static function getUserFromToken($userToken)
   {
-
-    if (DB::selectFirst('id', self::TABLE_NAME, ['token' => $userToken], null, 'ASC')) {
-      return true;
-    } 
+    return DB::selectFirst('id', self::TABLE_NAME, ['token' => $userToken], null, 'ASC')['id'];
   }
 
 

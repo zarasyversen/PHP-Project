@@ -25,6 +25,9 @@ class Route {
       '/logout' => [
         'controller' => 'Controller\Logout'
       ],
+      '/api/logout' => [
+        'controller' => 'Controller\Logout'
+      ],
       '/register' => [
         'controller' => 'Controller\Register'
       ],

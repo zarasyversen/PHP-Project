@@ -1,17 +1,15 @@
 <?php 
 namespace Controller;
+use Helper\Session as Session;
 
 class Logout extends \Controller\Base {
 
   public function view()
   {
-    // Initialize the session
-    session_start();
-     
-    // Destroy the session.
-    session_destroy();
-     
+
+    setcookie("CurrentUser", "", time()-3600);
+
     // Redirect to login page
-    return $this->redirect("/login");
+    $this->redirect("/login");
   }
 }

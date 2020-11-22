@@ -22,6 +22,7 @@ class WebAuth implements MiddleWareInterface
         $token = $headers['Authorization'];
 
         if (UserRepository::getUserFromToken($token)) {
+          Session::setCurrentUser(UserRepository::getUserFromToken($token));
           $userLoggedIn = true;
         }
       } 
@@ -32,8 +33,9 @@ class WebAuth implements MiddleWareInterface
       }
 
     } else {
+
       // Redirect if not logged in
-      if (!Session::isLoggedIn()) {
+      if (!Session::getSessionUserId()){
         Session::setErrorMessage('Please log in for access');
         header("location: /login");
         exit;

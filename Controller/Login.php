@@ -10,7 +10,7 @@ class Login extends \Controller\Base {
   {
     // Redirect if already logged in
     if (Session::isLoggedIn()) {
-      return $this->redirect("/welcome");
+      $this->redirect("/welcome");
     }
 
     $username = $password = '';
@@ -45,8 +45,8 @@ class Login extends \Controller\Base {
 
           $userToken = UserRepository::setUserToken($user->getId());
 
-          /// I cant get set this 
-          // $_SESSION["user_id"] = $user->getId();
+          // Also store in cookie for PHP FE
+          setcookie("CurrentUser", $user->getId());
           
           // Redirect user to welcome page
           $this->redirect("/welcome");

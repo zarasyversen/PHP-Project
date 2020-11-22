@@ -6,6 +6,8 @@ use Repository\UserRepository;
 
 class Session {
 
+  protected static $currentUserId;
+
   //
   // Set All Messages
   //
@@ -53,13 +55,20 @@ class Session {
     }
   }
 
+  public static function setCurrentUser($userId = false) 
+  {
+    self::$currentUserId = $userId;
+  }
+
   //
   // Get Session User Id
   //
   public static function getSessionUserId()
   {
-    if (isset($_SESSION["user_id"])) {
-      return $_SESSION["user_id"];
+    if (self::$currentUserId) {
+      return self::$currentUserId;
+    } elseif (isset($_COOKIE["CurrentUser"])) {
+      return $_COOKIE["CurrentUser"];
     }
   }
 
@@ -69,8 +78,6 @@ class Session {
   public static function getActiveUser()
   {
     try {
-      var_dump(self::getSessionUserId());
-      exit;
       return UserRepository::getUserById(self::getSessionUserId());
     } catch (\Exceptions\NotFound $e) {
       self::setErrorMessage('Sorry, that user does not exist.');
@@ -82,7 +89,7 @@ class Session {
   //
   public static function isLoggedIn()
   {
-    if (isset($_SESSION["user_id"])) {
+    if (self::$currentUserId || isset($_COOKIE["CurrentUser"])) {
       return true;
     }
   }
