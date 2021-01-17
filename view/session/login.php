@@ -19,8 +19,6 @@ include(BASE . '/view/page/header.php');?>
             <input type="password" name="password" class="form__input">
              <?php if ($missingPassword) : ?>
                 <p class="form__error"><?php echo $missingPassword;?></p>
-            <?php elseif ($wrongPassword) :?>
-                <p class="form__error"></p>
             <?php endif;?>
         </div>
         <div class="form__group actions">

@@ -19,10 +19,19 @@ class Route {
       '/login' => [
         'controller' => 'Controller\Login'
       ],
+      '/api/login' => [
+        'controller' => 'Controller\Login'
+      ],
       '/logout' => [
         'controller' => 'Controller\Logout'
       ],
+      '/api/logout' => [
+        'controller' => 'Controller\Logout'
+      ],
       '/register' => [
+        'controller' => 'Controller\Register'
+      ],
+      '/api/register' => [
         'controller' => 'Controller\Register'
       ],
       '/reset/password' => [
@@ -30,6 +39,10 @@ class Route {
         'middleware' => 'Middleware\WebAuth'
       ],
       '/welcome' => [
+        'controller' => 'Controller\Welcome',
+        'middleware' => 'Middleware\WebAuth'
+      ],
+      '/api/welcome' => [
         'controller' => 'Controller\Welcome',
         'middleware' => 'Middleware\WebAuth'
       ],
@@ -91,7 +104,7 @@ class Route {
 
         if ($hasMiddleware) {
           $middleware = new $data['middleware'];
-          $middleware->execute();
+          $middleware->execute($requestedUrl);
         }
 
         /**

@@ -110,6 +110,24 @@ class UserRepository {
   }
 
   /**
+   * Set User Token when Logged in
+   */
+  public static function setUserToken($userId)
+  {
+    $token = bin2hex(random_bytes(70));
+
+    if (DB::update(self::TABLE_NAME, ['token' => $token], ['id', $userId])) {
+      return $token;
+    }
+  }
+
+  public static function getUserFromToken($userToken)
+  {
+    return DB::selectFirst('id', self::TABLE_NAME, ['token' => $userToken], null, 'ASC')['id'];
+  }
+
+
+  /**
    * Reset Password
    */
   public static function resetPassword($password)

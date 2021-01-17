@@ -6,6 +6,8 @@ use Repository\UserRepository;
 
 class Session {
 
+  protected static $currentUserId;
+
   //
   // Set All Messages
   //
@@ -53,12 +55,23 @@ class Session {
     }
   }
 
+  public static function setCurrentUser($userId = false) 
+  {
+    self::$currentUserId = $userId;
+  }
+
   //
   // Get Session User Id
   //
   public static function getSessionUserId()
   {
-    return $_SESSION["user_id"];
+    if (self::$currentUserId) {
+      return self::$currentUserId;
+    } elseif (isset($_COOKIE["CurrentUser"])) {
+      if (UserRepository::getUserFromToken($_COOKIE["CurrentUser"])) {
+        return UserRepository::getUserFromToken($_COOKIE["CurrentUser"]);
+      }
+    }
   }
 
   //
@@ -78,7 +91,7 @@ class Session {
   //
   public static function isLoggedIn()
   {
-    if (isset($_SESSION["user_id"])) {
+    if (self::$currentUserId || isset($_COOKIE["CurrentUser"])) {
       return true;
     }
   }

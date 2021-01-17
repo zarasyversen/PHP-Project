@@ -10,16 +10,16 @@ class Login extends \Controller\Base {
   {
     // Redirect if already logged in
     if (Session::isLoggedIn()) {
-      return $this->redirect("/welcome");
+      $this->redirect("/welcome");
     }
 
     $username = $password = '';
     $passwordOk = $usernameOk = false;
+    $userToken = false;
 
     $this->setData([
       'missingUsername' => false, 
-      'missingPassword' => false,
-      'wrongPassword' => false
+      'missingPassword' => false
     ]);
 
     // Process data when form is submitted
@@ -43,16 +43,13 @@ class Login extends \Controller\Base {
 
         if (password_verify($password, $user->getPassword())) {
 
-          // Password verified - start a session
-          $session_lifetime = 86400; //1 day lifetime
-          session_set_cookie_params($session_lifetime);
-          session_start();
+          $userToken = UserRepository::setUserToken($user->getId());
 
-          // Store data in session variable
-          $_SESSION["user_id"] = $user->getId();
+          // Also store in cookie for PHP FE
+          setcookie("CurrentUser", $userToken);
           
           // Redirect user to welcome page
-          return $this->redirect("/welcome");
+          $this->redirect("/welcome");
         } else {
           $this->setData('missingPassword', 'Sorry, that password is incorrect.');
         }
@@ -64,7 +61,8 @@ class Login extends \Controller\Base {
     $this->setData([
       'pageTitle' => $pageTitle,
       'username' => $username,
-      'password' => $password
+      'password' => $password,
+      'token' => $userToken
     ]);
     $this->setTemplate('session/login');
     
