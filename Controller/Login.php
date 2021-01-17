@@ -46,7 +46,7 @@ class Login extends \Controller\Base {
           $userToken = UserRepository::setUserToken($user->getId());
 
           // Also store in cookie for PHP FE
-          setcookie("CurrentUser", $user->getId());
+          setcookie("CurrentUser", $userToken);
           
           // Redirect user to welcome page
           $this->redirect("/welcome");

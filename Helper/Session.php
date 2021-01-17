@@ -68,7 +68,9 @@ class Session {
     if (self::$currentUserId) {
       return self::$currentUserId;
     } elseif (isset($_COOKIE["CurrentUser"])) {
-      return $_COOKIE["CurrentUser"];
+      if (UserRepository::getUserFromToken($_COOKIE["CurrentUser"])) {
+        return UserRepository::getUserFromToken($_COOKIE["CurrentUser"]);
+      }
     }
   }
 
