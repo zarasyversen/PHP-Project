@@ -59,7 +59,8 @@ class Route {
         'middleware' => 'Middleware\WebAuth'
       ],
       '/api/profile/{name}' => [
-        'controller' => 'Controller\Profile'
+        'controller' => 'Controller\Profile',
+        'middleware' => 'Middleware\WebAuth'
       ],
       '/profile/{name}' => [
         'controller' => 'Controller\Profile',
