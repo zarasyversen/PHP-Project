@@ -54,7 +54,15 @@ class Route {
         'controller' => 'Controller\Post\Edit',
         'middleware' => 'Middleware\WebAuth'
       ],
+      '/api/post/{id}/edit' => [
+        'controller' => 'Controller\Post\Edit',
+        'middleware' => 'Middleware\WebAuth'
+      ],
       '/post/{id}/delete' => [
+        'controller' => 'Controller\Post\Delete',
+        'middleware' => 'Middleware\WebAuth'
+      ],
+      '/api/post/{id}/delete' => [
         'controller' => 'Controller\Post\Delete',
         'middleware' => 'Middleware\WebAuth'
       ],
@@ -148,7 +156,11 @@ class Route {
           return;
         } catch(NotFound | NoPermission | \Exception $e) {
           Session::setErrorMessage($e->getMessage());
-          header("location: /welcome");
+
+          if(!$json) {
+            header("location: /welcome");
+          }
+
           return;
         }
       }

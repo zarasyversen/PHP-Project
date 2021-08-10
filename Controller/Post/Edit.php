@@ -17,7 +17,7 @@ class Edit extends \Controller\Base {
      * Save New Edited Post
      * Service Manager is glue
      */
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && count($_POST) > 0) {
       $title = trim($_POST["title"]);
       $message = trim($_POST["message"]);
 
@@ -28,7 +28,7 @@ class Edit extends \Controller\Base {
       } else {
         if (PostRepository::edit($id, $title, $message)) {
           $this->setData(['session_success' =>'Successfully edited your message.']);
-          return $this->redirect("/welcome");
+          $this->redirect("/welcome");
         } else {
           $this->setData(['session_error' =>'Something went wrong, please try again later.']);
         }

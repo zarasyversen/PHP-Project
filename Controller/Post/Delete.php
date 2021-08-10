@@ -16,6 +16,6 @@ class Delete extends \Controller\Base {
       $this->setData(['session_error' =>'Sorry. Something went wrong, please try again.']);
     }
 
-    return $this->redirect("/welcome");
+    $this->redirect("/welcome");
   }
 }

@@ -14,9 +14,9 @@ class DB {
   private static function getPdo()
   {
     if (!isset(self::$dbh)) {
-      $dsn = 'mysql:dbname=php_project;host=127.0.0.1';
+      $dsn = 'mysql:dbname=php-project;host=127.0.0.1';
       $user = 'root';
-      $password = 'root';
+      $password = '';
 
       try {
           self::$dbh = new \PDO($dsn, $user, $password);
@@ -161,7 +161,7 @@ class DB {
 
     $firstItem = $stmt->fetch();
 
-    if ($firstItem !== null) {
+    if ($firstItem && $firstItem !== null) {
       return $firstItem;
     }
   }
