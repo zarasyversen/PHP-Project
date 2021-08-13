@@ -18,7 +18,7 @@ class Create extends \Controller\Base {
     $this->setTemplate('/user/post/new-post');
 
     // Process data when form is submitted
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && count($_POST) > 0) {
       $title = trim($_POST["title"]);
       $message = trim($_POST["message"]);
 
