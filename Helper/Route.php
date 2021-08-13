@@ -50,6 +50,10 @@ class Route {
         'controller' => 'Controller\Post\Create',
         'middleware' => 'Middleware\WebAuth'
       ],
+      '/api/post/create' => [
+        'controller' => 'Controller\Post\Create',
+        'middleware' => 'Middleware\WebAuth'
+      ],
       '/post/{id}/edit' => [
         'controller' => 'Controller\Post\Edit',
         'middleware' => 'Middleware\WebAuth'
