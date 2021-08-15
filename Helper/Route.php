@@ -82,11 +82,19 @@ class Route {
         'controller' => 'Controller\Profile\Avatar\Create',
         'middleware' => 'Middleware\WebAuth'
       ],
+      '/api/profile/{name}/avatar/create' => [
+        'controller' => 'Controller\Profile\Avatar\Create',
+        'middleware' => 'Middleware\WebAuth'
+      ],
       '/profile/{name}/avatar/edit' => [
         'controller' => 'Controller\Profile\Avatar\Edit',
         'middleware' => 'Middleware\WebAuth'
       ],
       '/profile/{name}/avatar/delete' => [
+        'controller' => 'Controller\Profile\Avatar\Delete',
+        'middleware' => 'Middleware\WebAuth'
+      ],
+      '/api/profile/{name}/avatar/delete' => [
         'controller' => 'Controller\Profile\Avatar\Delete',
         'middleware' => 'Middleware\WebAuth'
       ]

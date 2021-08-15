@@ -17,9 +17,9 @@ class Create extends \Controller\Base {
     $targetFilePath = $targetDir . $fileName ;
     $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
 
-    if (isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
+    if (!empty($_FILES["file"]["name"])) {
 
-      $allowTypes = array('jpg','png','jpeg','gif');
+      $allowTypes = array('jpg', 'JPG', 'png','jpeg','gif');
 
       //
       // Check if file is allowed type
