@@ -34,10 +34,10 @@ class ResetPassword extends \Controller\Base {
           session_destroy();
           session_start();
           $this->setData(['session_success' => 'Successfully changed your password, please log in again.']);
-          return $this->redirect("/login");
+          $this->redirect("/login");
         } else {
           $this->setData(['session_error' => 'Something went wrong, please try again later.']);
-          return $this->redirect("/welcome");
+          $this->redirect("/welcome");
         }
       }
     }

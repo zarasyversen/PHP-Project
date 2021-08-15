@@ -38,6 +38,10 @@ class Route {
         'controller' => 'Controller\ResetPassword',
         'middleware' => 'Middleware\WebAuth'
       ],
+      '/api/reset/password' => [
+        'controller' => 'Controller\ResetPassword',
+        'middleware' => 'Middleware\WebAuth'
+      ],
       '/welcome' => [
         'controller' => 'Controller\Welcome',
         'middleware' => 'Middleware\WebAuth'
