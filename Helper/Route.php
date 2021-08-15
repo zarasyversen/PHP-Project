@@ -97,6 +97,14 @@ class Route {
       '/api/profile/{name}/avatar/delete' => [
         'controller' => 'Controller\Profile\Avatar\Delete',
         'middleware' => 'Middleware\WebAuth'
+      ],
+      '/api/allposts' => [
+        'controller' => 'Api\AllPosts',
+        'middleware' => 'Middleware\WebAuth'
+      ],
+      '/api/activeuser' => [
+        'controller' => 'Api\ActiveUser',
+        'middleware' => 'Middleware\WebAuth'
       ]
     ];
   }
