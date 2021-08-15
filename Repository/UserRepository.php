@@ -87,7 +87,7 @@ class UserRepository {
   {
     $row = DB::selectFirst('id', self::TABLE_NAME, ['username' => $userName], null, 'ASC');
 
-    if ($row['id'] !== null) {
+    if (isset($row['id']) && $row['id'] !== null) {
       return true;
     }
   }
